@@ -35,7 +35,7 @@
   - `user_id` (UUID): The ID of the participant.
   - `created_at` (timestamp): The date and time when the instance was created.
   - `updated_at` (timestamp): The last time the instance was updated.
-  - `Event time chosen by participants` (timestamp): The event time chosen by participants.
+  - `Event time preference` (timestamp): The event time chosen by participants.
 - **Data Source**: event-id and user-id will be auto generated when user accepts invitation or create the event. Event time chosen will be input of user. created_at and updated_at will be auto generated.
 
 ### 4. Inivitation
