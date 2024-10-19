@@ -8,4 +8,4 @@
 ### October 19, 2024
 - **Task**: Draw the relation diagram for database
 - **Details**: Drawing the first relation diagram in relation.draw.io
-- **Link to Commit**: [First relation] (https://github.com/alishasrivas/Coordin8/commit/6a449ee3496f315a1f123f7a8c6a55100a243971)
+- **Link to Commit**: [First relation] (https://github.com/alishasrivas/Coordin8/commit/ 2c442fe4ae1a181fd2c2e0bad898e5d1c3c83a4a)
