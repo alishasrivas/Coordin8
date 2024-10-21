@@ -14,3 +14,8 @@
 - **Task**: Update the ui-diagrams.md
 - **Details**: Add the images to the UI Diagrams section
 - **Link to Commit**: [Second Edition] https://github.com/alishasrivas/Coordin8/commit/49c8846aa67b1337ca0d0c95d525183d25078941 
+
+### October 20, 2024
+- **Task**: Fix the image links in ui-diagrams.md
+- **Details**: Correct the image paths to display the UI diagrams correctly in the document.
+- **Link to Commit**: [Third Edition] https://github.com/alishasrivas/Coordin8/commit/3ef5c8c9595f60606afbc539cc2b729aa5f2c96c
