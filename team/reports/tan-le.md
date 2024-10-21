@@ -9,3 +9,7 @@
 - **Task**: Draw the relation diagram for database
 - **Details**: Drawing the first relation diagram in relation.draw.io
 - **Link to Commit**: [First relation] (https://github.com/alishasrivas/Coordin8/commit/ 2c442fe4ae1a181fd2c2e0bad898e5d1c3c83a4a)
+
+### October 21, 2024
+- **Task**: Remind teams of upcoming deadlines and start setting up some possible meetings time. 
+- **Details**: Remind the team about the deadline for milestones 2 and notify everyone the parts we have not finished yet. Start setting up some possible meetings time in the future. 
