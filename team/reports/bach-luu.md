@@ -9,3 +9,8 @@
 - **Task**: Add images to UI Diagrams
 - **Details**: Upload the ui-diagrams images
 - **Link to Commit**: [Image Update] https://github.com/alishasrivas/Coordin8/commit/b2074ea6506a04b32c3de28b6aaf5c939afb472b
+
+### October 20, 2024
+- **Task**: Update the ui-diagrams.md
+- **Details**: Add the images to the UI Diagrams section
+- **Link to Commit**: [Second Edition] https://github.com/alishasrivas/Coordin8/commit/49c8846aa67b1337ca0d0c95d525183d25078941 
