@@ -1,7 +1,7 @@
 # UI Diagrams
 
 Flow chart for the Coordin8 application 
-![UI Diagrams](./images/ui-diagrams.png)
+![UI Diagrams](./images/ui-diagram.png)
 
 ## Main Dashboard Screen
 The Main Dashboard is the central hub of Coordin8, providing users with an overview of their scheduled events and upcoming meetings across different time zones.
@@ -18,7 +18,7 @@ Use Case: A project manager in New York checks their upcoming meetings with team
 ## Event Creation Screen
 The Event Creation Screen simplifies scheduling meetings across different time zones.
 
-![Event Creation](./images/Event.png)
+![Event Creation](./images/Create.png)
 
 Key features:
 1. Event Details Form: For entering event title, description, etc.
