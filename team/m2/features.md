@@ -1,43 +1,49 @@
 # Application Features
 
-## Account Creation (Authentication)
+## User Account Creation and Authentication
 
-This feature will allow the user to create an account. They will enter their username and password, which the application will store. 
+This feature will allow the user login or sign up. The sign up option will allow users to create an account by entering their email and creating a password. They will be prompted to create a username and upload a profile image. The login option will prompt users to enter their username and password. Users will not be able to use any other features of the application prior to logging in. The application will store user data in a database (stored user data will include, username, email, password, and full name). 
 
-**Assigned to**: TBD
+**Assigned to**: Tan Le
   
-## Create an Event
+## Event Creation
 
-This feature will allow the user to create an event. They will be able to specify event details like time and description. They will be able to invite other users to the event. 
+This feature will allow the user to create an event. They will be able to input event details like duration, location (online/in person), description. The user will enter in the potential days and time range for the event (the exact day and time will be calculated later). The user will be able to invite other users to the event (the user will enter in a username and the application will query the user database and fetch that users' information). 
 
-**Assigned to**: TBD
+**Assigned to**: Joshua Swaida
 
-## Send Emails to Invitees (Notifications and Alerts)
+## Inviting Users via Email and Availability Submission
 
-After creating the event and inviting other users, this feature will send emails to the invitees. These emails will inquire the invitees to enter times they are available for the given event. 
+After creating the event and inviting other users, this feature will send emails to the invitees. These emails will link to a form that inquires the invitees for their availability. The invitee will view the initial days and time ranges specified by the inviter and select when they are available during those times. 
 
-**Assigned to**: TBD
+**Assigned to**: William Ward
 
-## Edit an Event
+## Event Modification and Deletion
 
-This feature will allow the user (creator of event) to edit an existing event. The can modify event details like time, location, description, etc. The user can also cancel the event. This feature will also allow the user to invite additional people the event.
+This feature will allow the user (creator of event) to edit an existing event. The can modify event details like duration, location, and description. The user can also cancel the event (the cancellation of an event will send an email the invitees, informing them of the cancellation). This feature will also allow the user to invite additional people the event (invitation emails will be sent to these additional invitees). 
 
-**Assigned to**: TBD
+**Assigned to**: Noah Vo
 
-## TBD
+## Event Day/Time Finalization
 
-TBD
+This feature will aggregate the invitee availability data and generate a list of all the days/times in which everyone is available. Using this list, the event creator will set the final day/time of the event.
 
-**Assigned to**: TBD
+**Assigned to**: Bach Luu
 
-## Time Zone Support
+## External Calendar Integration (Google Calendar)
 
-This feature will support coordination across different time zones.
+After the event date/time is finalized, this feature will allow the user to add the event to their Google Calendar. 
 
-**Assigned to**: TBD
+**Assigned to**: Alisha Srivastava
 
-## External Calendar Integration
+## Event Dashboard
 
-This feature will connect event creation to external calendars like Google Calendar
+Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events.  
 
-**Assigned to**: TBD
+**Assigned to**: Bach Luu
+
+## Friends List
+
+This feature will allow users to search for other users and add them to their friends list. This will facilitate the invitation process, as you can simply invite people from your friends list.
+
+**Assigned to**: Jonah Willers
