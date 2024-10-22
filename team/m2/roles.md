@@ -5,7 +5,7 @@
 - **Top 3 Commits**:
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/d4af50ed36cd99aa6df25123a9c546ed93b8870c): Set up the project structure, including the `team/m2` folder for milestone submissions.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/64cffaa44dc3ffae373a6f94fd4137bda714cf10): Created and organized the team discord, ensuring each team member was assigned to a feature and role.
-  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/f3dc6416cb7da3f9cdbd65d292825c210ca73847): Finished the initial version of the `features.md` file and got team feedback prior to making feature assignments.
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/8e2da0cfb2a371ce92726506b57ed52e8f26f175): Finished the initial version of the `features.md` file and got team feedback prior to making feature assignments.
 
 ## Tan Le - Timekeeper
 - **Role**: Manages the timing of all team activities. Aside from completing technical issues, Tan ensures that meetings start and end on time, keeps track of deadlines, and reminds the team of upcoming due dates.
