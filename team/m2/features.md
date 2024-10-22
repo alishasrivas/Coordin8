@@ -22,7 +22,7 @@ After creating the event and inviting other users, this feature will send emails
 
 This feature will allow the user (creator of event) to edit an existing event. The can modify event details like duration, location, and description. The user can also cancel the event (the cancellation of an event will send an email the invitees, informing them of the cancellation). This feature will also allow the user to invite additional people the event (invitation emails will be sent to these additional invitees). 
 
-**Assigned to**: Alisha Srivastava
+**Assigned to**: Noah Vo
 
 ## Event Day/Time Finalization
 
@@ -34,13 +34,13 @@ This feature will aggregate the invitee availability data and generate a list of
 
 After the event date/time is finalized, this feature will allow the user to add the event to their Google Calendar. 
 
-**Assigned to**: Noah Vo
+**Assigned to**: Alisha Srivastava
 
 ## Event Dashboard
 
 Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events.  
 
-**Assigned to**: Jonah Willers
+**Assigned to**: Bach Luu
 
 ## Friends List
 
