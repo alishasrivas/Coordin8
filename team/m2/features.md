@@ -4,7 +4,7 @@
 
 This feature will allow the user login or sign up. The sign up option will allow users to create an account by entering their email and creating a password. They will be prompted to create a username and upload a profile image. The login option will prompt users to enter their username and password. Users will not be able to use any other features of the application prior to logging in. The application will store user data in a database (stored user data will include, username, email, password, and full name). 
 
-**Assigned to**: William Ward
+**Assigned to**: Tan Le
   
 ## Event Creation
 
@@ -16,7 +16,7 @@ This feature will allow the user to create an event. They will be able to input 
 
 After creating the event and inviting other users, this feature will send emails to the invitees. These emails will link to a form that inquires the invitees for their availability. The invitee will view the initial days and time ranges specified by the inviter and select when they are available during those times. 
 
-**Assigned to**: Tan Le
+**Assigned to**: William Ward
 
 ## Event Modification and Deletion
 

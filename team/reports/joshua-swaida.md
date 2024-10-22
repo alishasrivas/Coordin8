@@ -8,9 +8,9 @@
 ### October 18, 2024
 - **Task**: Started the first version of the `features.md` file.
 - **Details**: Wrote some initial ideas for potential features, included brief descriptions.
-- **Link to Commit**: [Commit on Problem.md](https://github.com/alishasrivas/Coordin8/commit/b65773e331ce4e9600439f8a30a85606c7f49608)
+- **Link to Commit**: [Commit for initial features.md](https://github.com/alishasrivas/Coordin8/commit/b65773e331ce4e9600439f8a30a85606c7f49608)
 
 ### October 19, 2024
 - **Task**: Finished the first version of the `features.md` file.
 - **Details**: Finalized the list of features, expanded the descriptions, and assigned team members to each task.
-- **Link to Commit**: [Commit on Problem.md](LINK)
+- **Link to Commit**: [Commit for finalized features.md](https://github.com/alishasrivas/Coordin8/commit/482c432b38d7277fa776692b517fbae9309c2183)
