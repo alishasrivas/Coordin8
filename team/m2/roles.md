@@ -20,3 +20,11 @@
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/49c8846aa67b1337ca0d0c95d525183d25078941): Finished the initial version of the ui-diagrams.md file.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/aa8844fa8269a984a7b01a42ef2580fea9a0fe30): Added images to the ui-diagrams.md file to provide visual representations of the UI diagrams.
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/804f9cdb47a4625c1a66313ed8fea0fd8587d5ff): Proofread the `data.md` file and provided feedback to the team on how to improve the content.
+ 
+## Alisha Srivastava - Note-Taker
+- **Role**: Takes notes on all conversation and ideas brought up during meetings, shares them with team members. Ensures project goals are written down. Complies a list of tasks and submissions every meeting to ensure coordination. 
+- **Top 3 Commits**:
+  1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/34e205be9d77a066834276ec88b8db7a3a50179a): Created the final problem statement in `problem.md`.
+  2. [Commit 2](https://github.com/alishasrivas/Coordin8/tree/1f3fd8b77e612d72487b65fe19ba1314730f7850): Created the repository and markdown files: `data.md`, `problem.md`, `ui-diagrams.md`, `roles.md`, `users.md`, and `features.md` .
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/6fe48574aa8bb55b1123f007605ab26af5721922):
+Created the initial version for problem statement in `problem.md`
