@@ -13,3 +13,10 @@
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/6a449ee3496f315a1f123f7a8c6a55100a243971): Finished the initial design of data and its relation in `data.md`.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/69c20aa71240340f190674b48358737c5fd002e9): Added a data relation diagram to the project to demonstrate the data relation in more details.
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/5d1026f063e5de7909264a67c253d63f33f9b740 ): Remind teams of upcoming deadlines, notify the tasks which we have not finished yet and start setting up some possible meetings time.
+
+## Bach Luu - Quality Control
+- **Role**: Reviews team submissions and ensures that all deliverables meet the necessary quality standards. Bach is responsible for proofreading and ensuring the accuracy of all documents before submission.
+- **Top 3 Commits**:
+  1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/49c8846aa67b1337ca0d0c95d525183d25078941): Finished the initial version of the ui-diagrams.md file.
+  2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/aa8844fa8269a984a7b01a42ef2580fea9a0fe30): Added images to the ui-diagrams.md file to provide visual representations of the UI diagrams.
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/804f9cdb47a4625c1a66313ed8fea0fd8587d5ff): Proofread the `data.md` file and provided feedback to the team on how to improve the content.
