@@ -18,4 +18,4 @@
 ### October 21, 2024
 - **Task**: Organized the team discord and assigned team members to every feature
 - **Details**: Facilitated communication in the team discord and made sure everyone was assigned to their preferred feature.
-- **Link to Commit**: [Final commit in roles file](https://github.com/alishasrivas/Coordin8/commit/17d6b277150a6a825cb91d1181f47d2da8e17aca)
+- **Link to Commit**: [Final commit in roles file](https://github.com/alishasrivas/Coordin8/commit/64cffaa44dc3ffae373a6f94fd4137bda714cf10)
