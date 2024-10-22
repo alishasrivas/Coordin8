@@ -19,3 +19,8 @@
 - **Task**: Fix the image links in ui-diagrams.md
 - **Details**: Correct the image paths to display the UI diagrams correctly in the document.
 - **Link to Commit**: [Third Edition] https://github.com/alishasrivas/Coordin8/commit/3ef5c8c9595f60606afbc539cc2b729aa5f2c96c
+
+### October 21, 2024
+- **Task**: Upload the first draft of the problem.md
+- **Details**: Initial draft outlining the problem statement, user needs, and challenges faced by users in managing global events and meetings. This document provides a comprehensive overview of the issues addressed by Coordin8.
+- **Link to Commit**: [First Edition] https://github.com/alishasrivas/Coordin8/commit/5bcf77b3ec5297c2cdbfa041bbb432e15ff2cee4
