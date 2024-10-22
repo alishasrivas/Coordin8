@@ -13,7 +13,7 @@
 ### October 21, 2024
 - **Task**: Finished the first version of the `features.md` file.
 - **Details**: Finalized the list of features, expanded the descriptions, and assigned team members to each task.
-- **Link to Commit**: [Commit for finalized features.md](https://github.com/alishasrivas/Coordin8/commit/f3dc6416cb7da3f9cdbd65d292825c210ca73847)
+- **Link to Commit**: [Commit for finalized features.md](https://github.com/alishasrivas/Coordin8/commit/8e2da0cfb2a371ce92726506b57ed52e8f26f175)
 
 ### October 21, 2024
 - **Task**: Organized the team discord and assigned team members to every feature
