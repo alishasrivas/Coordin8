@@ -27,3 +27,10 @@
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/392812fa1b12764bc593480a1a8f812127c57ac2): Proof read final draft of features.md file.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/52105281f60ca15cd541dfe04bb43b58b2e19ab2): Drafted the initial version of the `users.md` file, outlining the target user base for the project.
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/ad1b23648923ff77bfcfb48aca4b3bd581cb5b02): Set up the project’s `README.md` file to contain main outline of documentation.
+ 
+## Alisha Srivastava - Note-Taker
+- **Role**: Takes notes on all conversation and ideas brought up during meetings, shares them with team members. Ensures project goals are written down. Complies a list of tasks and submissions every meeting to ensure coordination. 
+- **Top 3 Commits**:
+  1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/34e205be9d77a066834276ec88b8db7a3a50179a): Created the final problem statement in `problem.md`.
+  2. [Commit 2](https://github.com/alishasrivas/Coordin8/tree/1f3fd8b77e612d72487b65fe19ba1314730f7850): Created the repository and markdown files: `data.md`, `problem.md`, `ui-diagrams.md`, `roles.md`, `users.md`, and `features.md` .
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/6fe48574aa8bb55b1123f007605ab26af5721922): Created the initial version for problem statement in `problem.md`
