@@ -1,4 +1,9 @@
-
+## Joshua Swaida - Project Manager
+- **Role**: Oversees the overall project timeline, ensures that milestones are met, and coordinates the team’s efforts. Alice is responsible for setting meeting agendas and ensuring that the team stays focused on project goals.
+- **Top 3 Commits**:
+  1. [Commit 1](LINK): Set up the project structure, including the `team/m2` folder for milestone submissions.
+  2. [Commit 2](LINK): Organized the team discord, ensuring each team member was assigned to a feature and role.
+  3. [Commit 3](LINK): Drafted the initial version of the `features.md` file and got team feedback prior to making feature assignments.
 
 ## Tan Le - Timekeeper
 - **Role**: Manages the timing of all team activities. Aside from completing technical issues, Tan ensures that meetings start and end on time, keeps track of deadlines, and reminds the team of upcoming due dates.
