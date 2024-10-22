@@ -20,3 +20,10 @@
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/49c8846aa67b1337ca0d0c95d525183d25078941): Finished the initial version of the ui-diagrams.md file.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/aa8844fa8269a984a7b01a42ef2580fea9a0fe30): Added images to the ui-diagrams.md file to provide visual representations of the UI diagrams.
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/804f9cdb47a4625c1a66313ed8fea0fd8587d5ff): Proofread the `data.md` file and provided feedback to the team on how to improve the content.
+
+## William Ward - Documentation Lead
+- **Role**: Responsible for overseeing the organization and maintenance of all project documentation. William ensures that all documents are up to date, well-organized, and accessible to team members.
+- **Top 3 Commits**:
+  1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/392812fa1b12764bc593480a1a8f812127c57ac2): Proof read final draft of features.md file.
+  2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/52105281f60ca15cd541dfe04bb43b58b2e19ab2): Drafted the initial version of the `users.md` file, outlining the target user base for the project.
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/ad1b23648923ff77bfcfb48aca4b3bd581cb5b02): Set up the project’s `README.md` file to contain main outline of documentation.
