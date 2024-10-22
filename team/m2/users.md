@@ -1,12 +1,12 @@
 # Target Users
 
-## Organizations (workplaces, volunteer groups, clubs, etc.)
+## Primary Audience
 
-Our application will facilitate coordinating available times among groups of people, so our target user base is essentially any organization that needs to coordinate synchronous meeting times among it's personnel.
+The primary users of our web application, **Coordin8**, include organizations such as workplaces, volunteer groups, and clubs that require easy coordination of synchronous meeting times among their personnel. Coordin8 is designed to simplify scheduling by supporting users in various time zones, streamlining the event creation process, and providing integration with external calendars like Google Calendar.
 
-The application is centered around the creation of **events** which can be created by some users (e.g. team leaders) and accepted with input on scheduling by other users (e.g. team members).
+Organizations with distributed teams, particularly those operating across multiple time zones, will benefit the most from the app. **Team leaders** or **event organizers** can create events and invite others, while **team members** or **invitees** can input their availability, ensuring the most convenient time is selected for all participants.
 
-The application will also be integrated with outside technologies, making it easier for organizations to integrate it with their work flow. Events can be downloaded or automatically exported to 3rd party calendar apps (Google Calendar), and event invites and schedules will be sent to relevant users emails.
+Coordin8's seamless integration with email and calendar services allows it to fit effortlessly into the workflow of modern organizations, making it easier to manage events and schedules across different platforms. 
 
 ## Niches
 
