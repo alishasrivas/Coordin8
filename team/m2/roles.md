@@ -33,4 +33,12 @@
 - **Top 3 Commits**:
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/34e205be9d77a066834276ec88b8db7a3a50179a): Created the final problem statement in `problem.md`.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/tree/1f3fd8b77e612d72487b65fe19ba1314730f7850): Created the repository and markdown files: `data.md`, `problem.md`, `ui-diagrams.md`, `roles.md`, `users.md`, and `features.md` .
-  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/6fe48574aa8bb55b1123f007605ab26af5721922): Created the initial version for problem statement in `problem.md`
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/6fe48574aa8bb55b1123f007605ab26af5721922):Created the initial version for problem statement in `problem.md`
+
+## Noah Vo - Documentation Lead
+- **Role**:  Oversees the creation and organization of all project documentation. Noah ensures that all documents are clear, complete, and up to date. This includes compiling team notes, preparing submission files, and organizing all project-related documentation for easy reference and review.
+- **Top 3 Commits**:
+  1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/696c09657f1fac1b9f5e06710769391028804933): Update the target audience in `users.md`.
+  2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/de4472ac5fa9626f34f3a4fe7713cfb84c2dcf83): Finish the initial version of `users.md`.
+  3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/de4472ac5fa9626f34f3a4fe7713cfb84c2dcf83): Check the all files documentation and make sure it follows the guildlines.
+
