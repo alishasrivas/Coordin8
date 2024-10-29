@@ -19,3 +19,8 @@
 - **Task**: Organized the team discord and assigned team members to every feature
 - **Details**: Facilitated communication in the team discord and made sure everyone was assigned to their preferred feature (asked everyone for their preference).
 - **Link to Commit**: [Commit for description of progress made](https://github.com/alishasrivas/Coordin8/commit/64cffaa44dc3ffae373a6f94fd4137bda714cf10)
+
+### October 28, 2024
+- **Task**: Set up project structure
+- **Details**: Created frontend folder, ran npm init, installed http-server dependency, created source folder (which contained a components, eventhub, and service folder) and created a tests folder. This all makes up the general project structure.
+- **Link to Commit**: [Commit for project structure creation](https://github.com/alishasrivas/Coordin8/pull/13/commits/d8791adb8ad2a241c082f5db7486cace2d89147a)
