@@ -1,22 +1,28 @@
 /**
- * An object containing various message types for event management.
+ * An object containing various message types for task management.
  */
 export const Events = {
-  NewEvent: "NewEvent",
+  NewMeeting: 'NewMeeting',
 
-  LoadEvents: "LoadEvents",
-  LoadEventsSuccess: "LoadEventsSuccess",
-  LoadEventsFailure: "LoadEventsFailure",
+  LoadMeetings: 'LoadMeetings',
+  LoadMeetingsSuccess: 'LoadMeetingsSuccess',
+  LoadMeetingsFailure: 'LoadMeetingsFailure',
 
-  StoreEvent: "StoreEvent",
-  StoreEventSuccess: "StoreEventSuccess",
-  StoreEventFailure: "StoreEventFailure",
+  StoreMeeting: 'StoreMeeting',
+  StoreMeetingSuccess: 'StoreMeetingSuccess',
+  StoreMeetingFailure: 'StoreMeetingFailure',
 
-  UnStoreEvents: "UnStoreEvents",
-  UnStoreEventsSuccess: "UnStoreEventsSuccess",
-  UnStoreEventsFailure: "UnStoreEventsFailure",
+  UnStoreMeetings: 'UnStoreMeetings',
+  UnStoreMeetingsSuccess: 'UnStoreMeetingsSuccess',
+  UnStoreMeetingsFailure: 'UnStoreMeetingsFailure',
 
   // View Switching Events:
-  SwitchToDashboardView: "SwitchToDashboardView",
-  SwitchToCreateView: "SwitchToCreateView",
+  SwitchToDashboardView: 'SwitchToDashboardView',
+  SwitchToCreateView: 'SwitchToCreateView',
+  SwitchToModifyView: 'SwitchToModifyView',
+  SwitchToAvailabilityView: 'SwitchToAvailabilityView',
+  SwitchToSettingsView: 'SwitchToSettingsView',
+  SwitchToAuthenticationView: 'SwitchToAuthenticationView',
+  SwitchToFriendsListView: 'SwitchToFriendsListView',
+  SwitchToDateFinalizationView: 'SwitchToDateFinalizationView',
 };
