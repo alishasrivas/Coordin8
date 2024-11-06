@@ -13,8 +13,6 @@ export class MeetingRepositoryRemoteFakeService extends Service {
       const response = await fetch(BASE_URL, {
         method: "POST",
         body: JSON.stringify(meetingData),
-        ok: true,
-        statusText: "OK",
       });
       if (!response.ok) {
         throw new Error(`Failed to store meeting: ${response.statusText}`);
@@ -31,8 +29,6 @@ export class MeetingRepositoryRemoteFakeService extends Service {
     try {
       const response = await fetch(BASE_URL, {
         method: "DELETE",
-        ok: true,
-        statusText: "OK",
       });
 
       if (!response.ok) {
