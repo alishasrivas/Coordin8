@@ -21,11 +21,11 @@
 - **Link to Commit**: [Commit for description of progress made](https://github.com/alishasrivas/Coordin8/commit/64cffaa44dc3ffae373a6f94fd4137bda714cf10)
 
 ### October 28, 2024
-- **Task**: Set up project structure
-- **Details**: Created frontend folder, ran npm init, installed http-server dependency, created source folder (which contained a components, eventhub, and service folder) and created a tests folder. This all makes up the general project structure.
+- **Task**: Created project/structure branch and set up project structure
+- **Details**: I created a branch called project/structure. On this branch, I created a frontend folder, ran npm init, installed http-server dependency, created source folder (which contained a components, eventhub, and service folder) and created a tests folder. This all makes up the general project structure.
 - **Link to Commit**: [Commit for project structure creation](https://github.com/alishasrivas/Coordin8/pull/13/commits/d8791adb8ad2a241c082f5db7486cace2d89147a)
 
 ### November 6, 2024
 - **Task**: Improved and finalized up project structure
-- **Details**: Added files to eventhub (EventHub.js, Events.js) and services folder (MeetingRepositoryFactory.js, MeetingRepositoryRemoteFakeService.js, MeetingRepositoryService.js, Service.js). Added a utility folder with a fetch.js file that simulated a fetch call. Added error handling and type checking to MeetingRepositoryRemoteFakeService.js, EventHub.js, and MeetingRepositoryFactory.js.
+- **Details**: Added files to eventhub (EventHub.js, Events.js) and services folder (MeetingRepositoryFactory.js, MeetingRepositoryRemoteFakeService.js, MeetingRepositoryService.js, Service.js). Added a utility folder with a fetch.js file that simulated a fetch call. Added error handling and type checking to MeetingRepositoryRemoteFakeService.js, EventHub.js, and MeetingRepositoryFactory.js. I made all of these changes on the project/structure branch I created.
 - **Link to Commit**: [Commit for project structure improvements](https://github.com/alishasrivas/Coordin8/pull/15/commits/644975e3e6a40108243336366cea31fe2e342c70)
