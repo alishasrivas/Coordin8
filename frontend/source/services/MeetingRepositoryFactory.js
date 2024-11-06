@@ -3,18 +3,18 @@ import { MeetingRepositoryService } from "./MeetingRepositoryService.js";
 
 /**
  * Factory class to create instances of meet repository services.
- * 
+ *
  * This class provides a static method to get an appropriate instance
  * of a meeting repository service based on the specified repository type.
  * It cannot be instantiated.
  */
 export class MeetingRepositoryFactory {
   constructor() {
-    throw new Error('Cannot instantiate a MeetingRepositoryFactory object');
+    throw new Error("Cannot instantiate a MeetingRepositoryFactory object");
   }
 
   /**
-   * Returns an instance of a meet repository service based on the given
+   * Returns an instance of a meeting repository service based on the given
    * repository type.
    *
    * @param {string} [repoType='local'] - The type of repository service to
@@ -23,15 +23,18 @@ export class MeetingRepositoryFactory {
    * of the appropriate meet repository service.
    * @throws Will throw an error if the repository type is not recognized.
    */
-  static get(repoType = 'local') {
-    if (repoType === 'local') {
-      return new MeetingRepositoryService();
+  static get(repoType = "local") {
+    // Type checking
+    if (typeof repoType !== "string") {
+      throw new TypeError("repoType must be a string");
     }
-    // else if (repoType === 'remote') {
-    //   return new MeetingRepositoryRemoteFakeService();
-    // }
-    else {
-      throw new Error('Invalid repository type');
+
+    if (repoType === "local") {
+      return new MeetingRepositoryService();
+    } else if (repoType === "remote") {
+      return new MeetingRepositoryRemoteFakeService();
+    } else {
+      throw new Error(`Invalid repository type: ${repoType}`);
     }
   }
 }

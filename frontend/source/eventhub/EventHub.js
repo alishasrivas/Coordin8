@@ -3,31 +3,58 @@ export class EventHub {
     this.events = {};
   }
 
-  // Subscribe to an event
+  // Subscribe to an event with type/error handling
   subscribe(event, listener) {
-    if (!this.events[event]) {
-      this.events[event] = [];
+    if (typeof event !== "string") {
+      throw new TypeError("Event name must be a string");
     }
-    this.events[event].push(listener);
+    if (typeof listener !== "function") {
+      throw new TypeError("Listener must be a function");
+    }
+
+    // Initialize a new Set for the event if it doesn't exist
+    if (!this.events[event]) {
+      this.events[event] = new Set();
+    }
+
+    // Add the listener to the Set (automatically prevents duplicates)
+    this.events[event].add(listener);
 
     // Return an unsubscribe function for convenience
     return () => this.unsubscribe(event, listener);
   }
 
-  // Publish an event
+  // Publish an event with type/error handling
   publish(event, data) {
+    if (typeof event !== "string") {
+      throw new TypeError("Event name must be a string");
+    }
+
     if (!this.events[event]) return;
-    this.events[event].forEach(listener => listener(data));
+
+    // Ensure that the data is valid for each listener
+    this.events[event].forEach((listener) => {
+      try {
+        listener(data);
+      } catch (error) {
+        console.error(`Error in listener for event "${event}":`, error);
+      }
+    });
   }
 
-  // Unsubscribe from an event
+  // Unsubscribe from an event with type/error handling
   unsubscribe(event, listenerToRemove) {
+    if (typeof event !== "string") {
+      throw new TypeError("Event name must be a string");
+    }
+    if (typeof listenerToRemove !== "function") {
+      throw new TypeError("Listener must be a function");
+    }
+
     if (!this.events[event]) return;
 
-    // Filter out the listener that should be removed
-    this.events[event] = this.events[event].filter(
-      listener => listener !== listenerToRemove
-    );
+    // Remove the listener from the Set
+    this.events[event].delete(listenerToRemove);
   }
 
   // Define a static reference to the EventHub
@@ -41,4 +68,3 @@ export class EventHub {
     return EventHub.instance;
   }
 }
-

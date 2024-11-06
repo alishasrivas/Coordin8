@@ -1,35 +1,68 @@
 import Service from "./Service.js";
 import { fetch } from "../utility/fetch.js";
 
+const BASE_URL = "http://localhost:3000/meeting";
+
 export class MeetingRepositoryRemoteFakeService extends Service {
   constructor() {
     super();
   }
 
   async storeMeeting(meetingData) {
-    const response = await fetch("http://localhost:3000/meeting", {
-      method: "POST",
-      body: JSON.stringify(meetingData),
-    });
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(BASE_URL, {
+        method: "POST",
+        body: JSON.stringify(meetingData),
+        ok: true,
+        statusText: "OK",
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to store meeting: ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error storing meeting:", error);
+      throw error;
+    }
   }
 
   async clearMeetings() {
-    const response = await fetch("http://localhost:3000/meetings", {
-      method: "DELETE",
-    });
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(BASE_URL, {
+        method: "DELETE",
+        ok: true,
+        statusText: "OK",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to clear meetings: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error clearing meeting:", error);
+      throw error;
+    }
   }
 
   addSubscriptions() {
-    this.subscribe(Events.StoreMeeting, (data) => {
-      this.storeMeeting(data);
-    });
+    try {
+      this.subscribe(Events.StoreMeeting, (data) => {
+        this.storeMeeting(data).catch((error) => {
+          console.error("Error while handling StoreMeeting event:", error);
+        });
+      });
 
-    this.subscribe(Events.UnStoreMeetings, () => {
-      this.clearMeetings();
-    });
+      this.subscribe(Events.UnStoreMeetings, () => {
+        this.clearMeetings().catch((error) => {
+          console.error("Error while handling UnStoreMeetings event:", error);
+        });
+      });
+    } catch (error) {
+      console.error("Error in addSubscriptions:", error);
+      throw error;
+    }
   }
 }
