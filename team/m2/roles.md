@@ -6,6 +6,8 @@
   1. [Commit 1](https://github.com/alishasrivas/Coordin8/commit/d4af50ed36cd99aa6df25123a9c546ed93b8870c): Set up the project structure, including the `team/m2` folder for milestone submissions.
   2. [Commit 2](https://github.com/alishasrivas/Coordin8/commit/64cffaa44dc3ffae373a6f94fd4137bda714cf10): Created and organized the team discord, ensuring each team member was assigned to a feature and role.
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/8e2da0cfb2a371ce92726506b57ed52e8f26f175): Finished the initial version of the `features.md` file and got team feedback prior to making feature assignments.
+  4. [Commit 4](https://github.com/alishasrivas/Coordin8/commit/a5e02058807012fd07135ac9a46a29a995e6ed31#diff-94f78f9549ca681b82ec9cf844c8f9382f3b45bb9e92ef098f3bb2beeea8fa24): Created the general project structure for the frontend; created a components, eventhub, services, and utility folder.
+  5. [Commit 5](https://github.com/alishasrivas/Coordin8/commit/644975e3e6a40108243336366cea31fe2e342c70): I created/coded files in each of the folders from Commit 4 (EventHub.js, Events.js, MeetingRepositoryFactory.js, MeetingRepositoryRemoteFakeService.js, MeetingRepositoryService.js, Service.js, fetch.js).
 
 ## Tan Le - Timekeeper
 - **Role**: Manages the timing of all team activities. Aside from completing technical issues, Tan ensures that meetings start and end on time, keeps track of deadlines, and reminds the team of upcoming due dates.
