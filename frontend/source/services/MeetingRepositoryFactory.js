@@ -1,5 +1,5 @@
 import { MeetingRepositoryService } from "./MeetingRepositoryService.js";
-//import { MeetingRepositoryRemoteFakeService } from "./MeetingRepositoryRemoteFakeService.js";
+import { MeetingRepositoryRemoteFakeService } from "./MeetingRepositoryRemoteFakeService.js";
 
 /**
  * Factory class to create instances of meet repository services.

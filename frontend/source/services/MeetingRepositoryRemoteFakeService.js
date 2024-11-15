@@ -1,4 +1,5 @@
 import Service from "./Service.js";
+import { Events } from "../eventhub/Events.js";
 import { fetch } from "../utility/fetch.js";
 
 const BASE_URL = "http://localhost:3000/meeting";
