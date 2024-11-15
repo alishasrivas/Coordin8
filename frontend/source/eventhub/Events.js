@@ -25,4 +25,8 @@ export const Events = {
   SwitchToAuthenticationView: 'SwitchToAuthenticationView',
   SwitchToFriendsListView: 'SwitchToFriendsListView',
   SwitchToDateFinalizationView: 'SwitchToDateFinalizationView',
+
+  //profile settings event
+  fetchProfileSettings: 'fetchProfileSettings',
+  updateProfileSettings: 'updateProfileSettings',
 };
