@@ -1,104 +1,82 @@
 import { EventCreationComponent } from "../EventCreationComponent/EventCreationComponent.js";
 import { HomeComponent } from "../HomeComponent/HomeComponent.js";
-//import DashboardComponent
-//import ProfileSettingComponent
-//import AvailabilitySubmissionComponent
-//import AuthenticationComponent
-//import EventModificationComponent
+import { DashboardComponent } from "../DashboardComponent/DashboardComponent.js";
 import { EventHub } from "../../eventhub/EventHub.js";
+import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
-export class AppControllerComponent {
+export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
-  #currentView = "home"; // Track the current view ('home' or 'create')
+  #currentView = "home"; // Track the current view ('home', 'create', or 'dashboard')
   #eventCreationComponent = null; // Instance of the event creation component
   #homeComponent = null; // Instance of home home component
+  #dashboardComponent = null; // Instance of the dashboard component
   #hub = null; // EventHub instance for managing events
 
   constructor() {
+    super();
+    this.loadCSS("AppControllerComponent");
     this.#hub = EventHub.getInstance();
     this.#eventCreationComponent = new EventCreationComponent();
     this.#homeComponent = new HomeComponent();
+    this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
   }
 
   // Render the AppController component and return the container
   render() {
     this.#createContainer();
     this.#setupContainerContent();
-    this.#attachEventListeners();
-
-    this.#eventCreationComponent.render();
-    this.#homeComponent.render();
-
-    // Initially render the home view
-    this.#renderCurrentView();
-
     return this.#container;
   }
 
-  // Creates the main container element
   #createContainer() {
-    this.#container = document.createElement("div");
-    this.#container.classList.add("app-controller");
+    this.#container = document.createElement('div');
+    this.#container.classList.add('app-controller-container');
+    this.#container.innerHTML = this.#getTemplate();
+    this.#attachEventListeners();
   }
 
-  // Sets up the HTML structure for the container
-  #setupContainerContent() {
-    this.#container.innerHTML = `
-      <div id="viewContainer"></div>
-      <button id="switchViewBtn">Switch to Event Creation View</button>
+  #getTemplate() {
+    return `
+      <div class="navigation-bar">
+        <button id="homeBtn">Home</button>
+        <button id="createEventBtn">Create Event</button>
+        <button id="dashboardBtn">Dashboard</button> <!-- Add Dashboard button -->
+      </div>
+      <div id="viewContainer">
+        <!-- View content will be dynamically added here -->
+      </div>
     `;
   }
 
-  // Attaches the necessary event listeners
   #attachEventListeners() {
-    const switchViewBtn = this.#container.querySelector("#switchViewBtn");
+    const homeBtn = this.#container.querySelector('#homeBtn');
+    const createEventBtn = this.#container.querySelector('#createEventBtn');
+    const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
 
-    // Event listener for switching views
-    switchViewBtn.addEventListener("click", () => {
-      this.#toggleView();
-    });
-
-    // Subscribe to events from the EventHub to manage switching
-    this.#hub.subscribe("SwitchToCreateView", () => {
-      this.#currentView = "create";
-      this.#renderCurrentView();
-    });
-
-    this.#hub.subscribe("SwitchToHomeView", () => {
-      this.#currentView = "home";
-      this.#renderCurrentView();
-    });
+    homeBtn.addEventListener('click', () => this.#switchView('home'));
+    createEventBtn.addEventListener('click', () => this.#switchView('create'));
+    dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
   }
 
-  // Toggles the view between home and create
-  #toggleView() {
-    if (this.#currentView === "home") {
-      this.#currentView = "create";
-      this.#hub.publish("SwitchToCreateView", null);
-    } else {
-      this.#currentView = "home";
-      this.#hub.publish("SwitchToHomeView", null);
-    }
+  #switchView(view) {
+    this.#currentView = view;
+    this.#setupContainerContent();
   }
 
-  // Renders the current view based on the #currentView state
-  #renderCurrentView() {
-    const viewContainer = this.#container.querySelector("#viewContainer");
-    viewContainer.innerHTML = ""; // Clear existing content
+  #setupContainerContent() {
+    const viewContainer = this.#container.querySelector('#viewContainer');
+    viewContainer.innerHTML = '';
 
-    // Update the button text based on the current view
-    const switchViewBtn = this.#container.querySelector("#switchViewBtn");
-    switchViewBtn.textContent =
-      this.#currentView === "home"
-        ? "Switch to Event Creation View"
-        : "Switch to Home View";
-
-    if (this.#currentView === "home") {
-      // Render the home view
-      viewContainer.appendChild(this.#homeComponent.render());
-    } else {
-      // Render the event creation view
-      viewContainer.appendChild(this.#eventCreationComponent.render());
+    switch (this.#currentView) {
+      case 'home':
+        viewContainer.appendChild(this.#homeComponent.render());
+        break;
+      case 'create':
+        viewContainer.appendChild(this.#eventCreationComponent.render());
+        break;
+      case 'dashboard':
+        viewContainer.appendChild(this.#dashboardComponent.render()); // Render DashboardComponent
+        break;
     }
   }
 }
