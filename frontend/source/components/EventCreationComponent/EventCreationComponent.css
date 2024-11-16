@@ -18,16 +18,21 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: rgb(234, 233, 233); /* Light gray background */
+  padding: 20px; /* Add padding inside the container */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
+
 
 /* Event Input Field */
 .event-input {
-  width: 100%;
+  width: 100%; /* Fill the width of the container */
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px; /* Increased rounding */
   box-sizing: border-box;
 }
 
@@ -52,6 +57,33 @@ label {
   box-sizing: border-box;
 }
 
+.time-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+#addTime-button {
+  width: 100%;
+  max-width: 200px;
+  color: white;
+  background-color: rgb(14, 155, 243); /* Blue background */
+  border-radius: 30px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+#addTime-button:hover {
+  background-color: rgb(12, 135, 212); /* Darker blue on hover */
+}
+
 #create-event-button {
   width: 100%;
   max-width: 200px;
@@ -70,19 +102,21 @@ label {
 }
 
 #blue-header {
-  background-color: rgb(14, 155, 243);
-  padding: 5px; /* Adds space inside the div on all sides */
+  width: 95%;
+  background-color: #007bff;
   color: white;
-  width: 100%;
-  text-align: center; /* Centers horizontally */
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
 }
 
 #event-creation-body {
   flex-grow: 1; /* Allow this section to expand and fill available space */
-  width: 85%;
+  width: 95%; 
   background-color: white;
-  padding: 30px; /* Add space inside the body */
-  margin-top: 20px;
+  padding: 20px; /* Add space inside the body */
+  margin: 10px 0;
+  border-radius: 8px 8px 0 0;
 }
 
 #enter-time-container {
