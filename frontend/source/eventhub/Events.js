@@ -27,6 +27,6 @@ export const Events = {
   SwitchToDateFinalizationView: 'SwitchToDateFinalizationView',
 
   //profile settings event
-  fetchProfileSettings: 'fetchProfileSettings',
+  // fetchProfileSettings: 'fetchProfileSettings',
   updateProfileSettings: 'updateProfileSettings',
 };

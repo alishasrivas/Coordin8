@@ -4,11 +4,13 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
 export class EventCreationComponent extends BaseComponent {
     #container = null;
-    #potentialTimes = [];
 
     constructor() {
         super();
-        this.loadCSS("EventCreationComponent");
+        this.loadCSS('ProfileSettingComponent');
+        //initialize the event litsener for submission and fetching for the components
+        const hub = EventHub.getInstance();
+        hub.subcribe(Events.updateProfileSettings, (data) => this.#StoreProfileData(data));
     }
 
     render() {
@@ -24,146 +26,111 @@ export class EventCreationComponent extends BaseComponent {
     #createContainer() {
         // Create and configure the container element
         this.#container = document.createElement("div");
-        this.#container.classList.add("event-input-container");
+        this.#container.classList.add("profile-container");
         this.#container.innerHTML = this.#getTemplate();
     }
 
     #getTemplate() {
         // Returns the HTML template for the component
         return `
-
-      <div id="blue-header">
-        <h1>Create New Event</h1>
-      </div>
-
-      <div id="event-creation-body">
-        <h2>Event Details</h2>
-        <label for="eventName">Enter event name:</label>
-        <input type="text" id="eventName" class="event-input" name="eventName" placeholder="Type event name here...">
-
-        <label for="eventDescription">Enter description:</label>
-        <textarea id="eventDescription" class="event-input" name="eventDescription" rows="4" cols="50" placeholder="Type description here..."></textarea>
-
-        <h2>Invite Others</h2>
-        <label for="invitees">Enter invitees:</label>
-        <input type="text" id="invitees" class="event-input" name="invitees" placeholder="Type invitee emails separated by commas...">
-
-        <h2>Enter potential event times</h2>
-        <div id="times-list">
-          <label for="start-time">Start time:</label>
-          <input type="text" id="start-time" class="time-input" name="start-time" placeholder="Type here...">
-
-
-          <label for="end-time">End time:</label>
-          <input type="text" id="end-time" class="time-input" name="end-time" placeholder="Type here...">
-
-
-          <label for="enter-date">Enter date:</label>
-          <input type="text" id="enter-date" class="time-input" name="enter-date" placeholder="Type here...">
-
-          <button id="addTime-button">Add Time</button>
-          <ul id="timeList"></ul>
+        <div class="header">
+            <h3>Profile Settings</h1>
         </div>
-        
-      </div>
 
-      <button id="create-event-button">Create Event</button>
+        <form>
+            <div class="input-block"> 
+                <h3>Personal Information</h1>
+                    <div class="inner-input">
+                        <label for="username">Name:</label>
+                        <label for="email">Email:</label>
+                        <input type="text" name="username" id="name">
+                        <input type="text" name="email" id="email">
+                    </div>
+            </div>
+            <div class="input-block">
+                <h3>Time Zone Settings:</h3>
+                <div class="inner-input">
+                    <label for="primary-time-zone">Primary Time Zone:</label>
+                    <label for="secondary-time-zone">Secondary Time Zone:</label>
+                    <input type="text" id="primary-time-zone" name="primary_tz">
+                    <input type="text" id="secondary-time-zone" name="secondary_tz">
+                </div>
+            </div>
+            <div class="noti-block">
+                <h3>Notification Preferences</h3>
+
+                <div class="inner-noti">
+                    <p>Email Notifications: </p>
+
+                    <label class="switch">
+                        <input type="checkbox" id = "noti_pref">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="footer">
+                <button type="submit" class="submit-button">Save</button>
+            </div>
+        </form>
     `;
     }
-
+    //call though events so other elements call rerender with new data
     #attachEventListeners() {
-        // Attach event listeners to the input and button elements
-        const createEventBtn = this.#container.querySelector(
-            "#create-event-button"
-        );
-        const eventName = this.#container.querySelector("#eventName");
-        const eventDescription = this.#container.querySelector("#eventDescription");
-
-        createEventBtn.addEventListener("click", () =>
-            this.#handleCreateEvent(eventName, eventDescription)
-        );
-
-        //adding times
-        const addTimeBtn = this.#container.querySelector("#addTime-button");
-        const startTime = this.#container.querySelector("#start-time");
-        const endTime = this.#container.querySelector("#end-time");
-        const date = this.#container.querySelector("#enter-date");
-        addTimeBtn.addEventListener("click", () =>
-            this.#handleAddTime(startTime, endTime, date)
-        );
-    }
-
-    #handleCreateEvent(eventNameInput, eventDescriptionInput) {
-        const eventName = eventNameInput.value;
-        const eventDescription = eventDescriptionInput.value;
-
-        if (!eventName) {
-            alert("Please enter the event's name.");
-            return;
-        }
-        if (!eventDescription) {
-            alert("Please enter the event's description.");
-            return;
-        }
-
-        // Publish a 'NewEvent' event with the event name, description, and potential times
-        this.#publishNewEvent(eventName, eventDescription, this.#potentialTimes);
-
-        // Clear inputs
-        this.#clearInputs(eventNameInput, eventDescriptionInput);
-    }
-
-    #handleAddTime(startTimeInput, endTimeInput, dateInput) {
-        const startTime = startTimeInput.value;
-        const endTime = endTimeInput.value;
-        const date = dateInput.value;
-
-        // Make sure each time input field was completed
-        if (!startTime) {
-            alert("Please enter a start time.");
-            return;
-        }
-        if (!endTime) {
-            alert("Please enter a end time.");
-            return;
-        }
-        if (!date) {
-            alert("Please enter a date.");
-            return;
-        }
-
-        // Create the time object and add it to the array
-        const time = { startTime, endTime, date };
-        this.#potentialTimes.push(time);
-
-        // Add the new time to the visible list
-        const timeList = this.#container.querySelector("#timeList");
-        const timeContainer = document.createElement("li");
-        timeContainer.innerHTML = `
-      <p>Start: ${startTime}, End: ${endTime}, Date: ${date}</p>
-    `;
-        timeList.appendChild(timeContainer);
-
-        // Clear inputs
-        this.#clearTimeInputs(startTimeInput, endTimeInput, dateInput);
-    }
-
-    #publishNewEvent(name, description, times) {
         const hub = EventHub.getInstance();
-        hub.publish(Events.NewMeeting, { name, description, times });
-        hub.publish(Events.StoreMeeting, { name, description, times });
+
+        //take all inputs
+        //call updateProfileSetting event to publish alongside with these inputs
+
+        //add validation for inputs, just an alart for wrong input would be enough
+        //add fetching events to fetch current data to input field
+
+        username = document.querySelector("#name")
+        email = document.querySelector("#email")
+        primary_tz = document.querySelector("#primary_tz")
+        secondary_tz = document.querySelector("#secondary_tz")
+        email_noti = document.querySelector("#noti_pref")
+
+
+        submit_button = document.querySelector(".submit-button")
+
+        const data = { username, email, primary_tz, secondary_tz, email_noti }
+
+        submit_button.addEventLitsener("click", () => this.#handleSubmitData(data))
+
+        // hub.publish(Events.updateProfileSettings, { username, email, primary_tz, secondary_tz, email_noti })
     }
 
-    #clearInputs(eventName, eventDescription) {
-        // Clear input fields if something is there
-        console.log("clearInputs was called correctly!");
-        if (eventName) eventName.value = "";
-        if (eventDescription) eventDescription.value = "";
+    #handleSubmitData(data) {
+        const { username, email, primary_tz, secondary_tz, email_noti } = data
+        if (!username) {
+            alert("Please enter username")
+
+        }
+
+        if (!email) {
+            alert("Please eneter email")
+        }
+
+        if (!primary_tz) {
+            alert("Please enter primary timezone")
+        }
+
+        this.#publishUpdateData(data);
+
     }
 
-    #clearTimeInputs(startTime, endTime, date) {
-        if (startTime) startTime.value = "";
-        if (endTime) endTime.value = "";
-        if (date) date.value = "";
+    #publishUpdateData(data) {
+        const hub = EventHub.getInstance();
+        hub.publish(Events.updateProfileSettings, data);
     }
+
+
+    #StoreProfileData(data) {
+        //data type: { username, email, primary_tz, secondary_tz, email_noti }
+
+        //add backend logic to store the data after submission
+
+
+    }
+
 }
