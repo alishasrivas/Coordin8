@@ -186,3 +186,10 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+
+.err-msg {
+    color: #d2171d;
+    font-size: small;
+
+}
