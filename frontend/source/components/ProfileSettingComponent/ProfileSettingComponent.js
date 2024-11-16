@@ -2,7 +2,7 @@ import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
-export class EventCreationComponent extends BaseComponent {
+export class ProfileSettingComponent extends BaseComponent {
     #container = null;
 
     constructor() {
@@ -89,14 +89,10 @@ export class EventCreationComponent extends BaseComponent {
         primary_tz = document.querySelector("#primary_tz")
         secondary_tz = document.querySelector("#secondary_tz")
         email_noti = document.querySelector("#noti_pref")
-
-
         submit_button = document.querySelector(".submit-button")
 
         const data = { username, email, primary_tz, secondary_tz, email_noti }
-
         submit_button.addEventLitsener("click", () => this.#handleSubmitData(data))
-
         // hub.publish(Events.updateProfileSettings, { username, email, primary_tz, secondary_tz, email_noti })
     }
 
