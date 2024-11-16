@@ -4,13 +4,19 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
 export class ProfileSettingComponent extends BaseComponent {
     #container = null;
+    #hub = null;
+    #ErrorName = ""
+    #ErrorEmail = "";
+    #ErrorPrimaryTZ = "";
+    #ErrorSecondaryTZ = "";
+    #isError = false
 
     constructor() {
         super();
         this.loadCSS('ProfileSettingComponent');
         //initialize the event litsener for submission and fetching for the components
-        const hub = EventHub.getInstance();
-        hub.subscribe(Events.updateProfileSettings, (data) => this.#StoreProfileData(data));
+        this.#hub = EventHub.getInstance();
+        this.#hub.subscribe(Events.updateProfileSettings, (data) => this.#StoreProfileData(data));
     }
 
     render() {
@@ -41,10 +47,12 @@ export class ProfileSettingComponent extends BaseComponent {
             <div class="input-block"> 
                 <h3>Personal Information</h1>
                     <div class="inner-input">
-                        <label for="username">Name:</label>
+                        <label for="name">Name:</label>
                         <label for="email">Email:</label>
                         <input type="text" name="username" id="name">
                         <input type="text" name="email" id="email">
+                        <p class = 'err-msg'>${this.#ErrorName}</p>
+                        <p class = 'err-msg'>${this.#ErrorEmail}</p>
                     </div>
             </div>
             <div class="input-block">
@@ -54,14 +62,14 @@ export class ProfileSettingComponent extends BaseComponent {
                     <label for="secondary-time-zone">Secondary Time Zone:</label>
                     <input type="text" id="primary-time-zone" name="primary_tz">
                     <input type="text" id="secondary-time-zone" name="secondary_tz">
+                        <p class = 'err-msg'>${this.#ErrorPrimaryTZ}</p>
+                        <p class = 'err-msg'>${this.#ErrorSecondaryTZ}</p>
                 </div>
             </div>
             <div class="noti-block">
                 <h3>Notification Preferences</h3>
-
                 <div class="inner-noti">
                     <p>Email Notifications: </p>
-
                     <label class="switch">
                         <input type="checkbox" id = "noti_pref">
                         <span class="slider round"></span>
@@ -76,21 +84,16 @@ export class ProfileSettingComponent extends BaseComponent {
     }
     //call though events so other elements call rerender with new data
     #attachEventListeners() {
-        const hub = EventHub.getInstance();
-
         //take all inputs
         //call updateProfileSetting event to publish alongside with these inputs
-
         //add validation for inputs, just an alart for wrong input would be enough
         //add fetching events to fetch current data to input field
-
         const username = this.#container.querySelector("#name")
         const email = this.#container.querySelector("#email")
-        const primary_tz = this.#container.querySelector("#primary_tz")
-        const secondary_tz = this.#container.querySelector("#secondary_tz")
+        const primary_tz = this.#container.querySelector("#primary-time-zone")
+        const secondary_tz = this.#container.querySelector("#secondary-time-zone")
         const email_noti = this.#container.querySelector("#noti_pref")
         const submit_button = this.#container.querySelector(".submit-button")
-
         const data = { username, email, primary_tz, secondary_tz, email_noti }
         submit_button.addEventListener("click", () => this.#handleSubmitData(data))
         // hub.publish(Events.updateProfileSettings, { username, email, primary_tz, secondary_tz, email_noti })
@@ -98,35 +101,47 @@ export class ProfileSettingComponent extends BaseComponent {
 
     #handleSubmitData(data) {
         const { username, email, primary_tz, secondary_tz, email_noti } = data
-        if (!username) {
-            alert("Please enter username")
-
+        if (username.value.trim() === "") {
+            this.#ErrorName = "Please enter name properly"
+            this.#isError = true
         }
 
-        if (!email) {
-            alert("Please eneter email")
+        if (email.value.trim() === "") {
+            this.#ErrorEmail = "Please enter email properly"
+            this.#isError = true
         }
 
-        if (!primary_tz) {
-            alert("Please enter primary timezone")
+        if (primary_tz.value.trim() === "") {
+            this.#ErrorPrimaryTZ = "Please enter primary timezone properly"
+            this.#isError = true
         }
 
-        this.#publishUpdateData(data);
+        if (this.#isError) {
+            //show error message
+            //rerender
+            this.#reRenderHTML();
+        }
+        else {
+            this.#publishUpdateData(data);
 
+        }
+    }
+
+    #reRenderHTML() {
+        this.#container.innerHTML = this.#getTemplate(); //include any error messages if exist
+        this.#isError = false;
+        this.#ErrorEmail = "";
+        this.#ErrorName = "";
+        this.#ErrorPrimaryTZ = "";
+        this.#attachEventListeners();
     }
 
     #publishUpdateData(data) {
-        const hub = EventHub.getInstance();
-        hub.publish(Events.updateProfileSettings, data);
+        this.#hub.publish(Events.updateProfileSettings, data);
     }
-
 
     #StoreProfileData(data) {
         //data type: { username, email, primary_tz, secondary_tz, email_noti }
-
         //add backend logic to store the data after submission
-
-
     }
-
 }
