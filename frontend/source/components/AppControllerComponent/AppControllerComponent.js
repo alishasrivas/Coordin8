@@ -51,14 +51,12 @@ export class AppControllerComponent {
     this.#container.innerHTML = `
       <div id="viewContainer"></div>
       <button id="switchViewBtn">Switch to Event Creation View</button>
-      <button id="switchViewBtn2">Switch to Profile Setting View</button>
     `;
   }
 
   // Attaches the necessary event listeners
   #attachEventListeners() {
     const switchViewBtn = this.#container.querySelector("#switchViewBtn");
-    const switchViewBtn2 = this.#container.querySelector("#switchViewBtn2");
     // Subscribe to events from the EventHub to manage switching
     this.#hub.subscribe("SwitchToCreateView", () => {
       this.#currentView = "create";
@@ -70,14 +68,6 @@ export class AppControllerComponent {
       this.#renderCurrentView();
     });
 
-    this.#hub.subscribe("SwitchToSettingsView", () => {
-      this.#currentView = "settings";
-      this.#renderCurrentView();
-    })
-
-    switchViewBtn2.addEventListener("click", () => {
-      this.#toggleViewProfileSetting();
-    });
 
     // Event listener for switching views
     switchViewBtn.addEventListener("click", () => {
@@ -97,10 +87,6 @@ export class AppControllerComponent {
     }
   }
 
-  #toggleViewProfileSetting() {
-    this.#currentView = "settings";
-    this.#hub.publish("SwitchToSettingsView", null);
-  }
 
   // Renders the current view based on the #currentView state
   //!logic for switching views
@@ -118,12 +104,9 @@ export class AppControllerComponent {
     if (this.#currentView === "home") {
       // Render the home view
       viewContainer.appendChild(this.#homeComponent.render());
-    } else if (this.#currentView === "create") {
-      // Render the event creation view
-      viewContainer.appendChild(this.#eventCreationComponent.render());
     }
     else {
-      viewContainer.appendChild(this.#profileSetting.render());
+      viewContainer.appendChild(this.#eventCreationComponent.render());
     }
   }
 }
