@@ -6,18 +6,22 @@ import { HomeComponent } from "../HomeComponent/HomeComponent.js";
 //import AuthenticationComponent
 //import EventModificationComponent
 import { EventHub } from "../../eventhub/EventHub.js";
-
+import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 export class AppControllerComponent {
   #container = null; // Private container for the component
   #currentView = "home"; // Track the current view ('home' or 'create')
   #eventCreationComponent = null; // Instance of the event creation component
   #homeComponent = null; // Instance of home home component
   #hub = null; // EventHub instance for managing events
+  #profileSetting = null // profile setting page
+  #LogIn = null
+  #SignUp = null
 
   constructor() {
     this.#hub = EventHub.getInstance();
     this.#eventCreationComponent = new EventCreationComponent();
     this.#homeComponent = new HomeComponent();
+    this.#profileSetting = new ProfileSettingComponent();
   }
 
   // Render the AppController component and return the container
@@ -28,6 +32,7 @@ export class AppControllerComponent {
 
     this.#eventCreationComponent.render();
     this.#homeComponent.render();
+    this.#profileSetting.render();
 
     // Initially render the home view
     this.#renderCurrentView();
@@ -52,12 +57,6 @@ export class AppControllerComponent {
   // Attaches the necessary event listeners
   #attachEventListeners() {
     const switchViewBtn = this.#container.querySelector("#switchViewBtn");
-
-    // Event listener for switching views
-    switchViewBtn.addEventListener("click", () => {
-      this.#toggleView();
-    });
-
     // Subscribe to events from the EventHub to manage switching
     this.#hub.subscribe("SwitchToCreateView", () => {
       this.#currentView = "create";
@@ -68,6 +67,13 @@ export class AppControllerComponent {
       this.#currentView = "home";
       this.#renderCurrentView();
     });
+
+
+    // Event listener for switching views
+    switchViewBtn.addEventListener("click", () => {
+      this.#toggleView();
+    });
+
   }
 
   // Toggles the view between home and create
@@ -81,7 +87,9 @@ export class AppControllerComponent {
     }
   }
 
+
   // Renders the current view based on the #currentView state
+  //!logic for switching views
   #renderCurrentView() {
     const viewContainer = this.#container.querySelector("#viewContainer");
     viewContainer.innerHTML = ""; // Clear existing content
@@ -96,8 +104,8 @@ export class AppControllerComponent {
     if (this.#currentView === "home") {
       // Render the home view
       viewContainer.appendChild(this.#homeComponent.render());
-    } else {
-      // Render the event creation view
+    }
+    else {
       viewContainer.appendChild(this.#eventCreationComponent.render());
     }
   }
