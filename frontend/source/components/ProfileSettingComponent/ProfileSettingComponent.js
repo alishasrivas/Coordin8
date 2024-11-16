@@ -10,7 +10,7 @@ export class ProfileSettingComponent extends BaseComponent {
         this.loadCSS('ProfileSettingComponent');
         //initialize the event litsener for submission and fetching for the components
         const hub = EventHub.getInstance();
-        hub.subcribe(Events.updateProfileSettings, (data) => this.#StoreProfileData(data));
+        hub.subscribe(Events.updateProfileSettings, (data) => this.#StoreProfileData(data));
     }
 
     render() {
@@ -84,15 +84,15 @@ export class ProfileSettingComponent extends BaseComponent {
         //add validation for inputs, just an alart for wrong input would be enough
         //add fetching events to fetch current data to input field
 
-        username = document.querySelector("#name")
-        email = document.querySelector("#email")
-        primary_tz = document.querySelector("#primary_tz")
-        secondary_tz = document.querySelector("#secondary_tz")
-        email_noti = document.querySelector("#noti_pref")
-        submit_button = document.querySelector(".submit-button")
+        const username = this.#container.querySelector("#name")
+        const email = this.#container.querySelector("#email")
+        const primary_tz = this.#container.querySelector("#primary_tz")
+        const secondary_tz = this.#container.querySelector("#secondary_tz")
+        const email_noti = this.#container.querySelector("#noti_pref")
+        const submit_button = this.#container.querySelector(".submit-button")
 
         const data = { username, email, primary_tz, secondary_tz, email_noti }
-        submit_button.addEventLitsener("click", () => this.#handleSubmitData(data))
+        submit_button.addEventListener("click", () => this.#handleSubmitData(data))
         // hub.publish(Events.updateProfileSettings, { username, email, primary_tz, secondary_tz, email_noti })
     }
 
