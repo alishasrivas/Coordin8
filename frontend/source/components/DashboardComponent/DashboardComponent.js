@@ -26,7 +26,6 @@ export class DashboardComponent extends BaseComponent {
     this.#attachEventListeners();
     return this.#container;
   }
-
   #initializeFakeEvents() {
     this.#events = [
       {
@@ -34,21 +33,24 @@ export class DashboardComponent extends BaseComponent {
         description: "Description for Event 1",
         times: [
           { startTime: "10:00 AM", endTime: "11:00 AM", date: "2023-10-01" }
-        ]
+        ],
+        invitees: ["Alice", "Bob", "Charlie"]
       },
       {
         name: "Event 2",
         description: "Description for Event 2",
         times: [
           { startTime: "02:00 PM", endTime: "03:00 PM", date: "2023-10-02" }
-        ]
+        ],
+        invitees: ["David", "Eve", "Frank"]
       },
       {
         name: "Event 3",
         description: "Description for Event 3",
         times: [
           { startTime: "09:00 AM", endTime: "10:00 AM", date: "2023-10-03" }
-        ]
+        ],
+        invitees: ["Grace", "Heidi", "Ivan"]
       }
     ];
     this.#filteredEvents = this.#events;
@@ -99,15 +101,17 @@ export class DashboardComponent extends BaseComponent {
   }
 
   #getEventTemplate(event) {
-    // Returns the HTML template for a single event
     return `
-      <div class="event">
+      <div class="event" data-event-name="${event.name}">
         <div class="event-details">
           <h2>${event.name}</h2>
           <p>${event.description}</p>
           <ul>
             ${event.times.map(time => `<li>Start: ${time.startTime}, End: ${time.endTime}, Date: ${time.date}</li>`).join('')}
           </ul>
+          <div class="invitees-list" style="display: none;">
+            <p>Invitees: ${event.invitees.join(', ')}</p>
+          </div>
         </div>
         <div class="event-buttons">
           <button onclick="openEditScreen('${event.name}')">Edit</button>
@@ -150,6 +154,18 @@ export class DashboardComponent extends BaseComponent {
     exportEventsButton.addEventListener("click", this.#exportEvents.bind(this));
     sortByDateButton.addEventListener("click", this.#sortByDate.bind(this));
     sortByNameButton.addEventListener("click", this.#sortByName.bind(this));
+
+    const eventElements = this.#container.querySelectorAll(".event");
+    eventElements.forEach(eventElement => {
+      eventElement.addEventListener("click", () => {
+        const inviteesList = eventElement.querySelector(".invitees-list");
+        if (inviteesList.style.display === "none") {
+          inviteesList.style.display = "block";
+        } else {
+          inviteesList.style.display = "none";
+        }
+      });
+    });
   }
 
   #handleSearch(event) {
