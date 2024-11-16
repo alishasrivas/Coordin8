@@ -26,6 +26,12 @@
 - **Link to Commit**: [Commit for project structure creation](https://github.com/alishasrivas/Coordin8/pull/13/commits/d8791adb8ad2a241c082f5db7486cace2d89147a)
 
 ### November 6, 2024
-- **Task**: Improved and finalized up project structure
+- **Task**: Improved and added to project structure
 - **Details**: Added files to eventhub (EventHub.js, Events.js) and services folder (MeetingRepositoryFactory.js, MeetingRepositoryRemoteFakeService.js, MeetingRepositoryService.js, Service.js). Added a utility folder with a fetch.js file that simulated a fetch call. Added error handling and type checking to MeetingRepositoryRemoteFakeService.js, EventHub.js, and MeetingRepositoryFactory.js. I made all of these changes on the project/structure branch I created.
 - **Link to Commit**: [Commit for project structure improvements](https://github.com/alishasrivas/Coordin8/pull/15/commits/644975e3e6a40108243336366cea31fe2e342c70)
+
+### November 15, 2024
+- **Task**: Implemented EventCreationComponent and finalized project structure
+- **Details**: I created a new branch to implement my event creation feature: feature/event-creation-joshua. I implemented the UI for event creation (added all the input fields and submission buttons). I finalized the project structure by adding the index.html, main.js, and main.css files. Additionally, I started implementing the AppControllerComponent. I also created a temporary Homepage component to test the functionality of switching views (user can switch between the Homepage view and Event creation view by clicking a button).
+- **Link to Commit**: [Commit for project structure improvements](https://github.com/alishasrivas/Coordin8/pull/20/commits/33031bddff8c93305576ae9230933a0ec00ca82d)
+
