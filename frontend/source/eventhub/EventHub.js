@@ -20,7 +20,7 @@ export class EventHub {
     // Add the listener to the Set (automatically prevents duplicates)
     this.events[event].add(listener);
 
-    // Return an unsubscribe function for convenience
+    // Return an unsubscribe function for convenience 
     return () => this.unsubscribe(event, listener);
   }
 

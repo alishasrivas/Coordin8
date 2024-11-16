@@ -8,6 +8,7 @@
   3. [Commit 3](https://github.com/alishasrivas/Coordin8/commit/8e2da0cfb2a371ce92726506b57ed52e8f26f175): Finished the initial version of the `features.md` file and got team feedback prior to making feature assignments.
   4. [Commit 4](https://github.com/alishasrivas/Coordin8/commit/a5e02058807012fd07135ac9a46a29a995e6ed31#diff-94f78f9549ca681b82ec9cf844c8f9382f3b45bb9e92ef098f3bb2beeea8fa24): Created the general project structure for the frontend; created a components, eventhub, services, and utility folder.
   5. [Commit 5](https://github.com/alishasrivas/Coordin8/commit/644975e3e6a40108243336366cea31fe2e342c70): I created/coded files in each of the folders from Commit 4 (EventHub.js, Events.js, MeetingRepositoryFactory.js, MeetingRepositoryRemoteFakeService.js, MeetingRepositoryService.js, Service.js, fetch.js).
+  6. [Commit 6](https://github.com/alishasrivas/Coordin8/pull/20/commits/33031bddff8c93305576ae9230933a0ec00ca82d): Implemented the Event Creation Component, Homepage Component, and finalized the general frontend project structure (added index.html file, main.js file, main.css file, and did the initial implementation of the AppControllerComponent.js file).
 
 ## Tan Le - Timekeeper
 - **Role**: Manages the timing of all team activities. Aside from completing technical issues, Tan ensures that meetings start and end on time, keeps track of deadlines, and reminds the team of upcoming due dates.
