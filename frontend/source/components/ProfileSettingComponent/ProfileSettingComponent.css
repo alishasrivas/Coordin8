@@ -45,7 +45,7 @@ form h3 {
 
 input {
     margin-top: 4px;
-    height: 80%;
+    height: 25px;
 }
 
 
@@ -55,6 +55,7 @@ input {
     border-radius: 20px;
     color: #FFFFFF;
     border: none;
+    font-size: large;
 }
 
 .submit-button:focus {
