@@ -129,15 +129,38 @@ export class EventCreationComponent extends BaseComponent {
     this.#potentialTimes.push(time);
 
     // Add the new time to the visible list
+    // There will be a delete button corresponding to each time
     const timeList = this.#container.querySelector("#timeList");
     const timeContainer = document.createElement("li");
     timeContainer.innerHTML = `
       <p>Start: ${startTime}, End: ${endTime}, Date: ${date}</p>
+      <button class="delete-time-btn">Delete</button>
     `;
+
+    // Attach delete button functionality
+    const deleteButton = timeContainer.querySelector(".delete-time-btn");
+    deleteButton.addEventListener("click", () =>
+      this.#handleDeleteTime(time, timeContainer)
+    );
+
     timeList.appendChild(timeContainer);
 
     // Clear inputs
     this.#clearTimeInputs(startTimeInput, endTimeInput, dateInput);
+  }
+
+  #handleDeleteTime(timeToDelete, timeContainer) {
+    // Remove the time from the #potentialTimes array
+    // Will filter out the time to delete
+    this.#potentialTimes = this.#potentialTimes.filter(
+      (time) =>
+        time.startTime !== timeToDelete.startTime ||
+        time.endTime !== timeToDelete.endTime ||
+        time.date !== timeToDelete.date
+    );
+
+    // Remove the corresponding <li> from the DOM
+    timeContainer.remove();
   }
 
   #validateTimeInputs(startTime, endTime, date) {
