@@ -159,6 +159,17 @@ export class EventCreationComponent extends BaseComponent {
     this.#clearInviteeInputs(inviteeInput);
   }
 
+  #handleDeleteInvitee(inviteeToDelete, inviteeContainer) {
+    // Remove the invitee from the #potentialInvitees array
+    // Will filter out the invitee to delete
+    this.#potentialInvitees = this.#potentialInvitees.filter(
+      (invitee) => invitee !== inviteeToDelete
+    );
+
+    // Remove the corresponding <li> from the DOM
+    inviteeContainer.remove();
+  }
+
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
     const startTime = startTimeInput.value.trim();
     const endTime = endTimeInput.value.trim();
