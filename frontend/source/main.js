@@ -17,11 +17,11 @@ const mockUser = { username: 'mockUser', 'email': 'example@gmail.com', 'primary_
 async function setUpDataBase() {
     if (!mainMeetingRepository.db) {
         await mainMeetingRepository.initDB();
-        const res = await mainMeetingRepository.getUserData();
-        if (res) {
-            console.log('User already exists, no need to create a new one');
-            return;
-        }
+    }
+    const res = await mainMeetingRepository.getUserData();
+    if (res) {
+        console.log('User already exists, no need to create a new one');
+        return;
     }
 
     await mainMeetingRepository.storeUser(mockUser);
