@@ -35,8 +35,11 @@ export class HomeComponent extends BaseComponent {
       <div id="blue-header">
         <h1>Welcome to Coordin8!</h1>
       </div>
-      <p>Welcome to Coorin8 application! Use the navigation bar below to create event!</p>
-      
+      <p>Welcome to Coorin8! Use the navigation bar above to explore this application!</p>
+      <p>Click <span>Create Event</span> to schedule a meeting and invite others!</p>
+      <p>Click <span>Dashboard</span> to view your all your upcoming and past events!</p>
+      <p>Click <span>Friends List</span> to search and save other users to your friends list!</p>
+      <p>Click <span>Profile Settings</span> to specify your personal information, timezone, and notification preferences!</p>
     `;
   }
 }
