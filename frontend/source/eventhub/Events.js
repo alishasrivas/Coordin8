@@ -29,4 +29,7 @@ export const Events = {
   //profile settings event
   // fetchProfileSettings: 'fetchProfileSettings',
   updateProfileSettings: 'updateProfileSettings',
+
+  //user availability events
+  UserAvailabilitySubmission: 'UserAvailabilitySubmission',
 };
