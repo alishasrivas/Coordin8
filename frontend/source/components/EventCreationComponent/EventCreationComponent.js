@@ -114,23 +114,15 @@ export class EventCreationComponent extends BaseComponent {
   }
 
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
-    const startTime = startTimeInput.value;
-    const endTime = endTimeInput.value;
-    const date = dateInput.value;
+    const startTime = startTimeInput.value.trim();
+    const endTime = endTimeInput.value.trim();
+    const date = dateInput.value.trim();
 
-    // Make sure each time input field was completed
-    if (!startTime) {
-      alert("Please enter a start time.");
-      return;
+    // Validate time/date inputs
+    if (!this.#validateTimeInputs(startTime, endTime, date)) {
+      return; // Stop execution if validation fails
     }
-    if (!endTime) {
-      alert("Please enter a end time.");
-      return;
-    }
-    if (!date) {
-      alert("Please enter a date.");
-      return;
-    }
+    console.log("Time are valid");
 
     // Create the time object and add it to the array
     const time = { startTime, endTime, date };
@@ -146,6 +138,64 @@ export class EventCreationComponent extends BaseComponent {
 
     // Clear inputs
     this.#clearTimeInputs(startTimeInput, endTimeInput, dateInput);
+  }
+
+  #validateTimeInputs(startTime, endTime, date) {
+    // Make sure each time input field was completed
+    if (!startTime) {
+      alert("Please enter a start time.");
+      return false;
+    }
+    if (!endTime) {
+      alert("Please enter a end time.");
+      return false;
+    }
+    if (!date) {
+      alert("Please enter a date.");
+      return false;
+    }
+
+    // Make sure start time is in HH:MM format
+    if (!this.#isTimeValid(startTime)) {
+      alert("Invalid start time. Ensure time is in HH:MM format.");
+      return false;
+    }
+    // Make sure end time is in HH:MM format
+    if (!this.#isTimeValid(endTime)) {
+      alert("Invalid end time. Ensure time is in HH:MM format.");
+      return false;
+    }
+
+    // Ensure start time is earlier than end time
+    if (startTime >= endTime) {
+      alert("Start time must be earlier than end time.");
+      return false;
+    }
+
+    // Make sure dat is in YYYY-MM-DD format
+    if (!this.#isDateValid(date)) {
+      alert("Invalid date format...Must be in YYYY-MM-DD format");
+      return false;
+    }
+
+    // Ensure inputted date is not in the past
+    const currentDate = new Date(); // Get the current date and time (will be the date the user creates event)
+    const inputDate = new Date(date); // Convert the input date string into a Date object
+    // Will set hours of current date to midnight...only care about comparing dates, not times
+    if (inputDate < currentDate.setHours(0, 0, 0, 0)) {
+      alert("The date cannot be in the past.");
+      return false;
+    }
+    return true;
+  }
+
+  #isTimeValid(time) {
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/; // Regex for HH:MM 24-hour format
+    return timeRegex.test(time); // Ensure time input matches the HH:MM format
+  }
+  #isDateValid(date) {
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // Regex for YYYY-MM-DD format
+    return dateRegex.test(date); // Ensure date input matches the YYYY-MM-DD format
   }
 
   #publishNewEvent(name, description, times) {
