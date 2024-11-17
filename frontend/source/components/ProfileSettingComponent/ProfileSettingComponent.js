@@ -95,7 +95,10 @@ export class ProfileSettingComponent extends BaseComponent {
         const email_noti = this.#container.querySelector("#noti_pref")
         const submit_button = this.#container.querySelector(".submit-button")
         const data = { username, email, primary_tz, secondary_tz, email_noti }
-        submit_button.addEventListener("click", () => this.#handleSubmitData(data))
+        submit_button.addEventListener("click", (event) => {
+            event.preventDefault();
+            this.#handleSubmitData(data)
+        })
         // hub.publish(Events.updateProfileSettings, { username, email, primary_tz, secondary_tz, email_noti })
     }
 
@@ -122,8 +125,7 @@ export class ProfileSettingComponent extends BaseComponent {
             this.#reRenderHTML();
         }
         else {
-            this.#publishUpdateData(data);
-
+            this.#publishUpdateData({ username: username.value, email: email.value, primary_tz: primary_tz.value, secondary_tz: secondary_tz.value, email_noti: email_noti.checked });
         }
     }
 
