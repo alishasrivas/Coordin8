@@ -184,6 +184,10 @@ export class EventCreationComponent extends BaseComponent {
     return true;
   }
 
+  #clearInviteeInputs(inviteeInput) {
+    if (inviteeInput) inviteeInput.value = "";
+  }
+
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
     const startTime = startTimeInput.value.trim();
     const endTime = endTimeInput.value.trim();
