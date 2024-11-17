@@ -336,6 +336,16 @@ export class EventCreationComponent extends BaseComponent {
     }
   }
 
+  #resetInvitees() {
+    // Clear invitees list in the UI
+    this.#clearInviteeList();
+    // Clear the potentialInvitees array
+    this.#potentialInvitees = [];
+    // Clear invitee input field incase the user forgot to click "invite user" button
+    const inviteeInput = this.#container.querySelector("#invitee");
+    this.#clearInviteeInputs(inviteeInput);
+  }
+
   #resetTimes() {
     // Clear times list in the UI
     this.#clearTimeList();
