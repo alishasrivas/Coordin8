@@ -121,8 +121,13 @@ export class EventCreationComponent extends BaseComponent {
       return;
     }
 
-    // Publish a 'NewEvent' event with the event name, description, and potential times
-    this.#publishNewEvent(eventName, eventDescription, this.#potentialTimes);
+    // Publish a 'NewEvent' event with the event name, description, potential times, and potential invitees
+    this.#publishNewEvent(
+      eventName,
+      eventDescription,
+      this.#potentialInvitees,
+      this.#potentialTimes
+    );
 
     // Clear inputs
     this.#clearInputs(eventNameInput, eventDescriptionInput);
@@ -296,10 +301,12 @@ export class EventCreationComponent extends BaseComponent {
     return dateRegex.test(date); // Ensure date input matches the YYYY-MM-DD format
   }
 
-  #publishNewEvent(name, description, times) {
+  #publishNewEvent(name, description, invitees, times) {
     const hub = EventHub.getInstance();
-    hub.publish(Events.NewMeeting, { name, description, times });
-    hub.publish(Events.StoreMeeting, { name, description, times });
+    // Publish a NewMeeting event with all necessary data
+    hub.publish(Events.NewMeeting, { name, description, invitees, times });
+    // Publish a StoreMeeting event with all necessary data
+    hub.publish(Events.StoreMeeting, { name, description, invitees, times });
   }
 
   #clearInputs(eventName, eventDescription) {
