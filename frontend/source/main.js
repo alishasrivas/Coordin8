@@ -11,6 +11,20 @@ appContainer.appendChild(appController.render());
 // Services
 const meetingRepository = MeetingRepositoryFactory.get("remote");
 export const mainMeetingRepository = MeetingRepositoryFactory.get("local");
-const mockUser = { username: 'mockUser', 'email': 'example@gmail.com', 'primaryTimeZone': 'America/New_York', 'secondaryTimeZone': 'America/Los_Angeles' };
-//step: use repository to store user, then go to profileSetting to fetch the user
-// mainMeetingRepository.storeUser(mockUser);
+const mockUser = { username: 'mockUser', 'email': 'example@gmail.com', 'primary_tz': 'America/New_York', 'secondary_tz': 'America/Los_Angeles', email_noti: false };
+
+//set up with mock user since we don't implement authentication functionalities for this milestone
+async function setUpDataBase() {
+    if (!mainMeetingRepository.db) {
+        await mainMeetingRepository.initDB();
+        const res = await mainMeetingRepository.getUserData();
+        if (res) {
+            console.log('User already exists, no need to create a new one');
+            return;
+        }
+    }
+
+    await mainMeetingRepository.storeUser(mockUser);
+}
+
+setUpDataBase();
