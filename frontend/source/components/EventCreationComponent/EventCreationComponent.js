@@ -129,8 +129,8 @@ export class EventCreationComponent extends BaseComponent {
       this.#potentialTimes
     );
 
-    // Clear inputs
-    this.#clearInputs(eventNameInput, eventDescriptionInput);
+    // Clear event details inputs
+    this.#clearEventDetailsInputs(eventNameInput, eventDescriptionInput);
   }
 
   #handleInviteUser(inviteeInput) {
@@ -187,10 +187,6 @@ export class EventCreationComponent extends BaseComponent {
       return false;
     }
     return true;
-  }
-
-  #clearInviteeInputs(inviteeInput) {
-    if (inviteeInput) inviteeInput.value = "";
   }
 
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
@@ -309,16 +305,27 @@ export class EventCreationComponent extends BaseComponent {
     hub.publish(Events.StoreMeeting, { name, description, invitees, times });
   }
 
-  #clearInputs(eventName, eventDescription) {
+  #clearEventDetailsInputs(eventName, eventDescription) {
     // Clear input fields if something is there
     console.log("clearInputs was called correctly!");
     if (eventName) eventName.value = "";
     if (eventDescription) eventDescription.value = "";
   }
 
+  #clearInviteeInputs(inviteeInput) {
+    if (inviteeInput) inviteeInput.value = "";
+  }
+
   #clearTimeInputs(startTime, endTime, date) {
     if (startTime) startTime.value = "";
     if (endTime) endTime.value = "";
     if (date) date.value = "";
+  }
+
+  #clearInviteeList() {
+    const inviteeList = this.#container.querySelector("#inviteeList");
+    if (inviteeList) {
+      inviteeList.innerHTML = ""; // Clear all child elements
+    }
   }
 }
