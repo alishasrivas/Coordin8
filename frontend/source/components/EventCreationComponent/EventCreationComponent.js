@@ -335,4 +335,16 @@ export class EventCreationComponent extends BaseComponent {
       timeList.innerHTML = ""; // Clear all child elements
     }
   }
+
+  #resetTimes() {
+    // Clear times list in the UI
+    this.#clearTimeList();
+    // Clear the potentialTimes array
+    this.#potentialTimes = [];
+    // Clear time input fields incase the user forgot to click "add time" button
+    const startTimeInput = this.#container.querySelector("#start-time");
+    const endTimeInput = this.#container.querySelector("#end-time");
+    const dateInput = this.#container.querySelector("#enter-date");
+    this.#clearTimeInputs(startTimeInput, endTimeInput, dateInput);
+  }
 }
