@@ -128,6 +128,37 @@ export class EventCreationComponent extends BaseComponent {
     this.#clearInputs(eventNameInput, eventDescriptionInput);
   }
 
+  #handleInviteUser(inviteeInput) {
+    const invitee = inviteeInput.value.trim();
+
+    // Validate invitee input
+    if (!this.#validateInviteeInputs(invitee)) {
+      return;
+    }
+
+    this.#potentialInvitees.push(invitee);
+
+    // Add the new invitee to the visible list
+    // There will be a delete button corresponding to each invitee
+    const inviteeList = this.#container.querySelector("#inviteeList");
+    const inviteeContainer = document.createElement("li");
+    inviteeContainer.innerHTML = `
+      <p>Invitee: ${invitee}</p>
+      <button class="delete-invitee-btn">Delete</button>
+    `;
+
+    // Attach delete button functionality
+    const deleteButton = inviteeContainer.querySelector(".delete-invitee-btn");
+    deleteButton.addEventListener("click", () =>
+      this.#handleDeleteInvitee(invitee, inviteeContainer)
+    );
+
+    inviteeList.appendChild(inviteeContainer);
+
+    // Clear inputs
+    this.#clearInviteeInputs(inviteeInput);
+  }
+
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
     const startTime = startTimeInput.value.trim();
     const endTime = endTimeInput.value.trim();
