@@ -5,6 +5,7 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 export class EventCreationComponent extends BaseComponent {
   #container = null;
   #potentialTimes = [];
+  #potentialInvitees = [];
 
   constructor() {
     super();
@@ -45,8 +46,15 @@ export class EventCreationComponent extends BaseComponent {
         <textarea id="eventDescription" class="event-input" name="eventDescription" rows="4" cols="50" placeholder="Type description here..."></textarea>
 
         <h2>Invite Others</h2>
-        <label for="invitees">Enter invitees:</label>
-        <input type="text" id="invitees" class="event-input" name="invitees" placeholder="Type invitee emails separated by commas...">
+        <div id="invitees-list">
+          <label for="invitee">Enter invitee:</label>
+          <input type="text" id="invitee" class="event-input" name="invitee" placeholder="Type invitee's email...">
+          
+          <button id="invite-button" class="add-to-list">Invite User</button>
+          <ul id="inviteeList" class="interactive-list"></ul>
+        </div>
+
+
 
         <h2>Enter potential event times</h2>
         <div id="times-list">
@@ -61,8 +69,8 @@ export class EventCreationComponent extends BaseComponent {
           <label for="enter-date">Enter date:</label>
           <input type="text" id="enter-date" class="time-input" name="enter-date" placeholder="Type here...">
 
-          <button id="addTime-button">Add Time</button>
-          <ul id="timeList"></ul>
+          <button id="addTime-button" class="add-to-list">Add Time</button>
+          <ul id="timeList" class="interactive-list"></ul>
         </div>
         
       </div>
@@ -81,6 +89,13 @@ export class EventCreationComponent extends BaseComponent {
 
     createEventBtn.addEventListener("click", () =>
       this.#handleCreateEvent(eventName, eventDescription)
+    );
+
+    //inviting users
+    const inviteUserBtn = this.#container.querySelector("#invite-button");
+    const inviteeInput = this.#container.querySelector("#invitee");
+    inviteUserBtn.addEventListener("click", () =>
+      this.#handleInviteUser(inviteeInput)
     );
 
     //adding times
