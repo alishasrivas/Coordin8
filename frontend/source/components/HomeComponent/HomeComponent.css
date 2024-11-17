@@ -3,3 +3,15 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.event-input-container li {
+  margin-bottom: 20px;
+}
+
+.event-input-container p {
+  font-size: 18px;
+}
+
+.event-input-container ul {
+  font-size: 18px;
+}
