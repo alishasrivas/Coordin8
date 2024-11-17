@@ -24,7 +24,6 @@ body {
   transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
-
 /* Event Input Field */
 .event-input {
   width: 100%; /* Fill the width of the container */
@@ -67,7 +66,7 @@ label {
   box-sizing: border-box;
 }
 
-#addTime-button {
+.add-to-list {
   width: 100%;
   max-width: 200px;
   color: white;
@@ -80,7 +79,7 @@ label {
   cursor: pointer;
 }
 
-#addTime-button:hover {
+.add-to-list:hover {
   background-color: rgb(12, 135, 212); /* Darker blue on hover */
 }
 
@@ -112,21 +111,58 @@ label {
 
 #event-creation-body {
   flex-grow: 1; /* Allow this section to expand and fill available space */
-  width: 95%; 
+  width: 95%;
   background-color: white;
   padding: 20px; /* Add space inside the body */
   margin: 10px 0;
   border-radius: 8px 8px 0 0;
 }
 
-#enter-time-container {
-  background-color: white;
-}
-
-#timeList {
+.interactive-list {
   list-style-type: none; /* Removes default bullets */
   margin: 1rem 0; /* Adds some spacing around the list */
   border: 1px solid #ccc; /* Adds a border around the list */
   border-radius: 4px;
   background-color: #f9f9f9;
+  padding: 0;
+}
+
+/* Styles each list item */
+.interactive-list li {
+  display: flex; /* Will allow child elements (text and delete button) to align horizontally */
+  justify-content: space-between; /* Space between text and button */
+  align-items: center; /* Vertically align text and button */
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd; /* Add a divider between items */
+}
+
+.delete-time-btn {
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-time-btn:hover {
+  background-color: #e04040;
+}
+
+/* Remove the last item's border */
+.interactive-list li:last-child {
+  border-bottom: none;
+}
+
+.delete-invitee-btn {
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-invitee-btn:hover {
+  background-color: #e04040;
 }
