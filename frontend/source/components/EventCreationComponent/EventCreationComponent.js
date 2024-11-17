@@ -328,4 +328,11 @@ export class EventCreationComponent extends BaseComponent {
       inviteeList.innerHTML = ""; // Clear all child elements
     }
   }
+
+  #clearTimeList() {
+    const timeList = this.#container.querySelector("#timeList");
+    if (timeList) {
+      timeList.innerHTML = ""; // Clear all child elements
+    }
+  }
 }
