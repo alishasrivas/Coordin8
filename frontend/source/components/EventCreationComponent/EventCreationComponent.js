@@ -131,6 +131,10 @@ export class EventCreationComponent extends BaseComponent {
 
     // Clear event details inputs
     this.#clearEventDetailsInputs(eventNameInput, eventDescriptionInput);
+
+    // Clear invitees and times input fields, UI lists, and arrays
+    this.#resetInvitees();
+    this.#resetTimes();
   }
 
   #handleInviteUser(inviteeInput) {
