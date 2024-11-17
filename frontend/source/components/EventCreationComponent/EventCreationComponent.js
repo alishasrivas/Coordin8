@@ -170,6 +170,20 @@ export class EventCreationComponent extends BaseComponent {
     inviteeContainer.remove();
   }
 
+  #validateInviteeInputs(invitee) {
+    // Ensure the input field is not empty
+    if (!invitee) {
+      alert("Please enter the invitee's email");
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(invitee)) {
+      alert("Invalid email format. Please enter a valid email.");
+      return false;
+    }
+    return true;
+  }
+
   #handleAddTime(startTimeInput, endTimeInput, dateInput) {
     const startTime = startTimeInput.value.trim();
     const endTime = endTimeInput.value.trim();
