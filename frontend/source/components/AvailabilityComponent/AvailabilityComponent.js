@@ -102,6 +102,6 @@ export class AvailabilityComponent extends BaseComponent {
     }
 
     #sendInviteeNotification(meetingData) {
-        const invited = new Notification("you have been invited to " + meetingData[0]);
+        const invited = new Notification("you have been invited to " + meetingData.name);
     }
 }
