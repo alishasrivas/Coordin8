@@ -20,6 +20,7 @@ export class AvailabilityComponent extends BaseComponent {
 
         this.#createContainer();
         this.#attachEventListeners();
+        (async () => {let permission = await Notification.requestPermission();})();
         return this.#container;
     }
 
@@ -80,6 +81,10 @@ export class AvailabilityComponent extends BaseComponent {
         // Attach event listeners to the input and button elements
         const submitTimesBtn = this.#container.querySelector("#availability-submit-button");
         submitTimesBtn.addEventListener("click", () => this.#handleUserSubmission());
+
+        //subscribe to NewMeeting event
+        const hub = EventHub.getInstance();
+        hub.subscribe('NewMeeting', (meetingData) => this.#sendInviteeNotification(meetingData));
     }
 
     #handleUserSubmission() {
@@ -94,5 +99,9 @@ export class AvailabilityComponent extends BaseComponent {
     #publishAvailableTimes(times) {
         const hub = EventHub.getInstance();
         hub.publish(Events.UserAvailabilitySubmission, times);
+    }
+
+    #sendInviteeNotification(meetingData) {
+        const invited = new Notification("you have been invited to " + meetingData[0]);
     }
 }
