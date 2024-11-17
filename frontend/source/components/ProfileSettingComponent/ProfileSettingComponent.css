@@ -57,6 +57,10 @@ input {
     border: none;
 }
 
+.submit-button:focus {
+    background-color: #27ae60;
+}
+
 .footer {
     display: flex;
     justify-content: flex-end;

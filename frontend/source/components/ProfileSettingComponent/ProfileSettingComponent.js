@@ -11,12 +11,6 @@ export class ProfileSettingComponent extends BaseComponent {
     #ErrorSecondaryTZ = "";
     #isError = false
 
-    #username = ""
-    #email = ""
-    #primary_tz = ""
-    #secondary_tz = ""
-    #default_email_noti = null
-    #loading = false
     constructor() {
         super();
         this.loadCSS('ProfileSettingComponent');
@@ -35,10 +29,7 @@ export class ProfileSettingComponent extends BaseComponent {
         // this.#loading = true;
         this.#container = document.createElement("div");
         this.#container.classList.add("profile-container");
-        this.#fetchUserData().then((userData) => { console.log(userData) }).catch((error) => { console.error(error) }).finally(() => { this.#loading = false; });
-        while (this.#loading) {
-            //block the page until the loading is done
-        }
+        this.#fetchUserData().then((userData) => { console.log(userData) }).catch((error) => { console.error(error) });
         this.#container.innerHTML = this.#getTemplate();
         this.#attachEventListeners();
     };
@@ -56,8 +47,8 @@ export class ProfileSettingComponent extends BaseComponent {
                         <div class="inner-input">
                             <label for="name">Name:</label>
                             <label for="email">Email:</label>
-                            <input type="text" name="username" id="name" value = ${this.#username}>
-                            <input type="text" name="email" id="email" value = ${this.#email}>
+                            <input type="text" name="username" id="name" >
+                            <input type="text" name="email" id="email" >
                             <p class = 'err-msg'>${this.#ErrorName}</p>
                             <p class = 'err-msg'>${this.#ErrorEmail}</p>
                         </div>
@@ -67,8 +58,8 @@ export class ProfileSettingComponent extends BaseComponent {
                     <div class="inner-input">
                         <label for="primary-time-zone">Primary Time Zone:</label>
                         <label for="secondary-time-zone">Secondary Time Zone:</label>
-                        <input type="text" id="primary-time-zone" name="primary_tz" value = ${this.#primary_tz}>
-                        <input type="text" id="secondary-time-zone" name="secondary_tz" value = ${this.#secondary_tz}>
+                        <input type="text" id="primary-time-zone" name="primary_tz" >
+                        <input type="text" id="secondary-time-zone" name="secondary_tz" >
                         <p class = 'err-msg'>${this.#ErrorPrimaryTZ}</p>
                         <p class = 'err-msg'>${this.#ErrorSecondaryTZ}</p>
                     </div>
@@ -78,7 +69,7 @@ export class ProfileSettingComponent extends BaseComponent {
                     <div class="inner-noti">
                         <p>Email Notifications: </p>
                         <label class="switch">
-                            <input type="checkbox" id = "noti_pref" checked = ${this.#default_email_noti} >
+                            <input type="checkbox" id = "noti_pref" >
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -133,6 +124,7 @@ export class ProfileSettingComponent extends BaseComponent {
         }
         else {
             this.#publishUpdateData({ username: username.value, email: email.value, primary_tz: primary_tz.value, secondary_tz: secondary_tz.value, email_noti: email_noti.checked });
+            alert("Profile settings updated successfully!");
         }
     }
     #reRenderHTML() {
@@ -149,12 +141,13 @@ export class ProfileSettingComponent extends BaseComponent {
 
     async #fetchUserData() {
         const userData = await mainMeetingRepository.getUserData();
-        console.log("Finish fetching data")
-        this.#username = userData.username;
-        this.#email = userData.email;
-        this.#primary_tz = userData.primary_tz;
-        this.#secondary_tz = userData.secondary_tz;
-        this.#default_email_noti = userData.email_noti;
+        console.log("Finish fetching data");
+        this.#container.querySelector("#name").value = userData.username;
+        this.#container.querySelector("#email").value = userData.email;
+        this.#container.querySelector("#primary-time-zone").value = userData.primary_tz;
+        this.#container.querySelector("#secondary-time-zone").value = userData.secondary_tz;
+        this.#container.querySelector("#noti_pref").checked = userData.email_noti;
+
         return userData;
     }
 
