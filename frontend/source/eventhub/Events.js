@@ -29,4 +29,5 @@ export const Events = {
   //profile settings event
   // fetchProfileSettings: 'fetchProfileSettings',
   updateProfileSettings: 'updateProfileSettings',
+  fetchProfileSettings: 'fetchProfileSettings'
 };
