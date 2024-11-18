@@ -4,6 +4,7 @@ import { DashboardComponent } from "../DashboardComponent/DashboardComponent.js"
 import { EventHub } from "../../eventhub/EventHub.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
+import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
 import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
 
 export class AppControllerComponent extends BaseComponent {
@@ -14,6 +15,7 @@ export class AppControllerComponent extends BaseComponent {
   #dashboardComponent = null; // Instance of the dashboard component
   #hub = null; // EventHub instance for managing events
   #profileSetting = null // profile setting page
+  #eventFinalizationComponent = null; // Instance of the event finalization component
   #friendsListComponent = null //friend list page 
   #LogIn = null
   #SignUp = null
@@ -26,7 +28,8 @@ export class AppControllerComponent extends BaseComponent {
     this.#homeComponent = new HomeComponent();
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
-    this.#friendsListComponent = new FriendsListComponent(); // Create an instance of FriendListComponent
+    this.#eventFinalizationComponent = new EventFinalizationComponent();
+    this.#friendsListComponent = new FriendsListComponent();
   }
 
   // Render the AppController component and return the container
@@ -51,6 +54,7 @@ export class AppControllerComponent extends BaseComponent {
         <button id="dashboardBtn">Dashboard</button> <!-- Add Dashboard button -->
         <button id="friendsListNavigationButton">Friends List</button>
         <button id="profileSettingsBtn">Profile Settings</button>
+        <button id="eventFinalizationBtn">Event Finalization</button>
       </div>
       <div id="viewContainer">
         <!-- View content will be dynamically added here -->
@@ -63,12 +67,14 @@ export class AppControllerComponent extends BaseComponent {
     const createEventBtn = this.#container.querySelector('#createEventBtn');
     const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
     const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
+    const eventFinalizationBtn = this.#container.querySelector('#eventFinalizationBtn');
     const friendsListBtn = this.#container.querySelector('#friendsListNavigationButton')
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
+    eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
     friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
   }
 
@@ -83,17 +89,19 @@ export class AppControllerComponent extends BaseComponent {
 
     switch (this.#currentView) {
       case 'home':
-        viewContainer.appendChild(this.#homeComponent.render());
+        viewContainer.appendChild(this.#homeComponent.render()); // Render HomeComponent
         break;
       case 'create':
-        viewContainer.appendChild(this.#eventCreationComponent.render());
+        viewContainer.appendChild(this.#eventCreationComponent.render()); // Render EventCreationComponent
         break;
       case 'dashboard':
         viewContainer.appendChild(this.#dashboardComponent.render()); // Render DashboardComponent
         break;
       case 'profile':
-        viewContainer.appendChild(this.#profileSetting.render()); // Render DashboardComponent
-        console.log("Profile called")
+        viewContainer.appendChild(this.#profileSetting.render()); // Render ProfileSettingComponent
+        break;
+      case 'eventFinal':
+        viewContainer.appendChild(this.#eventFinalizationComponent.render()); // Render EventFinalizationComponent
         break;
       case 'friendsList':
         viewContainer.appendChild(this.#friendsListComponent.render());

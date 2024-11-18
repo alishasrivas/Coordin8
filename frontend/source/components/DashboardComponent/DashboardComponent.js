@@ -126,7 +126,8 @@ export class DashboardComponent extends BaseComponent {
           <h2>${event.name}</h2>
           <p>${event.description}</p>
           <ul>
-            ${event.times.map(time => `<li>Start: ${time.startTime}, End: ${time.endTime}, Date: ${time.date}</li>`).join('')}
+            <li><strong>Date</strong>: ${event.times[0].date}</li>
+            <li><strong>Time</strong>: ${event.times[0].startTime} - ${event.times[0].endTime}</li>
           </ul>
           <div class="invitees-list" style="display: none;">
             <p>Invitees: ${event.invitees ? event.invitees.join(', ') : ''}</p>
@@ -159,8 +160,7 @@ export class DashboardComponent extends BaseComponent {
     eventsList.innerHTML = this.#isCalendarView ? this.#getCalendarViewTemplate() : this.#getListViewTemplate();
   }
 
-  
-  
+
 
   #attachEventListeners() {
     const searchBar = this.#container.querySelector("#search-bar");
@@ -182,7 +182,7 @@ export class DashboardComponent extends BaseComponent {
     sortByNameButton.addEventListener("click", this.#sortByName.bind(this));
 
     const eventElements = this.#container.querySelectorAll(".event");
-    eventElements.forEach(eventElement => {  
+    eventElements.forEach(eventElement => {
       eventElement.addEventListener("click", () => {
         const inviteesList = eventElement.querySelector(".invitees-list");
         if (inviteesList.style.display === "none") {
@@ -192,7 +192,7 @@ export class DashboardComponent extends BaseComponent {
         }
       });
     });
-  
+
     const eventsList = this.#container.querySelector("#events-list");
     // Attach a single event listener to #events-list
     eventsList.addEventListener("click", (event) => {
@@ -297,7 +297,6 @@ export class DashboardComponent extends BaseComponent {
   #exportEvents() {
     alert("Export Events");
   }
-
   openEditScreen(eventName) {
     const eventToEdit = this.#events.find(event => event.name === eventName);
     if (eventToEdit) {
@@ -313,7 +312,7 @@ export class DashboardComponent extends BaseComponent {
       `;
       const container = this.#container.querySelector("#events-list");
       container.innerHTML = editFormHTML;
-  
+
       // Attach event listeners for saving or canceling changes
       container.querySelector("#saveChanges").addEventListener("click", () => this.#saveEventChanges(eventName));
       container.querySelector("#cancelEdit").addEventListener("click", () => this.#updateEventsList());
