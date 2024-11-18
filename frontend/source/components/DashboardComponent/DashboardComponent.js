@@ -167,6 +167,24 @@ export class DashboardComponent extends BaseComponent {
         }
       });
     });
+
+
+    const eventsList = this.#container.querySelector("#events-list");
+
+    // Attach a single event listener to #events-list using delegation
+    eventsList.addEventListener("click", (event) => {
+      const editButton = event.target.closest(".edit-button");
+      const deleteButton = event.target.closest(".delete-button");
+
+      if (editButton) {
+        const eventName = editButton.closest(".event").dataset.eventName;
+        this.openEditScreen(eventName);
+      } else if (deleteButton) {
+        const eventName = deleteButton.closest(".event").dataset.eventName;
+        this.deleteEvent(eventName);
+      }
+    });
+
   }
 
   #handleSearch(event) {
