@@ -104,8 +104,6 @@ After creating the event and specifying the invitees, this feature will send a n
 
 This feature will allow the user (creator of event) to edit or cancel an existing event. The can modify event details like name, description, and times/days. 
 
-**Assigned to**: Noah Vo
-
 ### Modify Event Name/Description
 
 This feature allows the user to modify the name and description of an event.
