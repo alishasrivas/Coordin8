@@ -5,8 +5,8 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 export class AvailabilityComponent extends BaseComponent {
     #container = null;
     #potentialTimes = []; //{startTime, endTime, date} // need to get from indexedDB
-    #eventName = "{name}"; // need to get from indexedDB
-    #eventDescription = "{description}"; // need to get from indexedDB
+    #eventName = ""; // need to get from indexedDB
+    #eventDescription = ""; // need to get from indexedDB
 
     constructor() {
         super();
@@ -51,9 +51,9 @@ export class AvailabilityComponent extends BaseComponent {
 
             <div id="availability-input-body">
                 <h2>Event Details</h2>
-                <h3 id="eventName">${this.#eventName}</h3>
+                <h3 id="eventName"></h3>
 
-                <h3 id="eventDescription">${this.#eventDescription}</h3>
+                <h3 id="eventDescription"></h3>
 
                 <h2>Select Available Times</h2>
                 <div id="time-list"></div>
@@ -66,6 +66,10 @@ export class AvailabilityComponent extends BaseComponent {
 
     #addTimes() {
         // add potential times as check boxes
+        const eventNameElem = this.#container.querySelector("#eventName");
+        eventNameElem.innerHTML = this.#eventName;
+        const eventDescriptionElem = this.#container.querySelector("#eventDescription");
+        eventDescriptionElem.innerHTML = this.#eventDescription;
         const timeList = this.#container.querySelector("#time-list");
         for(let i = 0; i < this.#potentialTimes.length; i++) {
             const timeContainer = document.createElement("div");
