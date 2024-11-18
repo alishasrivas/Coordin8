@@ -3,6 +3,7 @@
 ## User Account Creation and Authentication
 
 This feature will allow the user login or sign up. The application will store user data in a database (stored user data will include, username, email, password, and full name).
+**NOTE**: for milestone 3, only the UI will be implemented. The rest will be completed in the backend.
 
 ### Log-In Form
 
@@ -82,6 +83,7 @@ This feature will generate an interactive unordered list of all the potential ti
 ## Notify Invited Users and Availability Submission
 
 After creating the event and specifying the invitees, this feature will send a notification to the invitees. These notifications will link to a form that inquires the invitees for their availability. The invitee will view the initial days and time ranges specified by the inviter and select when they are available during those times. 
+**NOTE**: for milestone 3, only the UI will be implemented. The rest will be completed in the backend.
 
 ### Send Notifications
 
