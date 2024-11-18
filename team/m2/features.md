@@ -47,9 +47,12 @@ A static HTML page that provides information about the application. It includes 
 
 ## Event Creation
 
-This feature will allow the user to create an event. They will be able to input event details like duration, location (online/in person), description. The user will enter in the potential days and time range for the event (the exact day and time will be calculated later). The user will be able to invite other users to the event (the inviter will enter in the invitee's username and the application will query the user database and fetch that invitee's information). 
+This feature will allow the user to create an event. 
 
 ### Event Creation Form (name, description, invitees, potential times)
+
+This feature allows the user to input event details: meeting name and meeting description. The user can also enter potential times and dates (the exact day and time will be determined in the Event Day/Time Finalization feature). For times, user must fill in start time, end time, and date fields; All fields will be verified for correctness (must ensure HH:MM format for time and YYYY-MM-DD format for the date). The user will also be able to invite other users to the event by entering their email and clicking "invite user" button. 
+
 **Size**: medium
 
 **Points**: 3
@@ -57,6 +60,9 @@ This feature will allow the user to create an event. They will be able to input 
 **Assigned to**: Joshua Swaida
 
 ### Interactive Invitees List
+
+This feature will generate an interactive unordered list of all the invitees. After the user enters the invitee's email, they click the "Invite user" button. This will update the DOM, adding the invitee's email to a list. Next to each invitee's email is a delete button. This allows the user to add and remove invitees from their list.
+
 **Size**: medium
 
 **Points**: 3
@@ -64,6 +70,9 @@ This feature will allow the user to create an event. They will be able to input 
 **Assigned to**: Joshua Swaida
 
 ### Interactive Times List
+
+This feature will generate an interactive unordered list of all the potential times/dates. After the user enters the start time, end time, and data, they click the "Add Time" button. This will update the DOM, adding the potetial time/date to a list. Next to each time/date a delete button. This allows the user to add and remove potential time/dates from their list.
+
 **Size**: medium
 
 **Points**: 3
