@@ -9,6 +9,7 @@ graph TD;
     E-->F[validateTimeInputs method is called with startTime, endTime, and date as parameters. Time inputs are validated for completeness and correctness of format]
     F-->G[If time inputs are valid, a new li element is created for the time/date. The li contains a delete button]
     F-->H[If time inputs are NOT valid, an alert appears and tells user to fix their input]
+    H-->D
     G-->I[clearTimeInputs method is called, resetting all the time input fields to be empty]
     G-->J[List item and corresponding delete button are added to the DOM and displayed on the user's screen]
     J-->K[If user clicks Delete button, the List Item is removed from the DOM]
