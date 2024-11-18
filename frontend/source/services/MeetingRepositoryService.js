@@ -9,7 +9,6 @@ export class MeetingRepositoryService extends Service {
     this.db = null;
 
     // Initialize the database
-    console.log('Initializing database...');
     this.initDB()
       .then(() => {
         // Load meetings on initialization
