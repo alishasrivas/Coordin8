@@ -18,16 +18,20 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: rgb(234, 233, 233); /* Light gray background */
+  padding: 20px; /* Add padding inside the container */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
 /* Event Input Field */
 .event-input {
-  width: 100%;
+  width: 100%; /* Fill the width of the container */
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px; /* Increased rounding */
   box-sizing: border-box;
 }
 
@@ -52,6 +56,33 @@ label {
   box-sizing: border-box;
 }
 
+.time-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.add-to-list {
+  width: 100%;
+  max-width: 200px;
+  color: white;
+  background-color: rgb(14, 155, 243); /* Blue background */
+  border-radius: 30px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.add-to-list:hover {
+  background-color: rgb(12, 135, 212); /* Darker blue on hover */
+}
+
 #create-event-button {
   width: 100%;
   max-width: 200px;
@@ -70,29 +101,68 @@ label {
 }
 
 #blue-header {
-  background-color: rgb(14, 155, 243);
-  padding: 5px; /* Adds space inside the div on all sides */
+  width: 95%;
+  background-color: #007bff;
   color: white;
-  width: 100%;
-  text-align: center; /* Centers horizontally */
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
 }
 
 #event-creation-body {
   flex-grow: 1; /* Allow this section to expand and fill available space */
-  width: 85%;
+  width: 95%;
   background-color: white;
-  padding: 30px; /* Add space inside the body */
-  margin-top: 20px;
+  padding: 20px; /* Add space inside the body */
+  margin: 10px 0;
+  border-radius: 8px 8px 0 0;
 }
 
-#enter-time-container {
-  background-color: white;
-}
-
-#timeList {
+.interactive-list {
   list-style-type: none; /* Removes default bullets */
   margin: 1rem 0; /* Adds some spacing around the list */
   border: 1px solid #ccc; /* Adds a border around the list */
   border-radius: 4px;
   background-color: #f9f9f9;
+  padding: 0;
+}
+
+/* Styles each list item */
+.interactive-list li {
+  display: flex; /* Will allow child elements (text and delete button) to align horizontally */
+  justify-content: space-between; /* Space between text and button */
+  align-items: center; /* Vertically align text and button */
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd; /* Add a divider between items */
+}
+
+.delete-time-btn {
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-time-btn:hover {
+  background-color: #e04040;
+}
+
+/* Remove the last item's border */
+.interactive-list li:last-child {
+  border-bottom: none;
+}
+
+.delete-invitee-btn {
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-invitee-btn:hover {
+  background-color: #e04040;
 }
