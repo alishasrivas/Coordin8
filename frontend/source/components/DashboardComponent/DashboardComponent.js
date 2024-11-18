@@ -133,7 +133,8 @@ export class DashboardComponent extends BaseComponent {
           </div>
         </div>
         <div class="event-buttons">
-          <button onclick="openEditScreen('${event.name}')">Edit</button>
+          <button class="edit-button">Edit</button>
+          <button class="delete-button">Delete</button>
         </div>
       </div>
     `;
@@ -158,6 +159,9 @@ export class DashboardComponent extends BaseComponent {
     eventsList.innerHTML = this.#isCalendarView ? this.#getCalendarViewTemplate() : this.#getListViewTemplate();
   }
 
+  
+  
+
   #attachEventListeners() {
     const searchBar = this.#container.querySelector("#search-bar");
     const allEventsButton = this.#container.querySelector("#all-events-button");
@@ -178,7 +182,7 @@ export class DashboardComponent extends BaseComponent {
     sortByNameButton.addEventListener("click", this.#sortByName.bind(this));
 
     const eventElements = this.#container.querySelectorAll(".event");
-    eventElements.forEach(eventElement => {
+    eventElements.forEach(eventElement => {  
       eventElement.addEventListener("click", () => {
         const inviteesList = eventElement.querySelector(".invitees-list");
         if (inviteesList.style.display === "none") {
@@ -187,6 +191,21 @@ export class DashboardComponent extends BaseComponent {
           inviteesList.style.display = "none";
         }
       });
+    });
+  
+    const eventsList = this.#container.querySelector("#events-list");
+    // Attach a single event listener to #events-list
+    eventsList.addEventListener("click", (event) => {
+      const editButton = event.target.closest(".edit-button");
+      const deleteButton = event.target.closest(".delete-button");
+
+      if (editButton) {
+        const eventName = editButton.closest(".event").dataset.eventName;
+        this.openEditScreen(eventName);
+      } else if (deleteButton) {
+        const eventName = deleteButton.closest(".event").dataset.eventName;
+        this.deleteEvent(eventName);
+      }
     });
   }
 
@@ -278,8 +297,45 @@ export class DashboardComponent extends BaseComponent {
   #exportEvents() {
     alert("Export Events");
   }
-}
 
-function openEditScreen(eventName) {
-  alert(`Open Event Modification/Deletion Screen for ${eventName}`);
+  openEditScreen(eventName) {
+    const eventToEdit = this.#events.find(event => event.name === eventName);
+    if (eventToEdit) {
+      const editFormHTML = `
+        <div class="edit-event-form">
+          <label for="eventName">Event Name:</label>
+          <input id="eventName" value="${eventToEdit.name}" />
+          <label for="eventDescription">Description:</label>
+          <textarea id="eventDescription">${eventToEdit.description}</textarea>
+          <button id="saveChanges">Save Changes</button>
+          <button id="cancelEdit">Cancel</button>
+        </div>
+      `;
+      const container = this.#container.querySelector("#events-list");
+      container.innerHTML = editFormHTML;
+  
+      // Attach event listeners for saving or canceling changes
+      container.querySelector("#saveChanges").addEventListener("click", () => this.#saveEventChanges(eventName));
+      container.querySelector("#cancelEdit").addEventListener("click", () => this.#updateEventsList());
+    }
+  }
+  #saveEventChanges(eventName) {
+    const updatedName = this.#container.querySelector("#eventName").value;
+    const updatedDescription = this.#container.querySelector("#eventDescription").value;
+
+    const eventIndex = this.#events.findIndex(event => event.name === eventName);
+    if (eventIndex > -1) {
+      this.#events[eventIndex].name = updatedName;
+      this.#events[eventIndex].description = updatedDescription;
+      alert(`Event "${eventName}" updated successfully!`);
+      this.#updateEventsList(); // Refresh the list view after saving
+    }
+  }
+  deleteEvent(eventName) {
+    if (confirm(`Are you sure you want to delete the event "${eventName}"?`)) {
+      this.#events = this.#events.filter(event => event.name !== eventName);
+      alert(`Event "${eventName}" deleted successfully.`);
+      this.#updateEventsList();
+    }
+  }
 }

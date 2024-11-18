@@ -4,6 +4,7 @@ import { DashboardComponent } from "../DashboardComponent/DashboardComponent.js"
 import { EventHub } from "../../eventhub/EventHub.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
+import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
 
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
@@ -13,6 +14,7 @@ export class AppControllerComponent extends BaseComponent {
   #dashboardComponent = null; // Instance of the dashboard component
   #hub = null; // EventHub instance for managing events
   #profileSetting = null // profile setting page
+  #friendsListComponent = null //friend list page 
   #LogIn = null
   #SignUp = null
 
@@ -24,6 +26,7 @@ export class AppControllerComponent extends BaseComponent {
     this.#homeComponent = new HomeComponent();
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
+    this.#friendsListComponent = new FriendsListComponent(); // Create an instance of FriendListComponent
   }
 
   // Render the AppController component and return the container
@@ -46,6 +49,7 @@ export class AppControllerComponent extends BaseComponent {
         <button id="homeBtn">Home</button>
         <button id="createEventBtn">Create Event</button>
         <button id="dashboardBtn">Dashboard</button> <!-- Add Dashboard button -->
+        <button id="friendsListNavigationButton">Friends List</button>
         <button id="profileSettingsBtn">Profile Settings</button>
       </div>
       <div id="viewContainer">
@@ -59,11 +63,13 @@ export class AppControllerComponent extends BaseComponent {
     const createEventBtn = this.#container.querySelector('#createEventBtn');
     const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
     const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
+    const friendsListBtn = this.#container.querySelector('#friendsListNavigationButton')
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
+    friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
   }
 
   #switchView(view) {
@@ -88,6 +94,9 @@ export class AppControllerComponent extends BaseComponent {
       case 'profile':
         viewContainer.appendChild(this.#profileSetting.render()); // Render DashboardComponent
         console.log("Profile called")
+        break;
+      case 'friendsList':
+        viewContainer.appendChild(this.#friendsListComponent.render());
         break;
     }
   }
