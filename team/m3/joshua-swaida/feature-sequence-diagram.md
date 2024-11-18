@@ -11,6 +11,6 @@ graph TD;
     F-->H[If time inputs are NOT valid, an alert appears and tells user to fix their input]
     H-->D
     G-->I[clearTimeInputs method is called, resetting all the time input fields to be empty]
-    G-->J[List item and corresponding delete button are added to the DOM and displayed on the user's screen]
+    G-->J[List item and corresponding delete button are added to the DOM, updating the UI and displaying the list item on the user's screen]
     J-->K[If user clicks Delete button, the List Item is removed from the DOM]
 ```
