@@ -146,10 +146,11 @@ After event cancellation, a notification will be sent to the invitees to inform 
 
 ## Event Day/Time Finalization
 
-The inviter will be sent a notification when all the invitees have inputted their availability. This notification will have a button that redirects the user to the Event Day/Time Finalization view, where they can view the aggregated invitee availability data. 
+The inviter will receive a notification after all the invitees have inputted their availability. This notification will have a button that redirects the user to the Event Day/Time Finalization view, where they can view the aggregated invitee availability data. 
 This feature will aggregate the invitee availability data and generate a list of all the days/times in which everyone is available. Using this list, the event creator will choose the final day/time of the event.
 
 ### Filtering
+
 **Size**: medium
 
 **Points**: 2
@@ -157,6 +158,7 @@ This feature will aggregate the invitee availability data and generate a list of
 **Assigned to**: Bach Luu
 
 ### Sorting/Prioritization
+
 **Size**: medium
 
 **Points**: 2
@@ -172,9 +174,8 @@ This feature will aggregate the invitee availability data and generate a list of
 
 ## Event Dashboard
 
-Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events.  
+Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events. Each event on the dashboard will have an edit button that opens the Event Modification/Deletion Screen. The dashboard will update whenever an event is created, modified, or deleted. 
 
-### List View
 **Size**: Large
 
 **Points**: 4
@@ -183,9 +184,12 @@ Users will be able to view all the events they created and were invited to. They
 
 ## Friends List
 
-This feature will allow users to search for other users and add them to their friends list. This will facilitate the invitation process, as you can simply invite people from your friends list.
+This feature will allow users to search for other users and add them to their friends list. This will facilitate the invitation process, as you can simply invite people from your friends list. 
 
 ### User Search Functionality
+
+This feature allows the user to search for other user's.
+
 **Size**: Large
 
 **Points**: 4
@@ -193,6 +197,9 @@ This feature will allow users to search for other users and add them to their fr
 **Assigned to**: Alisha Srivastava
 
 ### Add Friend Request
+
+This feature is a button that allows users to send friend requests to specific users.
+
 **Size**: small
 
 **Points**: 1
@@ -200,6 +207,9 @@ This feature will allow users to search for other users and add them to their fr
 **Assigned to**: Alisha Srivastava
 
 ### Remove Friend Option
+
+This feature is a button that allows users to remove people from their friends list.
+
 **Size**: small
 
 **Points**: 1
@@ -207,6 +217,9 @@ This feature will allow users to search for other users and add them to their fr
 **Assigned to**: Alisha Srivastava
 
 ### Friend Request Notifications
+
+After clicking the "send friend request" button, this feature will send a friend request notification. 
+
 **Size**: medium
 
 **Points**: 2
@@ -214,6 +227,9 @@ This feature will allow users to search for other users and add them to their fr
 **Assigned to**: Alisha Srivastava
 
 ### Friends List Display
+
+This feature will display all of the user's friends.
+
 **Size**: medium
 
 **Points**: 3
