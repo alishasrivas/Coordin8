@@ -238,9 +238,12 @@ This feature will display all of the user's friends.
 
 ## Profile Settings
 
-This feature will allow the user to edit/update their profile settings. The user can set their name, email, primary time zone, secondary time zone, notification preferences (emails or no emails), and calendar integration (user can attach their preferred external calendar to this app - for example, Google Calendar).
+This feature will allow the user to edit/update their profile settings. The user can set their name, email, primary time zone, secondary time zone, and notification preferences (emails or no emails).
 
 ### Personal Information Form
+
+This feature will allow users to enter their personal information (name, email).
+
 **Size**: small
 
 **Points**: 1
@@ -248,6 +251,9 @@ This feature will allow the user to edit/update their profile settings. The user
 **Assigned to**: Tan Le
 
 ### Time Zone Settings Form
+
+This feature will allow users to enter their time zone settings (primary time zone, secondary time zone).
+
 **Size**: small
 
 **Points**: 1
@@ -255,6 +261,9 @@ This feature will allow the user to edit/update their profile settings. The user
 **Assigned to**: Tan Le
 
 ### Notification Settings
+
+This feature will allow users to enter their notification settings (toggle button: emails or no emails).
+
 **Size**: medium
 
 **Points**: 3
@@ -262,6 +271,9 @@ This feature will allow the user to edit/update their profile settings. The user
 **Assigned to**: Tan Le
 
 ### Save Button and Direct back to Dashboard
+
+This button will save the user's updated settings and redirect them back to the Dashboard view
+
 **Size**: medium
 
 **Points**: 2
