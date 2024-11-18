@@ -19,15 +19,24 @@ export class FriendsListComponent extends BaseComponent {
 
   #getTemplate() {
     return `
-        <h2>Friends List</h2>
-        <div class = "friends-list-search">
-            <input type="text" id="friendsSearchInput" placeholder="Search for your friends here...">
-            <button id = "friendsSearchBar">Search</button>
+        <div id="friends-list-header">Friends List</div>
+        <div class="friends-list-container">
+            <!-- Search Section -->
+            <div class="friends-list-search">
+                <input type="text" id="friendsSearchInput" placeholder="Search for your friends here...">
+                <button id="friendsSearchBar">Search</button>
+            </div>
+
+            <!-- Search Results -->
+            <div class="friends-list-search-results" id="friendsRequests">
+                <p>No search results yet.</p>
+            </div>
+
+            <!-- Friends Display -->
+            <h3>Your Friends</h3>
+            <div class="friends-display" id="friendsDisplay"></div>
         </div>
-        <div class = "friends-list-search-results" id = "friendsRequests"></div>
-        <h3>Your Friends</h3>
-        <div class = "friends-display" id = "friendsDisplay"></div>
-        `;
+    `;
   }
   #search(query) {
     //add my backend search logic here
@@ -37,7 +46,36 @@ export class FriendsListComponent extends BaseComponent {
     );
     resultsContainer.innerHTML = `<p>Search results for "${query}" will show here.</p>`;
   }
+  #fakeFriendsList(){
+    //replace with backend data
+    const friendsList = [
+      {name : "Alisha", id : 1 },
+      {name : "William", id : 2 },
+      {name : "Bacch", id : 3}
+    ];
 
+    const friends2show = this.#container.querySelector("#friendsDisplay");
+    friends2show.innerHTML = "";
+
+    friendsList.forEach((friend) => {
+      const frienditem = document.createElement("div");
+      frienditem.classList.add("friend-item");   
+      frienditem.innerHTML =
+      `<span class = "friend-name">${friend.name}</span>
+      <button class = "friend-address" data-id="${friend.id}" data-address = "add">Add</button>
+      <button class = "friend-address" data-id="${friend.id}" data-address = "remove">Remove</button>`;
+
+      friends2show.appendChild(frienditem);
+    });
+    const buttons = friends2show.querySelectorAll(".friend-address");
+    buttons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const action = button.dataset.address;
+        const identity = button.dataset.id;
+      //include the backend code for handling freinds list 
+      })
+    })
+  }
   #attachEventListeners() {
     // Attaching event listeners for searching for friends
     //SEARCH
@@ -46,6 +84,8 @@ export class FriendsListComponent extends BaseComponent {
       const query = this.#container.querySelector("#friendsSearchInput").value;
       this.#search(query);
     });
+
+    this.#fakeFriendsList();
   }
 
   render() {
@@ -54,6 +94,9 @@ export class FriendsListComponent extends BaseComponent {
     }
     this.#buildContainer();
     this.#attachEventListeners();
+    this.#fakeFriendsList();
+
     return this.#container;
   } //same as everyone else's render
+
 }

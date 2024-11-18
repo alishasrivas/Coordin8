@@ -1,0 +1,77 @@
+/* FriendsListComponent.css */
+.friends-list-container {
+    min-height: 100%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(0, 0, 0);
+  }
+  
+  #friends-list-header {
+    background-color: #007bff;
+    color: white; 
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 20px;
+  }
+  
+  .friends-list-search {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .friends-list-search > input {
+    width: 100%;
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+  }
+  
+  .friends-list-search > button {
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
+  }
+  
+  .friends-list-search > button:hover {
+    background-color: cyan;
+    color: black;
+  }
+  
+  .friends-list-search-results {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgb(0, 0, 0); /* how do i make this grey */
+  }
+  
+  .friends-list-search-results > p {
+    margin: 0;
+    font-size: 16px; /* looked best can be bigger */
+    color: #333;
+  }
+  
+  .friends-display {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  
+
+
+  
