@@ -77,15 +77,16 @@ export class AppControllerComponent extends BaseComponent {
 
     switch (this.#currentView) {
       case 'home':
-        viewContainer.appendChild(this.#homeComponent.render());
+        viewContainer.appendChild(this.#homeComponent.render()); // Render HomeComponent
         break;
       case 'create':
-        viewContainer.appendChild(this.#eventCreationComponent.render());
+        viewContainer.appendChild(this.#eventCreationComponent.render()); // Render EventCreationComponent
         break;
       case 'dashboard':
         viewContainer.appendChild(this.#dashboardComponent.render()); // Render DashboardComponent
+        break;
       case 'profile':
-        viewContainer.appendChild(this.#profileSetting.render()); // Render DashboardComponent
+        viewContainer.appendChild(this.#profileSetting.render()); // Render ProfileSettingComponent
         break;
     }
   }
