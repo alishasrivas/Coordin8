@@ -84,7 +84,13 @@
   background-color: #218838;
 }
 
-.dropdown button{
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.button-group button {
   padding: 10px 20px;
   margin: 5px;
   background-color: white;
@@ -95,16 +101,11 @@
   transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
 }
 
-.dropdown button:hover {
+.button-group button.active {
   background-color: cyan;
   color: black;
-  border-radius: 8px;
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
 
 .dropbtn {
   padding: 10px 20px;

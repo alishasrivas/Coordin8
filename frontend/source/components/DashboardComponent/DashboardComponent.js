@@ -107,10 +107,11 @@ export class DashboardComponent extends BaseComponent {
           <h2>${event.name}</h2>
           <p>${event.description}</p>
           <ul>
-            ${event.times.map(time => `<li>Start: ${time.startTime}, End: ${time.endTime}, Date: ${time.date}</li>`).join('')}
+            <li><strong>Date</strong>: ${event.times[0].date}</li>
+            <li><strong>Time</strong>: ${event.times[0].startTime} - ${event.times[0].endTime}</li>
           </ul>
-          <div class="invitees-list" style="display: none;">
-            <p>Invitees: ${event.invitees.join(', ')}</p>
+          <div class="invitees-list">
+            <p><strong>Invitees</strong>: ${event.invitees.join(', ')}</p>
           </div>
         </div>
         <div class="event-buttons">

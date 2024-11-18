@@ -1,14 +1,17 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { MeetingRepositoryService } from "../../services/MeetingRepositoryService.js";
 
 export class EventFinalizationComponent extends BaseComponent {
   #container = null;
   #availabilityData = [];
   #filteredData = [];
   #selectedTimes = new Map(); // To store selected times for each event
+  #meetingRepositoryService = new MeetingRepositoryService();
 
   constructor() {
     super();
     this.loadCSS("EventFinalizationComponent");
+    this.#meetingRepositoryService.initDB();
   }
 
   render() {
@@ -29,46 +32,6 @@ export class EventFinalizationComponent extends BaseComponent {
     console.log("Container created:", this.#container);
   }
 
-  #getTemplate() {
-    return `
-      <div id="finalization-header">
-        <h1>Finalize Event Day/Time</h1>
-        <div class="dropdown">
-            <button id="sort-button">Sort</button>
-            <div class="dropdown-content">
-              <button id="sort-by-date">Sort by Date</button>
-              <button id="sort-by-name">Sort by Name</button>
-            </div>
-          </div>
-      </div>
-      <input type="text" id="search-bar" placeholder="Search events by name...">
-      <div id="availability-list">
-        ${this.#filteredData.map(this.#getAvailabilityTemplate).join('')}
-      </div>
-      <button id="finalize-button">Finalize</button>
-    `;
-  }
-
-  #getAvailabilityTemplate(availability) {
-    return `
-      <div class="availability">
-        <p><strong>Event Name:</strong> ${availability.eventName}</p>
-        ${availability.potentialTimes.map((time, index) => `
-          <div class="potential-time" data-event="${availability.eventName}" data-index="${index}">
-            <p><strong>Date:</strong> ${time.date}</p>
-            <p><strong>Start Time:</strong> ${time.startTime}</p>
-            <p><strong>End Time:</strong> ${time.endTime}</p>
-            <p><strong>Participants Available:</strong> ${time.participantsAvailable}</p>
-            <p><strong>Participants:</strong> ${time.participants.join(', ')}</p>
-            ${time.participantsAvailable === availability.totalInvitees ? '<p class="all-available">Everyone can join!</p>' : ''}
-          </div>
-        `).join('')}
-        <p><strong>Total Invitees:</strong> ${availability.totalInvitees}</p>
-        <p><strong>Invitees:</strong> ${availability.invitees.join(', ')}</p>
-      </div>
-    `;
-  }
-
   async #fetchAvailabilityData() {
     // Mock data for testing
     this.#availabilityData = [
@@ -86,8 +49,7 @@ export class EventFinalizationComponent extends BaseComponent {
         totalInvitees: 15,
         invitees: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Niaj", "Olivia", "Peggy", "Sybil"],
         potentialTimes: [
-          { date: "2023-10-02", startTime: "02:00 PM", endTime: "03:00 PM", participantsAvailable: 15, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Niaj", "Olivia", "Peggy", "Sybil"] },
-          { date: "2023-10-03", startTime: "09:00 AM", endTime: "10:00 AM", participantsAvailable: 12, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Niaj"] }
+          { date: "2023-10-02", startTime: "02:00 PM", endTime: "03:00 PM", participantsAvailable: 15, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Niaj", "Olivia", "Peggy", "Sybil"] }
         ]
       },
       {
@@ -98,11 +60,30 @@ export class EventFinalizationComponent extends BaseComponent {
           { date: "2023-10-03", startTime: "09:00 AM", endTime: "10:00 AM", participantsAvailable: 5, participants: ["Alice", "Bob", "Charlie", "David", "Eve"] },
           { date: "2023-10-04", startTime: "11:00 AM", endTime: "12:00 PM", participantsAvailable: 4, participants: ["Alice", "Bob", "Charlie", "David"] }
         ]
+      },
+      {
+        eventName: "Weekly Sync",
+        totalInvitees: 8,
+        invitees: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi"],
+        potentialTimes: [
+          { date: "2023-10-05", startTime: "10:00 AM", endTime: "11:00 AM", participantsAvailable: 6, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank"] },
+          { date: "2023-10-06", startTime: "02:00 PM", endTime: "03:00 PM", participantsAvailable: 7, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace"] }
+        ]
+      },
+      {
+        eventName: "Sprint Planning",
+        totalInvitees: 12,
+        invitees: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Mallory", "Niaj"],
+        potentialTimes: [
+          { date: "2023-10-07", startTime: "09:00 AM", endTime: "10:00 AM", participantsAvailable: 10, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"] },
+          { date: "2023-10-08", startTime: "11:00 AM", endTime: "12:00 PM", participantsAvailable: 9, participants: ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Heidi", "Ivan"] }
+        ]
       }
     ];
     this.#filteredData = this.#availabilityData;
     console.log("Fetched availability data:", this.#availabilityData);
     this.#updateAvailabilityList();
+    this.#sortByName();
   }
 
   #updateAvailabilityList() {
@@ -117,11 +98,13 @@ export class EventFinalizationComponent extends BaseComponent {
     const sortByNameButton = this.#container.querySelector("#sort-by-name");
     const sortByDateButton = this.#container.querySelector("#sort-by-date");
     const finalizeButton = this.#container.querySelector("#finalize-button");
+    const filterEveryoneCanJoinButton = this.#container.querySelector("#filter-everyone-can-join");
 
     searchBar.addEventListener("input", this.#handleSearch.bind(this));
     sortByNameButton.addEventListener("click", this.#sortByName.bind(this));
     sortByDateButton.addEventListener("click", this.#sortByDate.bind(this));
     finalizeButton.addEventListener("click", this.#handleFinalize.bind(this));
+    filterEveryoneCanJoinButton.addEventListener("click", this.#toggleActiveState.bind(this));
   }
 
   #attachTimeSelectionListeners() {
@@ -153,6 +136,25 @@ export class EventFinalizationComponent extends BaseComponent {
     this.#updateAvailabilityList();
   }
 
+  #filterEveryoneCanJoin() {
+    this.#filteredData = this.#availabilityData.filter(event =>
+      event.potentialTimes.some(time => time.participantsAvailable === event.totalInvitees)
+    );
+    this.#updateAvailabilityList();
+  }
+
+  #toggleActiveState(event) {
+    const button = event.currentTarget;
+    button.classList.toggle("active");
+
+    if (button.classList.contains("active")) {
+      this.#filterEveryoneCanJoin();
+    } else {
+      this.#filteredData = this.#availabilityData;
+      this.#updateAvailabilityList();
+    }
+  }
+
   #handleTimeSelection(event) {
     const selectedTime = event.currentTarget;
     const eventName = selectedTime.getAttribute("data-event");
@@ -179,9 +181,73 @@ export class EventFinalizationComponent extends BaseComponent {
     console.log("Selected times:", this.#selectedTimes);
   }
 
-  #handleFinalize() {
+  async #handleFinalize() {
     // Logic to finalize the event day/time
-    console.log("Finalized times:", this.#selectedTimes);
-    alert("Event day/time finalized!");
+    const finalizedEvents = [];
+
+    this.#selectedTimes.forEach((timeIndex, eventName) => {
+      const event = this.#availabilityData.find(event => event.eventName === eventName);
+      const selectedTime = event.potentialTimes[timeIndex];
+      finalizedEvents.push({
+        eventName: event.eventName,
+        date: selectedTime.date,
+        startTime: selectedTime.startTime,
+        endTime: selectedTime.endTime,
+        participants: selectedTime.participants
+      });
+    });
+
+    try {
+      for (const event of finalizedEvents) {
+        await this.#meetingRepositoryService.storeFinalizedEvent(event);
+      }
+      console.log("Finalized times:", this.#selectedTimes);
+      alert("Event day/time finalized and stored!");
+    } catch (error) {
+      console.error("Error finalizing events:", error);
+      alert("Error finalizing events. Please try again.");
+    }
+  }
+
+  #getTemplate() {
+    return `
+      <div id="finalization-header">
+        <h1>Finalize Event Day/Time</h1>
+        <div class="button-group">
+          <button id="filter-everyone-can-join">Filter Everyone Can Join</button>
+          <div class="dropdown">
+            <button id="sort-button">Sort</button>
+            <div class="dropdown-content">
+              <button id="sort-by-name">Sort by Name</button>
+              <button id="sort-by-date">Sort by Date</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input type="text" id="search-bar" placeholder="Search events by name...">
+      <div id="availability-list">
+        ${this.#filteredData.map(this.#getAvailabilityTemplate).join('')}
+      </div>
+      <button id="finalize-button">Finalize</button>
+    `;
+  }
+
+  #getAvailabilityTemplate(availability) {
+    return `
+      <div class="availability">
+        <p><strong>Event Name:</strong> ${availability.eventName}</p>
+        ${availability.potentialTimes.map((time, index) => `
+          <div class="potential-time" data-event="${availability.eventName}" data-index="${index}">
+            <p><strong>Date:</strong> ${time.date}</p>
+            <p><strong>Start Time:</strong> ${time.startTime}</p>
+            <p><strong>End Time:</strong> ${time.endTime}</p>
+            <p><strong>Participants Available:</strong> ${time.participantsAvailable}</p>
+            <p><strong>Participants:</strong> ${time.participants.join(', ')}</p>
+            ${time.participantsAvailable === availability.totalInvitees ? '<p class="all-available">Everyone can join!</p>' : ''}
+          </div>
+        `).join('')}
+        <p><strong>Total Invitees:</strong> ${availability.totalInvitees}</p>
+      </div>
+    `;
   }
 }
