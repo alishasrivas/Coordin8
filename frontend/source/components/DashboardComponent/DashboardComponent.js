@@ -114,7 +114,8 @@ export class DashboardComponent extends BaseComponent {
           </div>
         </div>
         <div class="event-buttons">
-          <button onclick="openEditScreen('${event.name}')">Edit</button>
+          <button class="edit-button">Edit</button>
+          <button class="delete-button">Delete</button>
         </div>
       </div>
     `;
@@ -256,8 +257,4 @@ export class DashboardComponent extends BaseComponent {
   #exportEvents() {
     alert("Export Events");
   }
-}
-
-function openEditScreen(eventName) {
-  alert(`Open Event Modification/Deletion Screen for ${eventName}`);
 }
