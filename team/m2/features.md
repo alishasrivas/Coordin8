@@ -149,7 +149,19 @@ After event cancellation, a notification will be sent to the invitees to inform 
 The inviter will receive a notification after all the invitees have inputted their availability. This notification will have a button that redirects the user to the Event Day/Time Finalization view, where they can view the aggregated invitee availability data. 
 This feature will aggregate the invitee availability data and generate a list of all the days/times in which everyone is available. Using this list, the event creator will choose the final day/time of the event.
 
-### Filtering
+### List View
+
+This view will display all the events as a list.
+
+**Size**: large
+
+**Points**: 4
+
+**Assigned to**: Bach Luu
+
+### Sorting
+
+This feature sorts the events by name or date.
 
 **Size**: medium
 
@@ -157,7 +169,9 @@ This feature will aggregate the invitee availability data and generate a list of
 
 **Assigned to**: Bach Luu
 
-### Sorting/Prioritization
+### Search Bar
+
+This feature allows you to search through the listed events.
 
 **Size**: medium
 
@@ -165,7 +179,10 @@ This feature will aggregate the invitee availability data and generate a list of
 
 **Assigned to**: Bach Luu
 
-### Detail Information
+### Filter
+
+This feature filters the events to just show the ones that everyone can join.
+
 **Size**: medium
 
 **Points**: 2
@@ -176,11 +193,62 @@ This feature will aggregate the invitee availability data and generate a list of
 
 Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events. Each event on the dashboard will have an edit button that opens the Event Modification/Deletion Screen. The dashboard will update whenever an event is created, modified, or deleted. 
 
-**Size**: Large
+### List View
+
+**Size**: large
 
 **Points**: 4
 
 **Assigned to**: Bach Luu
+
+### Sorting (By date)
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
+### Sorting (By name)
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
+### Search Bar
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
+### Filter(Upcoming Events)
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
+### Filter(Past Events)
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
+### Filter(All Events)
+
+**Size**: small
+
+**Points**: 1
+
+**Assigned to**: Bach Luu
+
 
 ## Friends List
 
@@ -218,11 +286,7 @@ This feature is a button that allows users to remove people from their friends l
 
 ### Friend Request Notifications
 
-After clicking the "send friend request" button, this feature will send a friend request notification. 
-
-**Size**: medium
-
-**Points**: 2
+After clicking the "send friend request" button, this feature will send a friend request notification. **NOTE:** This will be implemented with the backend
 
 **Assigned to**: Alisha Srivastava
 
