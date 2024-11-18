@@ -61,6 +61,7 @@ export class DashboardComponent extends BaseComponent {
     this.#container = document.createElement("div");
     this.#container.classList.add("dashboard-container");
     this.#container.innerHTML = this.#getTemplate();
+    console.log("Container initialized");
   }
 
   #getTemplate() {
@@ -132,6 +133,9 @@ export class DashboardComponent extends BaseComponent {
   }
 
   #updateEventsList() {
+    if (!this.#container) {
+      this.#createContainer();
+    }
     const eventsList = this.#container.querySelector("#events-list");
     eventsList.innerHTML = this.#isCalendarView ? this.#getCalendarViewTemplate() : this.#getListViewTemplate();
   }

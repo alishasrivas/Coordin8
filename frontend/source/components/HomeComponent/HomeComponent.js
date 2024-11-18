@@ -24,7 +24,7 @@ export class HomeComponent extends BaseComponent {
   #createContainer() {
     // Create and configure the container element
     this.#container = document.createElement("div");
-    this.#container.classList.add("event-input-container");
+    this.#container.classList.add("home-container");
     this.#container.innerHTML = this.#getTemplate();
   }
 

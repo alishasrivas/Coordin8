@@ -1,17 +1,17 @@
-.event-input-container span {
+.home-container span {
   color: #007bff;
   font-weight: bold;
   cursor: pointer;
 }
 
-.event-input-container li {
+.home-container li {
   margin-bottom: 20px;
 }
 
-.event-input-container p {
+.home-container p {
   font-size: 18px;
 }
 
-.event-input-container ul {
+.home-container ul {
   font-size: 18px;
 }

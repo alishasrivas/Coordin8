@@ -58,12 +58,12 @@ export class AppControllerComponent extends BaseComponent {
     const homeBtn = this.#container.querySelector('#homeBtn');
     const createEventBtn = this.#container.querySelector('#createEventBtn');
     const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
-    const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn'); 
+    const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
-    profileSettingsBtn.addEventListener('click', () => this.#switchView('profile')); 
+    profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
   }
 
   #switchView(view) {
@@ -84,8 +84,10 @@ export class AppControllerComponent extends BaseComponent {
         break;
       case 'dashboard':
         viewContainer.appendChild(this.#dashboardComponent.render()); // Render DashboardComponent
+        break;
       case 'profile':
         viewContainer.appendChild(this.#profileSetting.render()); // Render DashboardComponent
+        console.log("Profile called")
         break;
     }
   }
