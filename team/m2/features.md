@@ -2,9 +2,12 @@
 
 ## User Account Creation and Authentication
 
-This feature will allow the user login or sign up. The sign up option will allow users to create an account by entering their email and creating a password. They will be prompted to create a username and upload a profile image (profile image is optional). The next step in the account creation process will be to enter in important settings (timezone and notification preferences). The login option will prompt users to enter their username and password. Users will not be able to use any other features of the application prior to logging in. The application will store user data in a database (stored user data will include, username, email, password, and full name). 
+This feature will allow the user login or sign up. The application will store user data in a database (stored user data will include, username, email, password, and full name).
 
 ### Log-In Form
+
+The login option will prompt users to enter their username and password. Users will not be able to use any other features of the application prior to logging in. 
+
 **Size**: small
 
 **Points**: 1
@@ -12,6 +15,9 @@ This feature will allow the user login or sign up. The sign up option will allow
 **Assigned to**: Tan Le
 
 ### Sign-Up Form
+
+The sign up option will allow users to create an account by entering their email and creating a password. They will be prompted to create a username and upload a profile image (profile image is optional). The next step in the account creation process will be to enter in important settings (timezone and notification preferences).
+
 **Size**: small
 
 **Points**: 1
@@ -19,6 +25,9 @@ This feature will allow the user login or sign up. The sign up option will allow
 **Assigned to**: Tan Le
 
 ### Username, timezone, notification preferences form after signing up
+
+This feature allows the user to enter in their initial profile information immediately after signing up. User will enter their username, timezone, and notification preferences.
+
 **Size**: small
 
 **Points**: 1
