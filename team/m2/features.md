@@ -34,6 +34,8 @@ This feature allows the user to enter in their initial profile information immed
 **Points**: 1
 
 **Assigned to**: Tan Le
+
+
   
 ## Homepage
 
@@ -46,13 +48,14 @@ A static HTML page that provides information about the application. It includes 
 **Assigned to**: Joshua Swaida
 
 
+
 ## Event Creation
 
 This feature will allow the user to create an event. 
 
 ### Event Creation Form (name, description, invitees, potential times)
 
-This feature allows the user to input event details: meeting name and meeting description. The user can also enter potential times and dates (the exact day and time will be determined in the Event Day/Time Finalization feature). For times, user must fill in start time, end time, and date fields; All fields will be verified for correctness (must ensure HH:MM format for time and YYYY-MM-DD format for the date). The user will also be able to invite other users to the event by entering their email and clicking "invite user" button. 
+This feature allows the user to input event details: meeting name and meeting description. The user can also enter potential times and dates (the exact day and time will be determined in the Event Day/Time Finalization feature). For times, user must fill in start time, end time, and date fields; All fields will be verified for correctness (must ensure HH:MM format for time and YYYY-MM-DD format for the date). The user will also be able to invite other users to the event by entering their email and clicking "invite user" button. Upon submission (clicking "Create Event" button), the data is saved in IndexedDB, and the form resets for the next entry. 
 
 **Size**: medium
 
@@ -62,7 +65,7 @@ This feature allows the user to input event details: meeting name and meeting de
 
 ### Interactive Invitees List
 
-This feature will generate an interactive unordered list of all the invitees. After the user enters the invitee's email, they click the "Invite user" button. This will update the DOM, adding the invitee's email to a list. Next to each invitee's email is a delete button. This allows the user to add and remove invitees from their list.
+This feature will generate an interactive unordered list of all the invitees. After the user enters the invitee's email, they click the "Invite user" button. This will update the DOM, adding the invitee's email to a list. Next to each invitee's email is a delete button. This feature allows the user to add and remove invitees from their list. Upon submission (clicking "Invite User" button), the invitee input field will reset.
 
 **Size**: medium
 
@@ -72,13 +75,15 @@ This feature will generate an interactive unordered list of all the invitees. Af
 
 ### Interactive Times List
 
-This feature will generate an interactive unordered list of all the potential times/dates. After the user enters the start time, end time, and data, they click the "Add Time" button. This will update the DOM, adding the potetial time/date to a list. Next to each time/date a delete button. This allows the user to add and remove potential time/dates from their list.
+This feature will generate an interactive unordered list of all the potential times/dates. After the user enters the start time, end time, and data, they click the "Add Time" button. This will update the DOM, adding the potetial time/date to a list. Next to each time/date a delete button. This feature allows the user to add and remove potential time/dates from their list. Upon submission (clicking "Add Time" button), the time input fields will reset.
 
 **Size**: medium
 
 **Points**: 3
 
 **Assigned to**: Joshua Swaida
+
+
 
 ## Notify Invited Users and Availability Submission
 
@@ -87,6 +92,8 @@ After creating the event and specifying the invitees, this feature will send a n
 
 ### Send Notifications
 
+Sends notification to each invitee.
+
 **Size**: medium
 
 **Points**: 3
@@ -94,11 +101,16 @@ After creating the event and specifying the invitees, this feature will send a n
 **Assigned to**: William Ward
 
 ### Collect User's Available Times
+
+Notification links to form for invitee to enter their available times.
+
 **Size**: small
 
 **Points**: 1
 
 **Assigned to**: William Ward
+
+
 
 ## Event Modification and Deletion
 
@@ -143,6 +155,8 @@ After event cancellation, a notification will be sent to the invitees to inform 
 **Points**: 2
 
 **Assigned to**: Noah Vo
+
+
 
 ## Event Day/Time Finalization
 
@@ -189,11 +203,15 @@ This feature filters the events to just show the ones that everyone can join.
 
 **Assigned to**: Bach Luu
 
+
+
 ## Event Dashboard
 
 Users will be able to view all the events they created and were invited to. They will be able to view past events and upcoming events. Each event on the dashboard will have an edit button that opens the Event Modification/Deletion Screen. The dashboard will update whenever an event is created, modified, or deleted. 
 
 ### List View
+
+Shows all the user's events as a list.
 
 **Size**: large
 
@@ -203,6 +221,8 @@ Users will be able to view all the events they created and were invited to. They
 
 ### Sorting (By date)
 
+Sorts user's events by date.
+
 **Size**: small
 
 **Points**: 1
@@ -210,6 +230,8 @@ Users will be able to view all the events they created and were invited to. They
 **Assigned to**: Bach Luu
 
 ### Sorting (By name)
+
+Sorts user's events by name.
 
 **Size**: small
 
@@ -219,6 +241,8 @@ Users will be able to view all the events they created and were invited to. They
 
 ### Search Bar
 
+Allows user to search through events by name.
+
 **Size**: small
 
 **Points**: 1
@@ -226,6 +250,8 @@ Users will be able to view all the events they created and were invited to. They
 **Assigned to**: Bach Luu
 
 ### Filter(Upcoming Events)
+
+Displays only upcoming events.
 
 **Size**: small
 
@@ -235,6 +261,8 @@ Users will be able to view all the events they created and were invited to. They
 
 ### Filter(Past Events)
 
+Displays only past events.
+
 **Size**: small
 
 **Points**: 1
@@ -243,11 +271,14 @@ Users will be able to view all the events they created and were invited to. They
 
 ### Filter(All Events)
 
+Displays all of the user's events.
+
 **Size**: small
 
 **Points**: 1
 
 **Assigned to**: Bach Luu
+
 
 
 ## Friends List
@@ -256,7 +287,7 @@ This feature will allow users to search for other users and add them to their fr
 
 ### User Search Functionality
 
-This feature allows the user to search for other user's.
+This feature allows the user to search for other user's. **NOTE:** Only the UI is implemented for milestone 3. Functionality will be implemented in the backend.
 
 **Size**: Large
 
@@ -266,7 +297,7 @@ This feature allows the user to search for other user's.
 
 ### Add Friend Request
 
-This feature is a button that allows users to send friend requests to specific users.
+This feature is a button that allows users to send friend requests to specific users. **NOTE:** Only the UI is implemented for milestone 3. Functionality will be implemented in the backend.
 
 **Size**: small
 
@@ -276,7 +307,7 @@ This feature is a button that allows users to send friend requests to specific u
 
 ### Remove Friend Option
 
-This feature is a button that allows users to remove people from their friends list.
+This feature is a button that allows users to remove people from their friends list. **NOTE:** Only the UI is implemented for milestone 3. Functionality will be implemented in the backend.
 
 **Size**: small
 
@@ -286,7 +317,7 @@ This feature is a button that allows users to remove people from their friends l
 
 ### Friend Request Notifications
 
-After clicking the "send friend request" button, this feature will send a friend request notification. **NOTE:** This will be implemented with the backend
+After clicking the "send friend request" button, this feature will send a friend request notification. **NOTE:** This feature will be implemented with the backend.
 
 **Assigned to**: Alisha Srivastava
 
@@ -299,6 +330,8 @@ This feature will display all of the user's friends.
 **Points**: 3
 
 **Assigned to**: Alisha Srivastava
+
+
 
 ## Profile Settings
 
@@ -343,6 +376,8 @@ This button will save the user's updated settings and redirect them back to the 
 **Points**: 2
 
 **Assigned to**: Tan Le
+
+
 
 ## Navigation Bar
 
