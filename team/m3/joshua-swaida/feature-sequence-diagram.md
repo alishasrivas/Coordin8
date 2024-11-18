@@ -2,9 +2,14 @@ The feature I will focus on here is my InteractiveTimesList. This is a sub-featu
 
 ```mermaid
 graph TD;
-    Start_Time_Input-->Input_Validation;
-    End_Time_Input-->Input_Validation;
-    Date_Input-->Input_Validation;
-    Input_Validation-->Display_List_Item;
-    Input_Validation-->Display_Delete_Button;
+    A[User inputs start time]-->D[User clicks Add Time button];
+    B[User inputs end time]-->D;
+    C[User inputs date]-->D;
+    D-->E[handleAddTime method is called with startTime, endTime, and date as parameters]
+    E-->F[validateTimeInputs method is called with startTime, endTime, and date as parameters. Time inputs are validated for completeness and correctness of format]
+    F-->G[If time inputs are valid, a new li element is created for the time/date. The li contains a delete button]
+    F-->H[If time inputs are NOT valid, an alert appears and tells user to fix their input]
+    G-->I[clearTimeInputs method is called, resetting all the time input fields to be empty]
+    G-->J[List item and corresponding delete button are added to the DOM and displayed on the user's screen]
+    J-->K[If user clicks Delete button, the List Item is removed from the DOM]
 ```
