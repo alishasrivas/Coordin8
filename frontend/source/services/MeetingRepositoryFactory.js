@@ -37,4 +37,5 @@ export class MeetingRepositoryFactory {
       throw new Error(`Invalid repository type: ${repoType}`);
     }
   }
+
 }
