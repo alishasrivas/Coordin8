@@ -76,8 +76,9 @@ export class AvailabilityComponent extends BaseComponent {
             timeContainer.id = "time" + i;
             timeContainer.innerHTML = `
                 <input type="checkbox" id="t${i}" class="time-input" name="t${i}" value="t${i}">
-                <label for="t${i}">${this.#potentialTimes[i].date}: ${this.#potentialTimes[i].startTime} - ${this.#potentialTimes[i].startTime}</label>
+                <label for="t${i}">${this.#potentialTimes[i].date}: ${this.#potentialTimes[i].startTime} - ${this.#potentialTimes[i].endTime}</label>
             `;
+            timeList.appendChild(timeContainer);
         }
     }
 
