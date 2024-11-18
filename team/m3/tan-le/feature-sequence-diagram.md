@@ -18,7 +18,7 @@ graph TD;
     J --> K[user can update email, username, primary time zone, secondary time zone, notification preference in the form]
     K --> L[if user submits, there will be a simple validation checking if all required fields are not empty - email, username, first time zone preference ]
     L --> M[if passed, system will store the information in indexedDB]
-    L --> N[if failed, system will display error message to user]
+    L --> N[if failed, system will display error message to user, user may enter input again; if user refreshes the page, the error message will be gone, and information from indexedDB will be displayed again]
     M --> O[User can move back to dashbaord or stay at profile settings page]
     N --> O
 
