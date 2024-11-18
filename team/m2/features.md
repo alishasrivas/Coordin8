@@ -285,13 +285,13 @@ Displays all of the user's events.
 
 This feature will allow users to search for other users and add them to their friends list. This will facilitate the invitation process, as you can simply invite people from your friends list. 
 
-### User Search Functionality
+### User Search Bar
 
-This feature allows the user to search for other user's. **NOTE:** Only the UI is implemented for milestone 3. Functionality will be implemented in the backend.
+This feature will allow the user to search for other user's. **NOTE:** Only the UI is implemented for milestone 3. Functionality will be implemented in the backend.
 
-**Size**: Large
+**Size**: medium
 
-**Points**: 4
+**Points**: 2
 
 **Assigned to**: Alisha Srivastava
 
@@ -323,11 +323,11 @@ After clicking the "send friend request" button, this feature will send a friend
 
 ### Friends List Display
 
-This feature will display all of the user's friends.
+This feature will display all of the user's friends. **NOTE:** This feature will be implemented with the backend. Only UI is implemented with fake friend data.
 
 **Size**: medium
 
-**Points**: 3
+**Points**: 2
 
 **Assigned to**: Alisha Srivastava
 
