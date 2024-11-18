@@ -28,6 +28,8 @@ export class AppControllerComponent extends BaseComponent {
     this.#homeComponent = new HomeComponent();
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
+    this.#eventFinalizationComponent = new EventFinalizationComponent();
+    this.#friendsListComponent = new FriendsListComponent();
   }
 
   // Render the AppController component and return the container
