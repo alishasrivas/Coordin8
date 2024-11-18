@@ -81,9 +81,10 @@ This feature will generate an interactive unordered list of all the potential ti
 
 ## Notify Invited Users and Availability Submission
 
-After creating the event and inviting other users, this feature will send a notification to the invitees. These notifications will link to a form that inquires the invitees for their availability. The invitee will view the initial days and time ranges specified by the inviter and select when they are available during those times. 
+After creating the event and specifying the invitees, this feature will send a notification to the invitees. These notifications will link to a form that inquires the invitees for their availability. The invitee will view the initial days and time ranges specified by the inviter and select when they are available during those times. 
 
 ### Send Notifications
+
 **Size**: medium
 
 **Points**: 3
@@ -99,16 +100,14 @@ After creating the event and inviting other users, this feature will send a noti
 
 ## Event Modification and Deletion
 
-This feature will allow the user (creator of event) to edit an existing event. The can modify event details like duration, location, description, and times/days. The user can also cancel the event (the cancellation of an event will send a notification to the invitees, informing them of the cancellation). This feature will also allow the user to invite additional people to the event (invitation notifications will be sent to these additional invitees).
-
-### Modify Duration
-**Size**: small
-
-**Points**: 1
+This feature will allow the user (creator of event) to edit or cancel an existing event. The can modify event details like name, description, and times/days. 
 
 **Assigned to**: Noah Vo
 
-### Modify Description
+### Modify Event Name/Description
+
+This feature allows the user to modify the name and description of an event.
+
 **Size**: small
 
 **Points**: 1
@@ -116,6 +115,9 @@ This feature will allow the user (creator of event) to edit an existing event. T
 **Assigned to**: Noah Vo
 
 ### Modify Times/Days
+
+This feature allows the user to modify the potential times/days of an event.
+
 **Size**: medium
 
 **Points**: 2
@@ -123,6 +125,9 @@ This feature will allow the user (creator of event) to edit an existing event. T
 **Assigned to**: Noah Vo
 
 ### Cancel Event Button
+
+This feature allows the user to cancel the event. 
+
 **Size**: small
 
 **Points**: 1
@@ -130,6 +135,9 @@ This feature will allow the user (creator of event) to edit an existing event. T
 **Assigned to**: Noah Vo
 
 ### Notifications to Invitees
+
+After event cancellation, a notification will be sent to the invitees to inform them of the cancellation. Moreover, this feature will also allow the user to invite additional people to the event, so invitation notifications will be sent to these additional invitees.
+
 **Size**: medium
 
 **Points**: 2
