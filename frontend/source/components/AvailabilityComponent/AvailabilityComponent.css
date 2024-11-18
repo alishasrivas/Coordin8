@@ -8,7 +8,8 @@ body {
 }
 
 * {
-    font-family: "Arial", serif; /* Fallback to serif if Arial isn't available */
+    font-family: "Arial", serif;
+    /* Fallback to serif if Arial isn't available */
 }
 
 #blue-header {
@@ -44,7 +45,7 @@ body {
 
 /* Time Input Field */
 .time-input {
-    width: 100%;
+    /* width: 100%; */
     padding: 10px;
     font-size: 1rem;
     margin-bottom: 10px;
@@ -76,9 +77,15 @@ body {
     list-style-type: none;
     /* Removes default bullets */
     margin: 1rem 0;
+    padding: 2rem;
     /* Adds some spacing around the list */
     border: 1px solid #ccc;
     /* Adds a border around the list */
     border-radius: 4px;
     background-color: #f9f9f9;
+}
+
+.direct-time-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }

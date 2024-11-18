@@ -14,13 +14,13 @@ export class AvailabilityComponent extends BaseComponent {
     }
 
     render() {
-        if(this.#container){
+        if (this.#container) {
             return this.#container;
         }
 
         this.#createContainer();
         this.#attachEventListeners();
-        (async () => {let permission = await Notification.requestPermission();})();
+        (async () => { let permission = await Notification.requestPermission(); })();
         return this.#container;
     }
 
@@ -37,9 +37,9 @@ export class AvailabilityComponent extends BaseComponent {
         // get event details from db
         // test data:
         this.#eventName = "sample name";
-        this.#eventDescription = "sample sample sample sample sample"
-        this.#potentialTimes.push({startTime: "01:00", endTime: "02:00", date: "1970-01-01"});
-        this.#potentialTimes.push({startTime: "02:00", endTime: "03:00", date: "1970-01-01"});
+        this.#eventDescription = "sample description";
+        this.#potentialTimes.push({ startTime: "01:00", endTime: "02:00", date: "1970-01-01" });
+        this.#potentialTimes.push({ startTime: "02:00", endTime: "03:00", date: "1970-01-01" });
     }
 
     #getTemplate() {
@@ -71,12 +71,13 @@ export class AvailabilityComponent extends BaseComponent {
         const eventDescriptionElem = this.#container.querySelector("#eventDescription");
         eventDescriptionElem.innerHTML = this.#eventDescription;
         const timeList = this.#container.querySelector("#time-list");
-        for(let i = 0; i < this.#potentialTimes.length; i++) {
+        for (let i = 0; i < this.#potentialTimes.length; i++) {
             const timeContainer = document.createElement("div");
             timeContainer.id = "time" + i;
+            timeContainer.classList.add("direct-time-container");
             timeContainer.innerHTML = `
-                <input type="checkbox" id="t${i}" class="time-input" name="t${i}" value="t${i}">
                 <label for="t${i}">${this.#potentialTimes[i].date}: ${this.#potentialTimes[i].startTime} - ${this.#potentialTimes[i].endTime}</label>
+                <input type="checkbox" id="t${i}" class="time-input" name="t${i}" value="t${i}">
             `;
             timeList.appendChild(timeContainer);
         }
@@ -95,8 +96,8 @@ export class AvailabilityComponent extends BaseComponent {
     #handleUserSubmission() {
         // check which potential times the user selected
         const confirmedTimes = [];
-        for(let i = 0; i < this.#potentialTimes.length; i++) {
-            if(this.#container.querySelector("#t" + i).checked) confirmedTimes.push(this.#potentialTimes[i]);
+        for (let i = 0; i < this.#potentialTimes.length; i++) {
+            if (this.#container.querySelector("#t" + i).checked) confirmedTimes.push(this.#potentialTimes[i]);
         }
         this.#publishAvailableTimes(confirmedTimes);
     }
