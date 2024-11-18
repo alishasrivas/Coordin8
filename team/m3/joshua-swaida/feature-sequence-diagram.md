@@ -1,16 +1,38 @@
-The feature I will focus on here is my InteractiveTimesList. This is a sub-feature to the EventCreationComponent. For this feature, the user will enter in the start time, end time, and date inputs and click the "Add Time" button. This button click will lead to the input being validated to ensure it is in the correct formats (HH:MM for time and YYYY-MM-DD for date). After the time inputs are validated, a new list element will be created and added to the DOM. This will display the potential time/date on the screen. A delete button corresponding to the list item will also be displayed on the DOM. If the user clicks this delete button, the corresponding list item will be removed from the DOM.
+The feature I will focus on here is my Event Creation Feature. This feature allows the user to fill in Event Details input, Invitee input, and Potential Times input. The event details include event name and evet description. Invitee input involves entering the invitee's email and clicking "Add Invitee" button; the email is validated and, on success, will add the invitee to the InteractiveInviteesList, updating the UI. Potential times input involves entering the start time, end time, and date and clicking "Add Time" button; the time inputs are validated and, on success, will add the time/date data to the InteractiveTimesList, updating the UI. The user can then click the "Create Event" button which will publish the NewMeeting and StoreMeeting events, saving the Event Information in IndexedDB.
 
 ```mermaid
-graph TD;
-    A[User inputs start time]-->D[User clicks Add Time button];
-    B[User inputs end time]-->D;
-    C[User inputs date]-->D;
-    D-->E[handleAddTime method is called with startTime, endTime, and date as parameters]
-    E-->F[validateTimeInputs method is called with startTime, endTime, and date as parameters. Time inputs are validated for completeness and correctness of format]
-    F-->G[If time inputs are valid, a new li element is created for the time/date. The li contains a delete button]
-    F-->H[If time inputs are NOT valid, an alert appears and tells user to fix their input]
-    H-->D
-    G-->I[clearTimeInputs method is called, resetting all the time input fields to be empty]
-    G-->J[List item and corresponding delete button are added to the DOM, updating the UI and displaying the list item on the user's screen]
-    J-->K[If user clicks Delete button, the List Item is removed from the DOM, updating the UI and removing the List Item from the user's screen]
+sequenceDiagram
+    participant User
+    participant AddTimeButton
+    participant Validation
+    participant TimesDOM
+    participant InviteButton
+    participant InviteesDOM
+    participant CreateEventButton
+    participant IndexedDB
+
+    %% Adding Times
+    User->>AddTimeButton: Enter Time Input and Click "Add Time"
+    AddTimeButton->>Validation: Validate Time Inputs (Start, End, Date)
+    Validation-->>AddTimeButton: Success
+    AddTimeButton->>TimesDOM: Add Time to DOM List
+    AddTimeButton->>TimesDOM: Add Delete Button
+    User->>DeleteTimeButton: Click "Delete"
+    DeleteTimeButton->>TimesDOM: Remove Time from DOM
+
+    %% Adding Invitees
+    User->>InviteButton: Enter Invitee Input and Click "Invite User"
+    InviteButton->>Validation: Validate Invitee Email
+    Validation-->>InviteButton: Success
+    InviteButton->>InviteesDOM: Add Invitee to DOM List
+    InviteButton->>InviteesDOM: Add Delete Button
+    User->>DeleteInviteeButton: Click "Delete"
+    DeleteInviteeButton->>InviteesDOM: Remove Invitee from DOM
+
+    %% Creating Event
+    User->>CreateEventButton: Enter Event Details and "Create Event"
+    CreateEventButton->>IndexedDB: Save Event (Details, Invitees, Times)
+    IndexedDB-->>CreateEventButton: Success
+    CreateEventButton->>InviteesDOM: Clear Invitee List from DOM
+    CreateEventButton->>TimesDOM: Clear Time List from DOM
 ```
