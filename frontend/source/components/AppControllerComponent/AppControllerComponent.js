@@ -62,13 +62,13 @@ export class AppControllerComponent extends BaseComponent {
     const homeBtn = this.#container.querySelector('#homeBtn');
     const createEventBtn = this.#container.querySelector('#createEventBtn');
     const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
-    const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn'); 
+    const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
     const friendsListBtn = this.#container.querySelector('#friendsListNavigationButton')
-    
+
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
-    profileSettingsBtn.addEventListener('click', () => this.#switchView('profile')); 
+    profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
     friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
   }
 
@@ -93,6 +93,7 @@ export class AppControllerComponent extends BaseComponent {
         break;
       case 'profile':
         viewContainer.appendChild(this.#profileSetting.render()); // Render DashboardComponent
+        console.log("Profile called")
         break;
       case 'friendsList':
         viewContainer.appendChild(this.#friendsListComponent.render());

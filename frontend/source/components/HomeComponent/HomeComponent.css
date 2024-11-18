@@ -1,0 +1,17 @@
+.home-container span {
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.home-container li {
+  margin-bottom: 20px;
+}
+
+.home-container p {
+  font-size: 18px;
+}
+
+.home-container ul {
+  font-size: 18px;
+}

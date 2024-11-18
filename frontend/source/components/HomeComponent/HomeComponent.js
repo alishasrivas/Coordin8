@@ -24,7 +24,7 @@ export class HomeComponent extends BaseComponent {
   #createContainer() {
     // Create and configure the container element
     this.#container = document.createElement("div");
-    this.#container.classList.add("event-input-container");
+    this.#container.classList.add("home-container");
     this.#container.innerHTML = this.#getTemplate();
   }
 
@@ -35,8 +35,14 @@ export class HomeComponent extends BaseComponent {
       <div id="blue-header">
         <h1>Welcome to Coordin8!</h1>
       </div>
-      <p>Welcome to Coorin8 application! Use the navigation bar below to create event!</p>
-      
+      <p>Coordin8 is an application that helps you organize meetings effortlessly, even across different time zones. Use the navigation bar above to explore all the features we offer!</p>
+      <p>Here's what you can do: </p>
+      <ul>
+        <li><span>Create Event</span>: Schedule meetings and invite others with ease.</li>
+        <li><span>Dashboard</span>: View and manage all your upcoming and past events.</li>
+        <li><span>Friends List</span>: Search for users and add them to your friends list for quick access.</li>
+        <li><span>Profile Settings</span>: Update your personal information, set your timezone, and customize notification preferences.</li>
+      </ul>
     `;
   }
 }

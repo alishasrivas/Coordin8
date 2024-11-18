@@ -1,6 +1,8 @@
 import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { mainMeetingRepository } from "../../main.js";
+//TODO: error in having 2 list of events
 
 export class DashboardComponent extends BaseComponent {
   #container = null;
@@ -13,7 +15,7 @@ export class DashboardComponent extends BaseComponent {
   constructor() {
     super();
     this.loadCSS("DashboardComponent");
-    this.#initializeFakeEvents();
+    // this.#initializeFakeEvents();
     this.#subscribeToEvents();
   }
 
@@ -23,38 +25,48 @@ export class DashboardComponent extends BaseComponent {
     }
 
     this.#createContainer();
+    this.#fetchEvents().catch(error => {
+      console.error(error);
+    });
     this.#attachEventListeners();
     return this.#container;
   }
-  #initializeFakeEvents() {
-    this.#events = [
-      {
-        name: "Event 1",
-        description: "Description for Event 1",
-        times: [
-          { startTime: "10:00 AM", endTime: "11:00 AM", date: "2023-10-01" }
-        ],
-        invitees: ["Alice", "Bob", "Charlie"]
-      },
-      {
-        name: "Event 2",
-        description: "Description for Event 2",
-        times: [
-          { startTime: "02:00 PM", endTime: "03:00 PM", date: "2023-10-02" }
-        ],
-        invitees: ["David", "Eve", "Frank"]
-      },
-      {
-        name: "Event 3",
-        description: "Description for Event 3",
-        times: [
-          { startTime: "09:00 AM", endTime: "10:00 AM", date: "2023-10-03" }
-        ],
-        invitees: ["Grace", "Heidi", "Ivan"]
-      }
-    ];
+
+  async #fetchEvents() {
+    const events = await mainMeetingRepository.loadMeetingsFromDB();
+    this.#events = events;
     this.#filteredEvents = this.#events;
+    this.#updateEventsList();
   }
+  // #initializeFakeEvents() {
+  //   this.#events = [
+  //     {
+  //       name: "Event 1",
+  //       description: "Description for Event 1",
+  //       times: [
+  //         { startTime: "10:00 AM", endTime: "11:00 AM", date: "2023-10-01" }
+  //       ],
+  //       invitees: ["Alice", "Bob", "Charlie"]
+  //     },
+  //     {
+  //       name: "Event 2",
+  //       description: "Description for Event 2",
+  //       times: [
+  //         { startTime: "02:00 PM", endTime: "03:00 PM", date: "2023-10-02" }
+  //       ],
+  //       invitees: ["David", "Eve", "Frank"]
+  //     },
+  //     {
+  //       name: "Event 3",
+  //       description: "Description for Event 3",
+  //       times: [
+  //         { startTime: "09:00 AM", endTime: "10:00 AM", date: "2023-10-03" }
+  //       ],
+  //       invitees: ["Grace", "Heidi", "Ivan"]
+  //     }
+  //   ];
+  //   this.#filteredEvents = this.#events;
+  // }
 
   #createContainer() {
     // Create and configure the container element
@@ -92,7 +104,14 @@ export class DashboardComponent extends BaseComponent {
 
   #getListViewTemplate() {
     // Returns the HTML template for the list view
-    return this.#filteredEvents.map(this.#getEventTemplate).join('');
+    // console.log("DEBUG")
+    console.log(this.#filteredEvents.length);
+    const temp = [];
+    //!workarround to avoid creating an array of 2 times the events
+    for (let i = 0; i < this.#filteredEvents.length / 2; i++) {
+      temp.push(this.#filteredEvents[i]);
+    }
+    return temp.map(e => this.#getEventTemplate(e)).join('');
   }
 
   #getCalendarViewTemplate() {
@@ -110,7 +129,7 @@ export class DashboardComponent extends BaseComponent {
             ${event.times.map(time => `<li>Start: ${time.startTime}, End: ${time.endTime}, Date: ${time.date}</li>`).join('')}
           </ul>
           <div class="invitees-list" style="display: none;">
-            <p>Invitees: ${event.invitees.join(', ')}</p>
+            <p>Invitees: ${event.invitees ? event.invitees.join(', ') : ''}</p>
           </div>
         </div>
         <div class="event-buttons">
@@ -132,6 +151,9 @@ export class DashboardComponent extends BaseComponent {
   }
 
   #updateEventsList() {
+    if (!this.#container) {
+      this.#createContainer();
+    }
     const eventsList = this.#container.querySelector("#events-list");
     eventsList.innerHTML = this.#isCalendarView ? this.#getCalendarViewTemplate() : this.#getListViewTemplate();
   }
