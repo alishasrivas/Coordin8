@@ -4,6 +4,7 @@ import { DashboardComponent } from "../DashboardComponent/DashboardComponent.js"
 import { EventHub } from "../../eventhub/EventHub.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
+import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
 
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
@@ -13,6 +14,7 @@ export class AppControllerComponent extends BaseComponent {
   #dashboardComponent = null; // Instance of the dashboard component
   #hub = null; // EventHub instance for managing events
   #profileSetting = null // profile setting page
+  #eventFinalizationComponent = null; // Instance of the event finalization component
   #LogIn = null
   #SignUp = null
 
@@ -24,6 +26,7 @@ export class AppControllerComponent extends BaseComponent {
     this.#homeComponent = new HomeComponent();
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
+    this.#eventFinalizationComponent = new EventFinalizationComponent(); // Create an instance of EventFinalizationComponent
   }
 
   // Render the AppController component and return the container
@@ -47,6 +50,7 @@ export class AppControllerComponent extends BaseComponent {
         <button id="createEventBtn">Create Event</button>
         <button id="dashboardBtn">Dashboard</button> <!-- Add Dashboard button -->
         <button id="profileSettingsBtn">Profile Settings</button>
+        <button id="eventFinalizationBtn">Event Finalization</button>
       </div>
       <div id="viewContainer">
         <!-- View content will be dynamically added here -->
@@ -59,11 +63,13 @@ export class AppControllerComponent extends BaseComponent {
     const createEventBtn = this.#container.querySelector('#createEventBtn');
     const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
     const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn'); 
+    const eventFinalizationBtn = this.#container.querySelector('#eventFinalizationBtn');
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile')); 
+    eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
   }
 
   #switchView(view) {
@@ -87,6 +93,9 @@ export class AppControllerComponent extends BaseComponent {
         break;
       case 'profile':
         viewContainer.appendChild(this.#profileSetting.render()); // Render ProfileSettingComponent
+        break;
+      case 'eventFinal':
+        viewContainer.appendChild(this.#eventFinalizationComponent.render()); // Render EventFinalizationComponent
         break;
     }
   }
