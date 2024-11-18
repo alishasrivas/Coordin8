@@ -285,6 +285,9 @@ This button will save the user's updated settings and redirect them back to the 
 This feature will allow the user to switch between the following views of the application: User Authentication Screen, Main Dashboard Screen, Event Creation Screen, Profile Setting Screen, Friends List Screen. These views will be accessible through a button on the navigation bar. 
 
 ### Home Button
+
+This button on the navigation bar will open the Homepage view.
+
 **Size**: small
 
 **Points**: 1
@@ -292,6 +295,9 @@ This feature will allow the user to switch between the following views of the ap
 **Assigned to**: Bach Luu
 
 ### Dashboard Button
+
+This button on the navigation bar will open the Dashboard view.
+
 **Size**: small
 
 **Points**: 1
@@ -299,6 +305,9 @@ This feature will allow the user to switch between the following views of the ap
 **Assigned to**: Bach Luu
 
 ### Event Creation Button
+
+This button on the navigation bar will open the Event Creation view.
+
 **Size**: small
 
 **Points**: 1
@@ -306,6 +315,9 @@ This feature will allow the user to switch between the following views of the ap
 **Assigned to**: Bach Luu
 
 ### Profile Settings Button
+
+This button on the navigation bar will open the Profile Settings view.
+
 **Size**: small
 
 **Points**: 1
@@ -313,10 +325,13 @@ This feature will allow the user to switch between the following views of the ap
 **Assigned to**: Joshua Swaida
 
 ### Friends List Button
+
+This button on the navigation bar will open the Friends List view.
+
 **Size**: small
 
 **Points**: 1
 
-**Assigned to**: Joshua Swaida
+**Assigned to**: Alisha Srivastava
 
 
