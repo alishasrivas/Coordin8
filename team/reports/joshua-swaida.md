@@ -47,7 +47,7 @@
 
 ### November 17, 2024
 - **Task**: Started Implemention for InteractiveInviteesList for EventCreationComponent
-- **Details**: Added a div in the HTML to contain the interactive invitees list. Inside the div I placed a <ul>. Every time the invite button is clicked, a new <li> element will be added to the <ul>. Added event listeners to invite button. Will implement handleInviteUser helper method to deal with the button click.
+- **Details**: Added a div in the HTML to contain the interactive invitees list. Inside the div I placed a ul. Every time the invite button is clicked, a new li element will be added to the ul. Added event listeners to invite button. Will implement handleInviteUser helper method to deal with the button click.
 - **Link to Commit**: [Commit for start of InteractiveInviteeList implementation](https://github.com/alishasrivas/Coordin8/commit/8851dddb6948ca7f54d6c1dd36fe12dbc2ca15da)
 
 ### November 17, 2024
@@ -57,7 +57,7 @@
 
 ### November 17, 2024
 - **Task**: Finalize Homepage Component Implementation
-- **Details**: Added a <ul> element to make a clear list of the application's features. I improved the quick feature descriptions. I added some styles to the <p> and list to make it look better.
+- **Details**: Added a ul element to make a clear list of the application's features. I improved the quick feature descriptions. I added some styles to the p and list to make it look better.
 - **Link to Commit**: [Commit for finalizing Homepage component](https://github.com/alishasrivas/Coordin8/commit/fa3dcbef5c1bb3d99da4635ff8d85160a13bf339)
 
 ### November 17, 2024
