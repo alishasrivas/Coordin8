@@ -2,7 +2,6 @@ import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { mainMeetingRepository } from "../../main.js";
-//TODO: error in having 2 list of events
 
 export class DashboardComponent extends BaseComponent {
   #container = null;
@@ -101,11 +100,14 @@ export class DashboardComponent extends BaseComponent {
       </div>
     `;
   }
-
   #getListViewTemplate() {
+    // Ensure events are unique by using a Set
+    const uniqueEvents = Array.from(new Set(this.#filteredEvents.map(event => event.name)))
+      .map(name => this.#filteredEvents.find(event => event.name === name));
+  
     // Returns the HTML template for the list view
-    console.log(this.#filteredEvents.length);
-    return this.#filteredEvents.map(e => this.#getEventTemplate(e)).join('');
+    console.log(uniqueEvents.length);
+    return uniqueEvents.map(e => this.#getEventTemplate(e)).join('');
   }
 
   #getCalendarViewTemplate() {
