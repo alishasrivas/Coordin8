@@ -14,8 +14,28 @@ export class DashboardComponent extends BaseComponent {
   constructor() {
     super();
     this.loadCSS("DashboardComponent");
-    // this.#initializeFakeEvents();
     this.#subscribeToEvents();
+    this.#initializeDatabase();
+  }
+
+  async #initializeDatabase() {
+    try {
+      await mainMeetingRepository.initDB();
+      await this.#fetchEvents();
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+    }
+  }
+
+  async #fetchEvents() {
+    try {
+      const events = await mainMeetingRepository.loadMeetingsFromDB();
+      console.log('Fetched events:', events); // Log fetched events
+      this.#events = events;
+      this.#applyCurrentFilter();
+    } catch (error) {
+      console.error('Failed to fetch events:', error);
+    }
   }
 
   render() {
@@ -24,57 +44,19 @@ export class DashboardComponent extends BaseComponent {
     }
 
     this.#createContainer();
-    this.#fetchEvents().catch(error => {
-      console.error(error);
-    });
     this.#attachEventListeners();
     return this.#container;
   }
-
-  async #fetchEvents() {
-    const events = await mainMeetingRepository.loadMeetingsFromDB();
-    this.#events = events;
-    this.#filteredEvents = this.#events;
-    this.#updateEventsList();
-  }
-  // #initializeFakeEvents() {
-  //   this.#events = [
-  //     {
-  //       name: "Event 1",
-  //       description: "Description for Event 1",
-  //       times: [
-  //         { startTime: "10:00 AM", endTime: "11:00 AM", date: "2023-10-01" }
-  //       ],
-  //       invitees: ["Alice", "Bob", "Charlie"]
-  //     },
-  //     {
-  //       name: "Event 2",
-  //       description: "Description for Event 2",
-  //       times: [
-  //         { startTime: "02:00 PM", endTime: "03:00 PM", date: "2023-10-02" }
-  //       ],
-  //       invitees: ["David", "Eve", "Frank"]
-  //     },
-  //     {
-  //       name: "Event 3",
-  //       description: "Description for Event 3",
-  //       times: [
-  //         { startTime: "09:00 AM", endTime: "10:00 AM", date: "2023-10-03" }
-  //       ],
-  //       invitees: ["Grace", "Heidi", "Ivan"]
-  //     }
-  //   ];
-  //   this.#filteredEvents = this.#events;
-  // }
 
   #createContainer() {
     // Create and configure the container element
     this.#container = document.createElement("div");
     this.#container.classList.add("dashboard-container");
     this.#container.innerHTML = this.#getTemplate();
+    document.body.appendChild(this.#container);
   }
 
-  #getTemplate() {
+    #getTemplate() {
     // Returns the HTML template for the component
     return `
       <div id="dashboard-header">
@@ -100,14 +82,11 @@ export class DashboardComponent extends BaseComponent {
       </div>
     `;
   }
+
   #getListViewTemplate() {
-    // Ensure events are unique by using a Set
-    const uniqueEvents = Array.from(new Set(this.#filteredEvents.map(event => event.name)))
-      .map(name => this.#filteredEvents.find(event => event.name === name));
-  
     // Returns the HTML template for the list view
-    console.log(uniqueEvents.length);
-    return uniqueEvents.map(e => this.#getEventTemplate(e)).join('');
+    console.log(this.#filteredEvents.length);
+    return this.#filteredEvents.map(e => this.#getEventTemplate(e)).join('');
   }
 
   #getCalendarViewTemplate() {
@@ -137,26 +116,11 @@ export class DashboardComponent extends BaseComponent {
     `;
   }
 
-  #subscribeToEvents() {
-    const hub = EventHub.getInstance();
-    hub.subscribe(Events.NewMeeting, this.#handleNewEvent.bind(this));
-  }
-
-  #handleNewEvent(event) {
-    this.#events.push(event);
-    this.#applyCurrentFilter();
-    this.#updateEventsList();
-  }
-
   #updateEventsList() {
-    if (!this.#container) {
-      this.#createContainer();
-    }
+    if (!this.#container) return;
     const eventsList = this.#container.querySelector("#events-list");
     eventsList.innerHTML = this.#isCalendarView ? this.#getCalendarViewTemplate() : this.#getListViewTemplate();
   }
-
-
 
   #attachEventListeners() {
     const searchBar = this.#container.querySelector("#search-bar");
@@ -332,5 +296,11 @@ export class DashboardComponent extends BaseComponent {
       alert(`Event "${eventName}" deleted successfully.`);
       this.#updateEventsList();
     }
+  }
+
+  #subscribeToEvents() {
+    const eventHub = EventHub.getInstance();
+    eventHub.subscribe(Events.StoreMeetingSuccess, () => this.#fetchEvents());
+    eventHub.subscribe(Events.UnStoreMeetings, () => this.#fetchEvents());
   }
 }
