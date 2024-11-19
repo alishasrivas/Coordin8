@@ -104,14 +104,8 @@ export class DashboardComponent extends BaseComponent {
 
   #getListViewTemplate() {
     // Returns the HTML template for the list view
-    // console.log("DEBUG")
     console.log(this.#filteredEvents.length);
-    const temp = [];
-    //!workarround to avoid creating an array of 2 times the events
-    for (let i = 0; i < this.#filteredEvents.length / 2; i++) {
-      temp.push(this.#filteredEvents[i]);
-    }
-    return temp.map(e => this.#getEventTemplate(e)).join('');
+    return this.#filteredEvents.map(e => this.#getEventTemplate(e)).join('');
   }
 
   #getCalendarViewTemplate() {
