@@ -14,7 +14,7 @@ const meetingRepository = MeetingRepositoryFactory.get("remote");
 const mockUser = { username: 'mockUser', 'email': 'example@gmail.com', 'primary_tz': 'America/New_York', 'secondary_tz': 'America/Los_Angeles', email_noti: false };
 const mockEvent = [
     {
-        name: "Event 1",
+        name: "Event 3",
         description: "Description for Event 1",
         times: [
             { startTime: "10:00 AM", endTime: "11:00 AM", date: "2023-10-01" }
@@ -25,15 +25,15 @@ const mockEvent = [
         name: "Event 2",
         description: "Description for Event 2",
         times: [
-            { startTime: "02:00 PM", endTime: "03:00 PM", date: "2023-10-02" }
+            { startTime: "02:00 PM", endTime: "03:00 PM", date: "2024-11-30" }
         ],
         invitees: ["David", "Eve", "Frank"]
     },
     {
-        name: "Event 3",
+        name: "Event 1",
         description: "Description for Event 3",
         times: [
-            { startTime: "09:00 AM", endTime: "10:00 AM", date: "2023-10-03" }
+            { startTime: "09:00 AM", endTime: "10:00 AM", date: "2024-12-10" }
         ],
         invitees: ["Grace", "Heidi", "Ivan"]
     }
