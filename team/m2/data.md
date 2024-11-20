@@ -13,6 +13,9 @@
   - `password` (string): A hashed version of the user's password.
   - `created_at` (timestamp): The date and time when the account was created.
   - `updated_at` (timestamp): The last time the user's profile was updated.
+  - `primary time zone` (string): The user's timezone.
+  - `secondary time zone` (string): The user's timezone.
+  - `notification preference` (boolean): The user's notification preference.
 - **Data Source**: User-input data when registering, created_at and updated_at will be auto generated.
 
 ### 2. Event

@@ -1,26 +1,86 @@
-Flow chart for authentication to profile settings page. 
-
-Note: the part I am mainly responsible for is very back-end oriented, so my flow chart will contain certain parts related to back-end, which is not implemented in this milesonte. However, I also contributed to other features of my teammate for this milestone, but since I am not mainly responsible for that, I cannot choose to draw them.
 
 
 
+### Profile Settings Feature
+
+The profile settings feature allows users to update their profile information, including their email, username, primary time zone, secondary time zone, and notification preferences. This feature worked depend on authentication (which we just implemented the UI for in this milestone), but my diagram will also include part of the authentication process.
+
+Case 1: User logs in
 ```mermaid
-graph TD;
-    A[sign up] --> B[email and password validation on front end];
-    B --> C[email and password sent to backend, backend perform hash operation to store password securely]
-    B --> D[UI changes to the Set Up Component Screen]
-    D --> E[user input email notification preference, username, primary time zone preference]
-    E --> F[backend receive user input and store in database]
-    E --> G[UI changes to dashboard]
-    G --> H[user click on profile settings]
-    H --> I[currently, we implement this with indexedDB -assume storing user data in indexedDB instead of backend -; system fetchs user data from indexedDB and display in the profile settings page]
-    I --> J[user data with email, username, primary time zone, secondary time zone, notification preference are displayed in the profile settings form]
-    J --> K[user can update email, username, primary time zone, secondary time zone, notification preference in the form]
-    K --> L[if user submits, there will be a simple validation checking if all required fields are not empty - email, username, first time zone preference ]
-    L --> M[if passed, system will store the information in indexedDB]
-    L --> N[if failed, system will display error message to user, user may enter input again; if user refreshes the page, the error message will be gone, and information from indexedDB will be displayed again]
-    M --> O[User can move back to dashbaord or stay at profile settings page]
-    N --> O
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
 
+    User->>Frontend: Log In with credentials
+    User->>Frontend: Click "Log In"
+    Frontend->>Backend: Send user credentials
+    Backend->>Backend: Use the credentials to identify the user
+    Backend->>Database: Retrieve user data
+    Database-->>Backend: Return user data
+    Backend -->> Backend: validate password with user credentials
+
+
+    alt Validation Success
+       Backend-->>Frontend: Return user data and status 200, also include the access token and refresh token in the response
+       Frontend -->> Frontend: Store the access token and refresh token in local storage (or include in cookie if using HTTP only methods)
+       Frontend -->> User: Direct to homepage
+       User -->> Frontend: Click "Profile Settings"
+       Frontend -->> Backend: Send request to backend to get all user data
+       Backend -->> Database: Request data from database
+       Database -->> Backend: Return user data (email, username, primary time zone, secondary time zone, notification preference)
+       Backend -->> Frontend: Return user data
+       Frontend -->> Frontend: Display user data in Profile Settings Page in the inputs fields of form 
+       User -->> Frontend: Edit the inputs of the form
+       User -->> Frontend: Click "Save"
+       Frontend -->> Backend: Send POST request to backend to update user data
+       Backend -->> Database: Update user data in database
+    else Validation Failure
+        Backend-->>Frontend: Return validation errors
+        Frontend-->>User: Display error messages in Log In Page
+    end
 
 ```
+Case 2: User signs up
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
+
+    User->>Frontend: Sign Up with email and password
+    User->>Frontend: Click "Sign Up"
+    Frontend->>Backend: Send data
+    Backend->>Backend: Use the credentials to identify if the user already exists
+    Backend -->> Database: Retrieve user data
+    alt If exists:
+        Backend-->>Frontend: Return error message and display error message, ask user to login
+    else Not exists:
+        Backend -->>Backend: called hash function to hash password
+        Backend -->> Database: Send request to store new entry with user data in database
+        Database -->> Backend: Return user data
+        Backend -->> Frontend: Return status 200 and include access token and refresh token in response
+        Frontend -->> Frontend: Store the access token and refresh token in local storage (or include in cookie if using HTTP only methods)
+        Frontend -->> User: Direct to SetUpAccount Page, shows form to ask user for primary timezone and notification preference
+        User -->> Frontend: Fill in the form
+        User -->> Frontend: Click "Save"
+        Frontend -->> Backend: Send POST request to backend to update user data
+        Backend -->> Database: Update user data in database
+        Backend -->> Frontend: Return status 200 
+        
+
+       Frontend -->> User: Direct to homepage
+       User -->> Frontend: Click "Profile Settings"
+       Frontend -->> Backend: Send request to backend to get all user data
+       Backend -->> Database: Request data from database
+       Database -->> Backend: Return user data (email, username, primary time zone, secondary time zone, notification preference)
+       Backend -->> Frontend: Return user data
+       Frontend -->> Frontend: Display user data in Profile Settings Page in the inputs fields of form 
+       User -->> Frontend: Edit the inputs of the form
+       User -->> Frontend: Click "Save"
+       Frontend -->> Backend: Send POST request to backend to update user data
+       Backend -->> Database: Update user data in database
+    end
