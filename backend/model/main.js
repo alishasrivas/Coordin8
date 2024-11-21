@@ -2,8 +2,8 @@
 import { UserModel } from "./user";
 import { dbInstance } from "./database";
 
-const User = UserModel(dbInstance)
-//add more models here
+export const UserInstance = UserModel(dbInstance)
+//add more models definition here
 //add relationships here
 
 //sync database
