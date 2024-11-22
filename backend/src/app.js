@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
-import routes from "../routes/routes.js";
+import router from "../routes/routes.js";
 import cors from "cors";
 //Initialize the express app
 
@@ -23,7 +23,7 @@ app.use(
 );
 
 //include routes
-app.use("/", routes);
+app.use("/", router);
 
 //run the server
 app.listen(3000, () => { console.log("Server is running on port 3000") });

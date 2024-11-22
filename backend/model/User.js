@@ -6,7 +6,7 @@ import { SqliteDialect } from '@sequelize/sqlite3';
 // Define the User model
 
 export function UserModel(sequelize) {
-    User = sequelize.define("User", {
+    const User = sequelize.define("User", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -21,6 +21,6 @@ export function UserModel(sequelize) {
     }, {
         timestamps: true, // Enable timestamps for createdAt and updatedAt
     },);
-    return User
+    return User;
 }
 

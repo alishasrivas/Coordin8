@@ -1,6 +1,6 @@
 //define main logic and functions for backend here
 //TODO: recheck and make necessary change here
-import { UserInstance } from "../model/main";
+import { UserInstance } from "../model/main.js";
 const existsUser = async (username) => {
     const user = await UserInstance.findOne({ where: { username } });
     return user;

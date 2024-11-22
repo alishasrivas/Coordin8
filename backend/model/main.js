@@ -1,6 +1,6 @@
 //Define realtionship between different models here
-import { UserModel } from "./user";
-import { dbInstance } from "./database";
+import { UserModel } from "./User.js";
+import { dbInstance } from "./database.js";
 
 export const UserInstance = UserModel(dbInstance)
 //add more models definition here

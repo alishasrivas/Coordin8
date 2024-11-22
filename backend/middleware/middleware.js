@@ -1,4 +1,4 @@
-import { factoryResponse } from "../src/factoryResponse";
+import { factoryResponse } from "../src/factoryResponse.js";
 
 export const isAuthenticated = (req, res, next) => {
     return req.isAuthenticated()
