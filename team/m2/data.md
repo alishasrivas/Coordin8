@@ -34,6 +34,7 @@
 ### 3. Event Participant
 - **Description**: Contains details of 1 event participant, which will also include the organizer.
 - **Attributes**:
+  - `id` (UUID): The ID of the event participant model instance.
   - `event_id` (UUID): The ID of the event that partipant is in.
   - `user_id` (UUID): The ID of the participant.
   - `created_at` (timestamp): The date and time when the instance was created.

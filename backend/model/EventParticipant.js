@@ -8,21 +8,11 @@ import { SqliteDialect } from '@sequelize/sqlite3';
 
 export function EventParticipantModel(sequelize) {
     const EventParticipant = sequelize.define("EventParticipant", {
-        event_id: {
-            types: DataTypes.UUID,
+
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
-            references: {
-                model: 'Events',
-                key: 'event_id',
-            }
-        },
-        user_id: {
-            types: DataTypes.UUID,
-            primaryKey: true,
-            references: {
-                model: 'User',
-                key: 'user_id',
-            }
         },
         event_time_preference: {
             type: DataTypes.DATE,
