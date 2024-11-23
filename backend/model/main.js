@@ -3,7 +3,7 @@ import { UserModel } from "./User.js";
 import { dbInstance } from "./database.js";
 
 export const UserInstance = UserModel(dbInstance)
-//add more models definition here
+//add more models definition of models here
 //add relationships here
 
 //sync database

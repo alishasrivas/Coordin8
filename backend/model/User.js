@@ -4,12 +4,13 @@ import { SqliteDialect } from '@sequelize/sqlite3';
 
 
 // Define the User model
+//Some Problems to look into: data type to store the timezone so that later you can easily convert it to the UTC.
 
 export function UserModel(sequelize) {
     const User = sequelize.define("User", {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
+        user_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
         username: { type: DataTypes.STRING, unique: true, allowNull: false },
