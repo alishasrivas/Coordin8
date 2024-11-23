@@ -45,6 +45,7 @@
 ### 4. Inivitation
 - **Description**: Contains details of an invitation from an organizer of an event to a participant. 
 - **Attributes**:
+  - `id` (UUID): The ID of the invitation.
   - `event_id` (UUID): The ID of the event that user is invited to.
   - `user_id` (UUID): The ID of the inviteed.
   - `created_at` (timestamp): The date and time when the invitation was created.
