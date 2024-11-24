@@ -33,13 +33,13 @@ https://github.com/alishasrivas/Coordin8/commit/356d0c4ca4319a25242457f4929b7b98
 https://github.com/alishasrivas/Coordin8/commit/abaadd34b5010591eb492abc5935c1a2b5c1049e
 
 # November 17, 2025
-- **Task: Create Event Finalization page
+- **Task**: Create Event Finalization page
 - **Details**: Creat Event Finalization page with list view mode; Create search and sort, filter features for Event Finalization; Fix small bugs.
 - **Link to Commit**: [First Edtion]
 https://github.com/alishasrivas/Coordin8/commit/fdce151803a7e589e1e9cc3ebb045b374c03bc17
 
 # November, 19, 2025
-- **Task: Fix display bugs in Dashboard and Event Finalization
+- **Task**: Fix display bugs in Dashboard and Event Finalization
 - **Details**: Fix search, filter and sort not display in Dashboard and Event Finalization
 - **Link to Commit**: [First Edtion]
 https://github.com/alishasrivas/Coordin8/commit/bb58521c70185bd1fd06d2665b61d704fe9cc267
