@@ -12,9 +12,9 @@ export const InvitationInstance = InvitationModel(dbInstance);
 //add more models definition of models here
 //add relationships here
 UserInstance.hasMany(EventParticipantInstance, { foreignKey: "user_id" });
-EventParticipantInstance.belongsTo(UserInstance, { foreignKey: "user_id", allowNull: false });
+EventParticipantInstance.belongsTo(UserInstance, { foreignKey: "user_id" });
 EventInstance.hasMany(EventParticipantInstance, { foreignKey: "event_id" });
-EventParticipantInstance.belongsTo(EventInstance, { foreignKey: "event_id", allowNull: false });
+EventParticipantInstance.belongsTo(EventInstance, { foreignKey: "event_id" });
 
 //define organizer relationship, every event must have an organizer but not every user is an organizer
 //!Recheck if this is correct
