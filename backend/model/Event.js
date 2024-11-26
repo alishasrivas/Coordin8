@@ -1,5 +1,5 @@
 // import { Sequelize, DataTypes } from "sequelize";
-import { Sequelize, DataTypes } from '@sequelize/core';
+import { Sequelize, DataTypes, sql } from '@sequelize/core';
 import { SqliteDialect } from '@sequelize/sqlite3';
 
 
@@ -15,13 +15,15 @@ export function EventsModel(sequelize) {
         },
         title: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true,
         },
         description: {
             type: DataTypes.STRING,
         },
         event_time: {
             type: DataTypes.DATE,
+            allowNull: true
         },
         file_attachment: {
             type: DataTypes.STRING, //TODO: may need to change here
