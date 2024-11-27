@@ -8,7 +8,7 @@
 - **Description**: Contains personal information about the user, including login details and preferences.
 - **Attributes**:
   - `user_id` (UUID): A unique identifier for each user.
-  - `name` (string): The user's full name.
+  - `username` (string): The user name for the account.
   - `email` (string): The user's email address.
   - `password` (string): A hashed version of the user's password.
   - `created_at` (timestamp): The date and time when the account was created.
@@ -34,6 +34,7 @@
 ### 3. Event Participant
 - **Description**: Contains details of 1 event participant, which will also include the organizer.
 - **Attributes**:
+  - `id` (UUID): The ID of the event participant model instance.
   - `event_id` (UUID): The ID of the event that partipant is in.
   - `user_id` (UUID): The ID of the participant.
   - `created_at` (timestamp): The date and time when the instance was created.
@@ -44,6 +45,7 @@
 ### 4. Inivitation
 - **Description**: Contains details of an invitation from an organizer of an event to a participant. 
 - **Attributes**:
+  - `id` (UUID): The ID of the invitation.
   - `event_id` (UUID): The ID of the event that user is invited to.
   - `user_id` (UUID): The ID of the inviteed.
   - `created_at` (timestamp): The date and time when the invitation was created.
