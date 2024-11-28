@@ -1,22 +1,25 @@
-//define main logic and functions for backend here
-//TODO: recheck and make necessary change here
+import { factoryResponse } from "../src/factoryResponse.js";
 import { UserInstance } from "../model/main.js";
-const existsUser = async (username) => {
-    const user = await UserInstance.findOne({ where: { username } });
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+//!define main logic and functions for backend here
+
+//load environemtn variables
+dotenv.config();
+const existsUser = async (email) => {
+    const user = await UserInstance.findOne({ where: { email } });
     return user;
 };
 
 // Registration route.
 // This route creates a new user in the database.
 export const register = async (req, res) => {
-    const { username, password } = req.body;
-
+    const { email, password } = req.body;
     // Check if the username is already taken
-    if (await existsUser(username))
-        return res.status(400).json(factoryResponse(400, "Username already taken"));
-
+    if (await existsUser(email))
+        return res.status(400).json(factoryResponse(400, "Your email is linked to an existing account"));
     const hash = await bcrypt.hash(password, 10);
-    await UserInstance.create({ username, password: hash });
+    await UserInstance.create({ email, password: hash });
     res.json(factoryResponse(200, "Registration successful"));
     console.log("User registered successfully");
 };
@@ -24,16 +27,16 @@ export const register = async (req, res) => {
 // Login route.
 // This route checks the user's credentials and logs them in.
 export const login = async (req, res, next) => {
-    const { username, password } = req.body;
-    const user = await UserInstance.findOne({ where: { username } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    const { email, password } = req.body;
+    const user = await UserInstance.findOne({ where: { email } });
+    if (!user) {
+        return res.status(401).json(factoryResponse(401, "User had not existed, please register first"));
+    }
+    if (!(await bcrypt.compare(password, user.password))) {
         return res.status(401).json(factoryResponse(401, "Invalid credentials"));
     }
 
-    // Log the user in using the req.login() function provided by Passport.
-    // This function establishes a login session for the user. The user object
-    // is serialized and stored in the session. It can be accessed in subsequent
-    // requests using req.user.
+    //everything is ok now proceeds to include tokens for response
     req.login(user, (err) =>
         err ? next(err) : res.json(factoryResponse(200, "Login successful"))
     );
