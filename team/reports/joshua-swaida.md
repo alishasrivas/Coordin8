@@ -65,3 +65,7 @@
 - **Details**: I updated all of the features for the features.md it the commits prior to this. For this specific commit, I made sure to specify that the Authentication and Availability Submission features will only have UI implemented for Milestone 3 (the rest of thse features will be implemented in the backend)
 - **Link to Commit**: [Commit for updating features.md](https://github.com/alishasrivas/Coordin8/commit/92485c9d619c7caab9a486ca5fd206f13da00168)
 
+### December 2, 2024
+- **Task**: Clarify time/date input format for EventCreation component
+- **Details**: I updated the placeholder text for the time and date input fields in my EventCreation feature. The placeholder text now specifies that time input must be in HH:MM format and that date input must be in YYYY-MM-DD format. 
+- **Link to Commit**: [Commit for clarifying EventCreation time/date input format](https://github.com/alishasrivas/Coordin8/commit/511348549eb1f9e9e09667f001c4c6e12fdf594c)
