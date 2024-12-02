@@ -56,11 +56,9 @@ try {
 
     // const event1 = await EventInstance.create({
     //     title: "testEvent3",
-    //     description: "This is the test event, where I linked this to a user as organizer",
+    //     description: "This is the test event",
     // })
 
-    // // const testFind = await EventInstance.findAll({ where: { organizer_id: "072f5d2e-30d5-4da0-bbea-5f0c7d8c3512" } });
-    // // console.log(testFind);
 
     // const user2 = await UserInstance.create({
     //     username: "tan",
@@ -70,17 +68,31 @@ try {
     //     primary_time_zone: "America/New_York",
     //     secondary_time_zone: "America/Los_Angeles",
     // })
-    // console.log(user2);
 
-
-    // const getUser = await UserInstance.findOne({ where: { email: "tan@gmail.com" } });
-    // // await EventParticipantInstance.destroy({ where: { user_id: getUser.user_id } });
-    // const getEvent = await EventInstance.findOne({ where: { title: "testEvent3" } });
+    // const user1 = await UserInstance.create({
+    //     username: "tan10101",
+    //     password: "string",
+    //     email: "tan@umass.com",
+    //     notificationPreferences: true,
+    //     primary_time_zone: "Russia/Saint Petesrburg",
+    //     secondary_time_zone: "China/Xian",
+    // })
 
     // await EventParticipantInstance.create({
-    //     user_id: getUser.user_id,
-    //     event_id: getEvent.event_id,
+    //     user_id: user2.user_id,
+    //     event_id: event1.event_id,
     //     event_time_preference: Date.now(),
+    // })
+
+    // const event2 = await EventInstance.create({
+    //     title: "testEvent4",
+    //     description: "This is the test event",
+    //     organizer_id: user2.user_id,
+    // })
+
+    // const invite1 = await InvitationInstance.create({
+    //     user_id: user1.user_id,
+    //     event_id: event2.event_id,
     // })
 
 

@@ -1,5 +1,5 @@
 // import { Sequelize, DataTypes } from "sequelize";
-import { Sequelize, DataTypes } from '@sequelize/core';
+import { Sequelize, DataTypes, sql } from '@sequelize/core';
 import { SqliteDialect } from '@sequelize/sqlite3';
 
 
@@ -10,8 +10,8 @@ export function InvitationModel(sequelize) {
     const EventParticipant = sequelize.define("Invitation", {
 
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.UUID.V4,
+            defaultValue: sql.uuidV4,
             primaryKey: true,
         },
     }, {
