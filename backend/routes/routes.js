@@ -1,9 +1,8 @@
 //set up all routes here
-//TODO: add routes here
 
 import express from "express";
 import { register, login, logout, test } from "../controller/controller.js";
-import { isAuthenticated } from "../middleware/middleware.js";
+import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
 const router = express.Router();
 router.post("/register", register);
@@ -13,4 +12,9 @@ router.get("/test", test);
 
 //TODO: add protected routes here
 //Sample: router.get("/api/endpoint", isAutheticated, <function that called when HTTP request is called to endpoint>)
+//Example:
+router.get("/protected", authenticatedJWT, (req, res) => {
+    res.json({ message: "Protected route accessed successfully" });
+});
+
 export default router;
