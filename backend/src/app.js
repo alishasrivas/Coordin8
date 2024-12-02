@@ -6,6 +6,7 @@ import cors from "cors";
 //Initialize the express app
 
 const app = express();
+dotenv.config({ path: '../.env' });
 
 //configure express app
 app.use(express.json());

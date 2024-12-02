@@ -5,10 +5,15 @@ import jwt from "jsonwebtoken";
 //!define main logic and functions for backend here
 
 //load environemtn variables
-dotenv.config();
+dotenv.config({ path: '../.env' });
 const existsUser = async (email) => {
     const user = await UserInstance.findOne({ where: { email } });
     return user;
+};
+
+//testing function
+export const test = async (req, res) => {
+    res.json(factoryResponse(200, "Hello?"));
 };
 
 // Registration route.
@@ -35,11 +40,15 @@ export const login = async (req, res, next) => {
     if (!(await bcrypt.compare(password, user.password))) {
         return res.status(401).json(factoryResponse(401, "Invalid credentials"));
     }
-
     //everything is ok now proceeds to include tokens for response
-    req.login(user, (err) =>
-        err ? next(err) : res.json(factoryResponse(200, "Login successful"))
-    );
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({
+        status: 200,
+        message: "Login successful",
+        token: token,
+    });
 };
 
 // Logout route.
