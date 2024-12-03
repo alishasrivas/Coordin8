@@ -52,3 +52,10 @@
 - **Details**: Write some basic CRUD operation to test the database, I also included the boiler code in case my other teammates want to test it.
 - **Link to Commit**: [Database Testing] (https://github.com/alishasrivas/Coordin8/pull/48/commits/8881983cdc39549a8ecea0b28d7e8097ebf9bd8f)
 
+
+### Dec 2, 2024
+- **Task**: Finish authentication implementation with JWT 
+- **Details**: Finish API route log in and register routes. Finish middleware for authentication and have tested with some protected route.
+- **Link to Commit**: [Authentication Implementation] (https://github.com/alishasrivas/Coordin8/pull/55/commits/290838da5507204d496d78aaf7bd1169631caf2a)
+
+

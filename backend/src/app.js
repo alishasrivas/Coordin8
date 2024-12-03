@@ -6,6 +6,7 @@ import cors from "cors";
 //Initialize the express app
 
 const app = express();
+dotenv.config({ path: '../.env' });
 
 //configure express app
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use(
 app.use("/", router);
 
 //run the server
-app.listen(3000, () => { console.log("Server is running on port 3000") });
+app.listen(3000, () => { console.log("Server is live on http://localhost:3000") });
 
 export default app;
 
