@@ -51,10 +51,10 @@ export const login = async (req, res, next) => {
         //everything is ok now proceeds to include tokens for response
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.setHeader('Authorization', `Bearer ${token}`);
         res.json({
             status: 200,
             message: "Login successful",
+            token
         });
     }
 
