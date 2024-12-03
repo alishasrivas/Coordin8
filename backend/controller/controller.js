@@ -21,7 +21,7 @@ export const test = async (req, res) => {
 export const register = async (req, res) => {
     try {
         const { email, password, username, primary_time_zone } = req.body;
-        // Check if the username is already taken
+        // Check if the email is already taken
         if (await existsUser(email))
             return res.status(400).json(factoryResponse(400, "Your email is linked to an existing account"));
         const hash = await bcrypt.hash(password, 10);
