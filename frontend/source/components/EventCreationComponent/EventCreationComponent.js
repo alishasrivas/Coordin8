@@ -59,15 +59,15 @@ export class EventCreationComponent extends BaseComponent {
         <h2>Enter potential event times</h2>
         <div id="times-list">
           <label for="start-time">Start time:</label>
-          <input type="text" id="start-time" class="time-input" name="start-time" placeholder="Type here...">
+          <input type="text" id="start-time" class="time-input" name="start-time" placeholder="HH:MM (24-Hour Format)">
 
 
           <label for="end-time">End time:</label>
-          <input type="text" id="end-time" class="time-input" name="end-time" placeholder="Type here...">
+          <input type="text" id="end-time" class="time-input" name="end-time" placeholder="HH:MM (24-Hour Format)">
 
 
           <label for="enter-date">Enter date:</label>
-          <input type="text" id="enter-date" class="time-input" name="enter-date" placeholder="Type here...">
+          <input type="text" id="enter-date" class="time-input" name="enter-date" placeholder="YYYY-MM-DD">
 
           <button id="addTime-button" class="add-to-list">Add Time</button>
           <ul id="timeList" class="interactive-list"></ul>
