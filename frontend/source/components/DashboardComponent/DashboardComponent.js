@@ -2,6 +2,7 @@ import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { mainMeetingRepository } from "../../main.js";
+import { EventModificationComponent } from "../EventModificationComponent/EventModificationComponent.js";
 
 export class DashboardComponent extends BaseComponent {
   #container = null;
@@ -161,7 +162,7 @@ export class DashboardComponent extends BaseComponent {
 
       if (editButton) {
         const eventName = editButton.closest(".event").dataset.eventName;
-        this.openEditScreen(eventName);
+        this.#handleEditEvent(eventName);
       } else if (deleteButton) {
         const eventName = deleteButton.closest(".event").dataset.eventName;
         this.deleteEvent(eventName);
@@ -257,39 +258,7 @@ export class DashboardComponent extends BaseComponent {
   #exportEvents() {
     alert("Export Events");
   }
-  openEditScreen(eventName) {
-    const eventToEdit = this.#events.find(event => event.name === eventName);
-    if (eventToEdit) {
-      const editFormHTML = `
-        <div class="edit-event-form">
-          <label for="eventName">Event Name:</label>
-          <input id="eventName" value="${eventToEdit.name}" />
-          <label for="eventDescription">Description:</label>
-          <textarea id="eventDescription">${eventToEdit.description}</textarea>
-          <button id="saveChanges">Save Changes</button>
-          <button id="cancelEdit">Cancel</button>
-        </div>
-      `;
-      const container = this.#container.querySelector("#events-list");
-      container.innerHTML = editFormHTML;
-
-      // Attach event listeners for saving or canceling changes
-      container.querySelector("#saveChanges").addEventListener("click", () => this.#saveEventChanges(eventName));
-      container.querySelector("#cancelEdit").addEventListener("click", () => this.#updateEventsList());
-    }
-  }
-  #saveEventChanges(eventName) {
-    const updatedName = this.#container.querySelector("#eventName").value;
-    const updatedDescription = this.#container.querySelector("#eventDescription").value;
-
-    const eventIndex = this.#events.findIndex(event => event.name === eventName);
-    if (eventIndex > -1) {
-      this.#events[eventIndex].name = updatedName;
-      this.#events[eventIndex].description = updatedDescription;
-      alert(`Event "${eventName}" updated successfully!`);
-      this.#updateEventsList(); // Refresh the list view after saving
-    }
-  }
+    
   deleteEvent(eventName) {
     if (confirm(`Are you sure you want to delete the event "${eventName}"?`)) {
       this.#events = this.#events.filter(event => event.name !== eventName);
@@ -302,5 +271,10 @@ export class DashboardComponent extends BaseComponent {
     const eventHub = EventHub.getInstance();
     eventHub.subscribe(Events.StoreMeetingSuccess, () => this.#fetchEvents());
     eventHub.subscribe(Events.UnStoreMeetings, () => this.#fetchEvents());
+  }
+
+  #handleEditEvent(eventName) {
+    const eventModification = new EventModificationComponent(this.#events, this.#container, this.#updateEventsList.bind(this));
+    eventModification.openEditScreen(eventName);
   }
 }
