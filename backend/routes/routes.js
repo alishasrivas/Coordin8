@@ -1,7 +1,13 @@
 //set up all routes here
 
 import express from "express";
-import { register, login, logout, test } from "../controller/controller.js";
+import {
+  register,
+  login,
+  logout,
+  test,
+  createEvent,
+} from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
 const router = express.Router();
@@ -14,7 +20,10 @@ router.get("/test", test);
 //Sample: router.get("/api/endpoint", isAutheticated, <function that called when HTTP request is called to endpoint>)
 //Example:
 router.get("/protected", authenticatedJWT, (req, res) => {
-    res.json({ message: "Protected route accessed successfully" });
+  res.json({ message: "Protected route accessed successfully" });
 });
+
+// When an HTTP POST request is made to the /events endpoint with a valid JWT, the createEvent function will be called
+router.post("/events", authenticatedJWT, createEvent);
 
 export default router;
