@@ -95,13 +95,13 @@ export const logout = (req, res) => {
 export const createEvent = async (req, res) => {
   try {
     // Parse data from client
-    const { name, description, invitees, date } = req.body;
+    const { title, description, invitees, event_time } = req.body;
     // Inserts a new event record into the database using Sequelize
     const event = await EventInstance.create({
-      name,
+      title,
       description,
       invitees,
-      date,
+      event_time,
     });
     res.status(201).json({ message: "Event created successfully", event });
   } catch (error) {
