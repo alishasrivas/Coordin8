@@ -154,3 +154,28 @@ export const updateUserProfile = async (req, res) => {
   }
 }
 
+export const getUserProfile = async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+    const userProfile = await UserInstance.findOne({
+      where: { user_id: userId },
+    });
+
+    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = userProfile.dataValues;
+
+    res.status(200).json({
+      username,
+      email,
+      primary_time_zone,
+      secondary_time_zone,
+      notificationPreferences
+    });
+
+  }
+  catch (error) {
+    console.error("Error getting user profile:", error);
+    res.status(500).json({ message: "Internal Server Error at getUserProfile" });
+  }
+}
+
