@@ -134,7 +134,7 @@ export const updateUserProfile = async (req, res) => {
   try {
     const userId = req.params.id; //access dynamic parameter
     const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = req.body;
-
+    console.log("Loaded variable")
     await UserInstance.update(
       {
         username,
@@ -147,6 +147,7 @@ export const updateUserProfile = async (req, res) => {
         where: { user_id: userId },
       }
     )
+    console.log("Reached here")
   }
   catch (error) {
     console.error("Error updating user profile:", error);
