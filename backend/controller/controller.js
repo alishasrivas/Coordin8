@@ -128,4 +128,55 @@ export const createEvent = async (req, res) => {
   }
 };
 
+//callback functions for profile settings feature
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.params.id; //access dynamic parameter
+    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = req.body;
+    console.log("Loaded variable")
+    await UserInstance.update(
+      {
+        username,
+        email,
+        primary_time_zone,
+        secondary_time_zone,
+        notificationPreferences,
+      },
+      {
+        where: { user_id: userId },
+      }
+    )
+    console.log("Reached here")
+  }
+  catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ message: "Internal Server Error at updateUserProfile" });
+  }
+}
+
+export const getUserProfile = async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+    const userProfile = await UserInstance.findOne({
+      where: { user_id: userId },
+    });
+
+    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = userProfile.dataValues;
+
+    res.status(200).json({
+      username,
+      email,
+      primary_time_zone,
+      secondary_time_zone,
+      notificationPreferences
+    });
+
+  }
+  catch (error) {
+    console.error("Error getting user profile:", error);
+    res.status(500).json({ message: "Internal Server Error at getUserProfile" });
+  }
+}
 
