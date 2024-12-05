@@ -3,6 +3,7 @@ import { EventInstance, UserInstance } from "../model/main.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
 //!define main logic and functions for backend here
 //load environemtn variables
 dotenv.config({ path: "../.env" });
@@ -62,10 +63,14 @@ export const login = async (req, res, next) => {
       return res.status(401).json(factoryResponse(401, "Invalid credentials"));
     }
     //everything is ok now proceeds to include tokens for response
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    process.env["JWT_SECRET_KEY"] = randomBytes(16).toString("hex");
+    // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    //   expiresIn: "1h",
+    // });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
+
     res.json({
       status: 200,
       message: "Login successful",
@@ -80,13 +85,26 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      res.json(factoryResponse(500, "Logout failed"));
-      return;
-    }
-    res.json(factoryResponse(200, "Logout successful"));
-  });
+  //this will attempt to desoy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
+  try {
+    req.session.destroy(
+      (err) => {
+        if (err) {
+          console.error("Error destroying session:", err);
+          return res.status(500).json(factoryResponse(500, "Logout failed"));
+        }
+        res.clearCookie('connect.sid');
+        process.env.JWT_SECRET_KEY = ""; //invalidate the token by deleting the secret key associated with it
+        res.json(factoryResponse(200, "Logout successful"));
+      }
+    )
+  }
+  catch (error) {
+    console.error("Error logging out user:", error);
+    res
+      .status(500)
+      .json(factoryResponse(500, "Internal Server Error at logout"));
+  }
 };
 
 // Callback function for HTTP POST requests to /events endpoint

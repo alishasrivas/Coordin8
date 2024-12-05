@@ -5,13 +5,11 @@
 ## Instruction on running the backend
 1. Cd into the backend folder
 2. Run npm install
-3. Add a .env file directly inside the backend folder with the following variables:
+3. Add a .env file directly inside the backend folder with the following variable:
 
     SESSION_SECRET="06vUSNEzq1z9U476UrMEx7xIOPGYfu2m"
 
-    JWT_SECRET = "06vUSNEzq1z9U476UrMEx7xIOPGYfu2m"
-
-    The value does not matter but make sure to have these 2 variables.
+    The value does not matter but make sure to have this variable.
 
 
 3. Run npm run start
