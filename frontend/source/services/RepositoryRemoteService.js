@@ -13,7 +13,7 @@ export class RepositoryRemoteService extends Service {
     async logIn({ email, password }) {
         try {
             const response = await fetch(BASE_URL + "login", {
-                method: "POST,",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -33,12 +33,63 @@ export class RepositoryRemoteService extends Service {
             const data = await response.json();
             accessToken = data.token;
             Cookies.set("accessToken", accessToken, { expires: expirationDate });
+            console.log(`/login ${response.status} ${response.statusText}`);
+
         }
         catch {
             console.error("Error logging in:", error);
             throw error;
         }
+    }
 
+    async register({ email, password, username, primary_time_zone }) {
+        try {
+            const response = await fetch(BASE_URL + "register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    username: username,
+                    primary_time_zone: primary_time_zone,
+                }),
+            })
+            if (!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            console.log(`/register ${response.status} ${response.statusText}`);
+        }
+        catch (error) {
+            console.error("Error registering:", error);
+            throw error;
+        }
+    }
+
+    async logOut() {
+        try {
+            //call the backend endpoint to invalidate the tokens first
+            const token = Cookies.get("accessToken");
+            if (!token) {
+                throw new Error("No access token found");
+            }
+            const response = await fetch(BASE_URL + "logout", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            })
+            if (!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            console.log(`/logout ${response.status} ${response.statusText}`);
+        }
+        catch (error) {
+            console.error("Error logging out:", error);
+            throw error;
+        }
     }
 
 

@@ -15,7 +15,7 @@ import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
-router.get("/logout", logout); //A get method is sufficient for logout
+router.get("/logout", authenticatedJWT, logout); //A get method is sufficient for logout
 router.get("/test", test);
 
 //TODO: add protected routes here
