@@ -26,6 +26,7 @@
     "start-server": "http-server ./source -p 3000"
   },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "js-cookie": "^3.0.5"
   }
 }
