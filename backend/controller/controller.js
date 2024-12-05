@@ -85,7 +85,7 @@ export const login = async (req, res, next) => {
 };
 //logout callback
 export const logout = (req, res) => {
-  //this will attempt to desoy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
+  //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
     req.session.destroy(
       (err) => {
