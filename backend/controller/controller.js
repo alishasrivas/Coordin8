@@ -128,4 +128,29 @@ export const createEvent = async (req, res) => {
   }
 };
 
+//callback functions for profile settings feature
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.params.id; //access dynamic parameter
+    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = req.body;
+
+    await UserInstance.update(
+      {
+        username,
+        email,
+        primary_time_zone,
+        secondary_time_zone,
+        notificationPreferences,
+      },
+      {
+        where: { user_id: userId },
+      }
+    )
+  }
+  catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ message: "Internal Server Error at updateUserProfile" });
+  }
+}
 
