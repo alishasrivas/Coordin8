@@ -17,7 +17,7 @@ export const test = async (req, res) => {
   res.json(factoryResponse(200, "Hello?"));
 };
 
-// Registration route.
+// Registration callback
 // This route creates a new user in the database.
 export const register = async (req, res) => {
   try {
@@ -46,7 +46,7 @@ export const register = async (req, res) => {
   }
 };
 
-// Login route.
+// Login callback
 // This route checks the user's credentials and logs them in.
 export const login = async (req, res, next) => {
   try {
@@ -83,7 +83,7 @@ export const login = async (req, res, next) => {
       .json(factoryResponse(500, "Internal Server Error at login"));
   }
 };
-
+//logout callback
 export const logout = (req, res) => {
   //this will attempt to desoy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
@@ -127,3 +127,5 @@ export const createEvent = async (req, res) => {
     res.status(500).json({ message: "Failed to create event" });
   }
 };
+
+
