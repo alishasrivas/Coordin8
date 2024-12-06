@@ -153,9 +153,34 @@ export const createEvent = async (req, res) => {
           missingEmails,
         });
       }
+
+      let failedParticipants = [];
+      // Create EventParticipantInstance for each invitee
+      for (const userId of foundUserIds) {
+        try {
+          await createEventParticipant(event.event_id, userId);
+        } catch (error) {
+          console.error(
+            `Failed to create EventParticipant for user ${userId}:`,
+            error
+          );
+          // Maintain an array of all failed event participant creations
+          failedParticipants.push(userId);
+        }
+      }
+
+      if (failedParticipants.length > 0) {
+        // Response upon successful event creation with failed event participant creations
+        return res.status(201).json({
+          message:
+            "Event created with some EventParticipant creation failures.",
+          event,
+          failedParticipants,
+        });
+      }
     }
 
-    // Response upon successful event creation
+    // Response upon successful event creation with no event participant creation issues
     res.status(201).json({ message: "Event created successfully", event });
   } catch (error) {
     console.error("Error creating event:", error);
