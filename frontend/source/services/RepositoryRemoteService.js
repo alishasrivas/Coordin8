@@ -1,12 +1,44 @@
-import Service from "./Service";
+import Service from "./Service.js";
 import { Events } from "../eventhub/Events.js";
-import Cookies from "js-cookie";
 
 const BASE_URL = "http://localhost:3000/";
+// Set a cookie to expire in 1 hour
+function setCookie(name, value) {
+    const date = new Date();
+    date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour in milliseconds
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
 
+
+
+// Get a cookie
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const cookies = document.cookie.split("; ");
+    for (let cookie of cookies) {
+        if (cookie.indexOf(nameEQ) === 0) {
+            return cookie.substring(nameEQ.length, cookie.length);
+        }
+    }
+    return null;
+}
+
+// Delete a cookie
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+}
+
+// Example Usage
 export class RepositoryRemoteService extends Service {
     constructor() {
         super();
+
+        //test cookie
+        setCookie("myCookie", "myValue");
+        console.log("Now delete");
+        deleteCookie("myCookie");
+
     }
 
     //TODO: add your fetch calls to backend here
@@ -32,7 +64,7 @@ export class RepositoryRemoteService extends Service {
             expirationDate.setHours(expirationDate.getHoursetHours() + 1);
             const data = await response.json();
             accessToken = data.token;
-            Cookies.set("accessToken", accessToken, { expires: expirationDate });
+            setCookie("accessToken", accessToken);
             console.log(`/login ${response.status} ${response.statusText}`);
             //trigger events LogIn Success so that it can switch screen
             //TODO:
@@ -73,7 +105,7 @@ export class RepositoryRemoteService extends Service {
     async logOut() {
         try {
             //call the backend endpoint to invalidate the tokens first
-            const token = Cookies.get("accessToken");
+            const token = getCookie("accessToken");
             if (!token) {
                 throw new Error("No access token found");
             }
@@ -87,6 +119,7 @@ export class RepositoryRemoteService extends Service {
             if (!response.ok) {
                 throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
+            deleteCookie("accessToken");
             console.log(`/logout ${response.status} ${response.statusText}`);
             //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
             //TODO:

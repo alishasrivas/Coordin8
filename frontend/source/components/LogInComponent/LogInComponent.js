@@ -1,5 +1,5 @@
-import { BaseComponent } from "../BaseComponent/BaseComponent";
-import { Events } from "../../eventhub/Events";
+import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { Events } from "../../eventhub/Events.js";
 export class LogInComponent extends BaseComponent {
     #container = null;
     #hub = null

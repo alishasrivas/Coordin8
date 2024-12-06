@@ -1,4 +1,4 @@
-import { BaseComponent } from "../BaseComponent/BaseComponent";
+import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
 export class LogOutComponent extends BaseComponent {
     #container = null;

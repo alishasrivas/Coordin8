@@ -1,7 +1,8 @@
-import { BaseComponent } from "../BaseComponent/BaseComponent";
-import { LogInComponent } from "../LogInComponent/LogInComponent";
-import { AppControllerComponent } from "../AppControllerComponent/AppControllerComponent";
-import { Events } from "../../eventhub/Events";
+import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { LogInComponent } from "../LogInComponent/LogInComponent.js";
+import { AppControllerComponent } from "../AppControllerComponent/AppControllerComponent.js";
+import { Events } from "../../eventhub/Events.js";
+import { EventHub } from "../../eventhub/EventHub.js";
 export class centralNavigationComponent extends BaseComponent {
     #container = null
     #currentPage = 'LogIn'
@@ -12,6 +13,7 @@ export class centralNavigationComponent extends BaseComponent {
     constructor() {
         super();
         this.loadCSS('CentralNavigationComponent')
+        this.#hub = EventHub.getInstance();
         this.#appControllerComponent = new AppControllerComponent();
         this.#logInComponent = new LogInComponent();
     }

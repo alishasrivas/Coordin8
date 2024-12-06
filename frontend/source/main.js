@@ -1,19 +1,20 @@
+import { centralNavigationComponent } from "./components/CentralNavigationComponent/CentralNavigationComponent.js";
 import { AppControllerComponent } from "./components/AppControllerComponent/AppControllerComponent.js";
 import { MeetingRepositoryFactory } from "./services/MeetingRepositoryFactory.js";
-import { centralNavigate } from "./utility/centralNavigation.js";
-
 
 // Create an instance of AppControllerComponent
 export const mainMeetingRepository = MeetingRepositoryFactory.get("local");
 export const mainRepository = MeetingRepositoryFactory.get("remote"); //call to inialize certain subscriptions
 
 
-const appController = new AppControllerComponent();
 
 // Render the component in the #app container
+console.log("Reached here")
 const appContainer = document.getElementById("app");
+const appController = new AppControllerComponent();
 appContainer.appendChild(appController.render());
-
+// const centralNavigation = new centralNavigationComponent();
+// appContainer.appendChild(centralNavigation.render());
 
 
 
