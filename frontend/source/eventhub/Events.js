@@ -33,4 +33,11 @@ export const Events = {
 
   //user availability events
   UserAvailabilitySubmission: 'UserAvailabilitySubmission',
+
+  //Authentication Events
+  LogIn: 'LogIn',
+  LoginSuccess: 'LoginSucess',
+  LogOutSuccess: 'LogOutSucess',
+  LogOut: 'LogOut',
+  Register: 'Register',
 };

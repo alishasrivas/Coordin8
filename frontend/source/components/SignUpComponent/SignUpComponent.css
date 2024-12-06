@@ -1,4 +1,4 @@
-.log-out-container {
+.sign-up-container {
     background-color: #EAF6FF;
     display: flex;
     flex-direction: column;
@@ -9,14 +9,14 @@
     font-size: large;
 }
 
-.log-out-container>h2 {
+.sign-up-container>h2 {
     color: #4A90E2;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: xx-large;
 }
 
 
-.log-out {
+.sign-up {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,7 +29,7 @@
     margin-bottom: 20px;
 }
 
-.log-out>h3 {
+.sign-up>h3 {
     font-size: x-large;
     text-align: center;
     max-width: 70%;

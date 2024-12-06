@@ -34,6 +34,9 @@ export class RepositoryRemoteService extends Service {
             accessToken = data.token;
             Cookies.set("accessToken", accessToken, { expires: expirationDate });
             console.log(`/login ${response.status} ${response.statusText}`);
+            //trigger events LogIn Success so that it can switch screen
+            //TODO:
+            this.publish(Events.LoginSuccess, {});
 
         }
         catch {
@@ -85,6 +88,9 @@ export class RepositoryRemoteService extends Service {
                 throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             console.log(`/logout ${response.status} ${response.statusText}`);
+            //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
+            //TODO:
+            this.publish(Events.LogOutSuccess, {});
         }
         catch (error) {
             console.error("Error logging out:", error);
@@ -95,7 +101,28 @@ export class RepositoryRemoteService extends Service {
 
     //TODO: register your events to litseners (to a backend callback) right here
     addSubscriptions() {
+        try {
+            this.subscribe(Events.LogIn, (data) => {
+                this.logIn(data).catch((error) => {
+                    console.error(error);
+                });
+            });
 
+            this.subscribe(Events.LogOut, () => {
+                this.logOut().catch((error) => {
+                    console.error(error);
+                });
+            });
+
+            this.subscribe(Events.Register, (data) => {
+                this.register(data).catch((error) => {
+                    console.error(error);
+                });
+            });
+        } catch (error) {
+            console.error("Error in addSubscriptions:", error);
+            throw error;
+        }
 
     }
 }

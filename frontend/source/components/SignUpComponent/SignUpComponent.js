@@ -1,23 +1,23 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent";
 
-export class LogOutComponent extends BaseComponent {
+export class SignUpComponent extends BaseComponent {
     #container = null;
     #hub = null
     constructor() {
         super();
-        this.loadCSS('LogOutComponent');
+        this.loadCSS('SignUpComponent');
         this.#hub = EventHub.getInstance();
     }
     #createContainer() {
         // Create and configure the container element
         this.#container = document.createElement("div");
-        this.#container.classList.add("log-out-container");
+        this.#container.classList.add("sign-up-container");
         this.#container.innerHTML = this.#getTemplate();
     }
     #getTemplate() {
         return `
             <h2>Coordin8</h2>
-            <form class="log-out">
+            <form class="sign-up">
                 <h3>We are glad to have you!</h3>
                 <div class="input-block">
                     <div class="inner_input">

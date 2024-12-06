@@ -8,7 +8,6 @@ import { SqliteDialect } from '@sequelize/sqlite3';
 
 export function EventParticipantModel(sequelize) {
     const EventParticipant = sequelize.define("EventParticipant", {
-
         id: {
             type: DataTypes.UUID.V4,
             defaultValue: sql.uuidV4,
