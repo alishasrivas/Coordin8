@@ -1,5 +1,6 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { LogInComponent } from "../LogInComponent/LogInComponent.js";
+import { SignUpComponent } from "../SignUpComponent/SignUpComponent.js";
 import { AppControllerComponent } from "../AppControllerComponent/AppControllerComponent.js";
 import { Events } from "../../eventhub/Events.js";
 import { EventHub } from "../../eventhub/EventHub.js";
@@ -9,6 +10,7 @@ export class centralNavigationComponent extends BaseComponent {
     #hub = null
     #logInComponent = null
     #appControllerComponent = null
+    #signUpComponent = null
 
     constructor() {
         super();
@@ -16,6 +18,7 @@ export class centralNavigationComponent extends BaseComponent {
         this.#hub = EventHub.getInstance();
         this.#appControllerComponent = new AppControllerComponent();
         this.#logInComponent = new LogInComponent();
+        this.#signUpComponent = new SignUpComponent();
     }
 
     render() {
@@ -41,6 +44,9 @@ export class centralNavigationComponent extends BaseComponent {
             case 'HomePage':
                 this.#container.append(this.#appControllerComponent.render())
                 break;
+            case 'SignUp':
+                this.#container.append(this.#signUpComponent.render())
+                break;
         }
     }
 
@@ -50,7 +56,9 @@ export class centralNavigationComponent extends BaseComponent {
     }
 
     #attachEventLitseners() {
-        this.#hub.subscribe(Events.LogInSuccess, () => this.#switchView('HomePage'))
-        this.#hub.subscribe(Events.LogOutSuccess, () => this.#switchView('LogIn'))
+        this.#hub.subscribe(Events.LogInSuccess, () => this.#switchView('HomePage'));
+        this.#hub.subscribe(Events.LogOutSuccess, () => this.#switchView('LogIn'));
+        this.#hub.subscribe(Events.RegisterToLogIn, () => this.#switchView('LogIn'));
+        this.#hub.subscribe(Events.LogInToRegister, () => this.#switchView('SignUp'));
     }
 }

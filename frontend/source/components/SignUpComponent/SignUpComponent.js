@@ -1,4 +1,5 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { EventHub } from "../../eventhub/EventHub.js";
 //TODO: merge this and the setup account component
 export class SignUpComponent extends BaseComponent {
     #container = null;

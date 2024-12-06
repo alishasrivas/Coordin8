@@ -20,6 +20,7 @@ export class LogInComponent extends BaseComponent {
     #getTemplate() {
         return `
             <h2>Coordin8</h2>
+            <p class = 'register_route'>Don't have an account yet? <button type="text" class="register_route_btn">Register</button></p>
             <form class="log-in">
                 <h3>Welcome back!</h3>
                 <div class="input-block">
@@ -41,10 +42,14 @@ export class LogInComponent extends BaseComponent {
         const email = this.#container.querySelector('#email');
         const password = this.#container.querySelector('#password');
         const submitButton = this.#container.querySelector('.submit-button-login');
-        //TODO: submitButton is null
+        const reRouteBtn = this.#container.querySelector('.register_route_btn');
         submitButton.addEventListener('click', (event) => {
             event.preventDefault();
             this.#handleSubmit({ email, password });
+        })
+        reRouteBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.#hub.publish(Events.LogInToRegister);
         })
     }
 
