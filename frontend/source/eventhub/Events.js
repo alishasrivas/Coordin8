@@ -40,4 +40,6 @@ export const Events = {
   LogOutSuccess: 'LogOutSucess',
   LogOut: 'LogOut',
   Register: 'Register',
+
+  RerenderHomePage: 'RerenderHomePage'
 };

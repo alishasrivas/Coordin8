@@ -8,6 +8,8 @@ import { EventFinalizationComponent } from "../EventFinalizationComponent/EventF
 import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
 import { LogInComponent } from "../LogInComponent/LogInComponent.js";
 import { SignUpComponent } from "../SignUpComponent/SignUpComponent.js";
+
+//!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
   #currentView = "home"; // Track the current view ('home', 'create', or 'dashboard')
@@ -43,7 +45,7 @@ export class AppControllerComponent extends BaseComponent {
   #createContainer() {
     this.#container = document.createElement('div');
     this.#container.classList.add('app-controller-container');
-    this.#container.innerHTML = this.#getTemplate();
+    this.#container.innerHTML = this.#getTemplate(); //When switch from log in to home will need to rerender here
     this.#attachEventListeners();
   }
 
