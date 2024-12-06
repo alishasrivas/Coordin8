@@ -1,5 +1,6 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { EventHub } from "../../eventhub/EventHub.js";
+import { Events } from "../../eventhub/Events.js";
 //TODO: merge this and the setup account component
 export class SignUpComponent extends BaseComponent {
     #container = null;
@@ -18,6 +19,8 @@ export class SignUpComponent extends BaseComponent {
     #getTemplate() {
         return `
             <h2>Coordin8</h2>
+            <p class = 'login_route'>Already have an account? <button type="text" class="login_route_btn">Log In</button></p>
+
             <form class="sign-up">
                 <h3>We are glad to have you!</h3>
                 <div class="input-block">
@@ -30,8 +33,19 @@ export class SignUpComponent extends BaseComponent {
                         <input type="password" id="password">
                     </div>
                     <div class="inner_input">
-                        <label for="re_password">Retype Password:</label>
-                        <input type="password" id="re_password">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username">
+                    </div>
+                    <div class="inner_input">
+                        <label for="primary_time_zone">Primary Time Zone:</label>
+                        <input type="text" id="primary_time_zone">
+                    </div>
+                    <div class="inner_input toggle">
+                        <label for="noti_pref">Email Notification:</label>
+                        <label class="switch">
+                            <input type="checkbox" id="noti_pref">
+                            <span class="slider round"></span>
+                        </label>
                     </div>
 
                 </div>
@@ -42,6 +56,14 @@ export class SignUpComponent extends BaseComponent {
     #attachEventListeners() {
         //Add logic for event litseners right here
         //TODO
+
+
+        const reRouteBtn = this.#container.querySelector('.login_route_btn');
+        console.log(reRouteBtn)
+        reRouteBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.#hub.publish(Events.RegisterToLogIn);
+        })
     }
     render() {
         if (this.#container) {

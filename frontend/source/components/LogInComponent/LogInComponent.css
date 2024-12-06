@@ -59,6 +59,10 @@ input {
     justify-content: space-evenly;
 }
 
+.inner_input>input {
+    padding: 3px;
+    padding-left: 10px;
+}
 
 .submit-button-login {
     background-color: #2ECC71;
