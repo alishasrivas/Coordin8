@@ -36,10 +36,9 @@ export const Events = {
 
   //Authentication Events
   LogIn: 'LogIn',
-  LoginSuccess: 'LoginSucess',
-  LogOutSuccess: 'LogOutSucess',
+  LogInSuccess: 'LoginSucess', //change from Log in page to home page
+  LogOutSuccess: 'LogOutSucess', //change from home page to log in page
   LogOut: 'LogOut',
   Register: 'Register',
 
-  RerenderHomePage: 'RerenderHomePage'
 };

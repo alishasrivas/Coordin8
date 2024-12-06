@@ -36,7 +36,7 @@ export class RepositoryRemoteService extends Service {
             console.log(`/login ${response.status} ${response.statusText}`);
             //trigger events LogIn Success so that it can switch screen
             //TODO:
-            this.publish(Events.LoginSuccess, {});
+            this.publish(Events.LogInSuccess);
 
         }
         catch {
@@ -90,7 +90,7 @@ export class RepositoryRemoteService extends Service {
             console.log(`/logout ${response.status} ${response.statusText}`);
             //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
             //TODO:
-            this.publish(Events.LogOutSuccess, {});
+            this.publish(Events.LogOutSuccess);
         }
         catch (error) {
             console.error("Error logging out:", error);

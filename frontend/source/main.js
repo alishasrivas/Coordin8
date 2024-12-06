@@ -1,7 +1,7 @@
 import { AppControllerComponent } from "./components/AppControllerComponent/AppControllerComponent.js";
 import { MeetingRepositoryFactory } from "./services/MeetingRepositoryFactory.js";
-import { LogInComponent } from "./components/LogInComponent/LogInComponent.js";
-import { SignUpComponent } from "./components/SignUpComponent/SignUpComponent.js";
+import { centralNavigate } from "./utility/centralNavigation.js";
+
 
 // Create an instance of AppControllerComponent
 export const mainMeetingRepository = MeetingRepositoryFactory.get("local");
@@ -12,6 +12,9 @@ const appController = new AppControllerComponent();
 const appContainer = document.getElementById("app");
 appContainer.appendChild(appController.render());
 const meetingRepository = MeetingRepositoryFactory.get("remote");
+
+
+
 
 // Services
 // const mockUser = {
