@@ -5,13 +5,14 @@ import { centralNavigate } from "./utility/centralNavigation.js";
 
 // Create an instance of AppControllerComponent
 export const mainMeetingRepository = MeetingRepositoryFactory.get("local");
+export const mainRepository = MeetingRepositoryFactory.get("remote"); //call to inialize certain subscriptions
+
 
 const appController = new AppControllerComponent();
 
 // Render the component in the #app container
 const appContainer = document.getElementById("app");
 appContainer.appendChild(appController.render());
-const meetingRepository = MeetingRepositoryFactory.get("remote");
 
 
 

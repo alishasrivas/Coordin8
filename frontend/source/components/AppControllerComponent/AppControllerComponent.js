@@ -6,13 +6,11 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
 import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
-import { LogInComponent } from "../LogInComponent/LogInComponent.js";
-import { SignUpComponent } from "../SignUpComponent/SignUpComponent.js";
 
 //!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
-  #currentView = "home"; // Track the current view ('home', 'create', or 'dashboard')
+  #currentView = "home";
   #eventCreationComponent = null; // Instance of the event creation component
   #homeComponent = null; // Instance of home home component
   #dashboardComponent = null; // Instance of the dashboard component
