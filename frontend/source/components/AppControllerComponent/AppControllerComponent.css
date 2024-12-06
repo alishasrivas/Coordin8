@@ -38,3 +38,12 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+#logout_btn {
+  color: #0056b3;
+  background-color: white;
+}
+
+#logout_btn:hover {
+  background-color: #768ca3;
+}

@@ -53,7 +53,6 @@ export class LogInComponent extends BaseComponent {
         const { email, password } = data
         //TODO: implement validation for email and password
         this.#hub.publish(Events.LogIn, { email: email.value, password: password.value });
-        alert("Log In Sucessful");
     }
     render() {
         if (this.#container) {

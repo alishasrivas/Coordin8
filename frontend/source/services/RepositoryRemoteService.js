@@ -26,7 +26,7 @@ function getCookie(name) {
 
 // Delete a cookie
 function deleteCookie(name) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; //set a time in the past to delete the cookie
 }
 
 // Example Usage
@@ -67,7 +67,6 @@ export class RepositoryRemoteService extends Service {
             setCookie("accessToken", accessToken);
             console.log(`/login ${response.status} ${response.statusText}`);
             //trigger events LogIn Success so that it can switch screen
-            //TODO:
             this.publish(Events.LogInSuccess);
 
         }
@@ -104,7 +103,7 @@ export class RepositoryRemoteService extends Service {
 
     async logOut() {
         try {
-            //call the backend endpoint to invalidate the tokens first
+            //call the backend endpoint to invalidate the tokens 
             const token = getCookie("accessToken");
             if (!token) {
                 throw new Error("No access token found");
@@ -119,10 +118,9 @@ export class RepositoryRemoteService extends Service {
             if (!response.ok) {
                 throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
-            deleteCookie("accessToken");
+            deleteCookie("accessToken"); //delete token on client end
             console.log(`/logout ${response.status} ${response.statusText}`);
             //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
-            //TODO:
             this.publish(Events.LogOutSuccess);
         }
         catch (error) {
@@ -136,14 +134,16 @@ export class RepositoryRemoteService extends Service {
     addSubscriptions() {
         try {
             this.subscribe(Events.LogIn, (data) => {
-                this.logIn(data).catch((error) => {
+                this.logIn(data).then((data) => alert("Log In Success")).catch((error) => {
                     console.error(error);
+                    alert("Log in failed");
                 });
             });
 
             this.subscribe(Events.LogOut, () => {
-                this.logOut().catch((error) => {
+                this.logOut().then(data => alert("Log out successfully")).catch((error) => {
                     console.error(error);
+                    alert("Log out failed");
                 });
             });
 

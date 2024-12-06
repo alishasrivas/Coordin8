@@ -6,7 +6,7 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
 import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
-
+import { Events } from "../../eventhub/Events.js";
 //!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
@@ -56,6 +56,8 @@ export class AppControllerComponent extends BaseComponent {
         <button id="friendsListNavigationButton">Friends List</button>
         <button id="profileSettingsBtn">Profile Settings</button>
         <button id="eventFinalizationBtn">Event Finalization</button>
+        <button id="logout_btn">Log Out</button>
+
       </div>
       <div id="viewContainer">
         <!-- View content will be dynamically added here -->
@@ -70,6 +72,7 @@ export class AppControllerComponent extends BaseComponent {
     const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
     const eventFinalizationBtn = this.#container.querySelector('#eventFinalizationBtn');
     const friendsListBtn = this.#container.querySelector('#friendsListNavigationButton')
+    const logoutBtn = this.#container.querySelector('#logout_btn');
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
@@ -77,6 +80,7 @@ export class AppControllerComponent extends BaseComponent {
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
     eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
     friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
+    logoutBtn.addEventListener("click", () => this.#hub.publish(Events.LogOut));
   }
 
   #switchView(view) {
