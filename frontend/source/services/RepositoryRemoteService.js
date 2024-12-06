@@ -61,9 +61,9 @@ export class RepositoryRemoteService extends Service {
 
             //take the access tokens from response and set it to the headers
             const expirationDate = new Date();
-            expirationDate.setHours(expirationDate.getHoursetHours() + 1);
+            expirationDate.setHours(expirationDate.getHours() + 1);
             const data = await response.json();
-            accessToken = data.token;
+            const accessToken = data.token;
             setCookie("accessToken", accessToken);
             console.log(`/login ${response.status} ${response.statusText}`);
             //trigger events LogIn Success so that it can switch screen
@@ -71,7 +71,7 @@ export class RepositoryRemoteService extends Service {
             this.publish(Events.LogInSuccess);
 
         }
-        catch {
+        catch (error) {
             console.error("Error logging in:", error);
             throw error;
         }

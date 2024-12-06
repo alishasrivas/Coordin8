@@ -1,5 +1,6 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { Events } from "../../eventhub/Events.js";
+import { EventHub } from "../../eventhub/EventHub.js";
 export class LogInComponent extends BaseComponent {
     #container = null;
     #hub = null
@@ -32,15 +33,15 @@ export class LogInComponent extends BaseComponent {
                     </div>
                 </div>
             </form>
-            <button type="submit" class="submit-button">Log In</button>
+            <button type="submit" class="submit-button-login">Log In</button>
         `
     }
     #attachEventListeners() {
-        //TODO
         //Add logic for event litseners right here
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const submitButton = document.querySelector('.submit-button');
+        const email = this.#container.querySelector('#email');
+        const password = this.#container.querySelector('#password');
+        const submitButton = this.#container.querySelector('.submit-button-login');
+        //TODO: submitButton is null
         submitButton.addEventListener('click', (event) => {
             event.preventDefault();
             this.#handleSubmit({ email, password });
@@ -60,7 +61,6 @@ export class LogInComponent extends BaseComponent {
         }
         this.#createContainer();
         console.log("Log In Component Rendered");
-        this.#attachEventListeners();
         return this.#container;
     }
 }

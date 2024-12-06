@@ -11,10 +11,10 @@ export const mainRepository = MeetingRepositoryFactory.get("remote"); //call to 
 // Render the component in the #app container
 console.log("Reached here")
 const appContainer = document.getElementById("app");
-const appController = new AppControllerComponent();
-appContainer.appendChild(appController.render());
-// const centralNavigation = new centralNavigationComponent();
-// appContainer.appendChild(centralNavigation.render());
+// const appController = new AppControllerComponent();
+// appContainer.appendChild(appController.render());
+const centralNavigation = new centralNavigationComponent();
+appContainer.appendChild(centralNavigation.render());
 
 
 
