@@ -30,9 +30,9 @@ export function EventsModel(sequelize) {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      file_attachment: {
-        type: DataTypes.STRING, //TODO: may need to change here
-      },
+      // file_attachment: { // don't need this for now
+      //   type: DataTypes.STRING, //TODO: may need to change here
+      // },
       // organizer_id:{}
     },
     {

@@ -14,10 +14,18 @@ export function EventParticipantModel(sequelize) {
             defaultValue: sql.uuidV4,
             primaryKey: true,
         },
-        event_time_preference: {
-            type: DataTypes.DATE,
+        event_id: {
+            type: DataTypes.UUID.V4,
             allowNull: false,
-        }
+        },
+        user_id: {
+            type: DataTypes.UUID.V4,
+            allowNull: false,
+        },
+        status: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
     }, {
         timestamps: true, // Enable timestamps for createdAt and updatedAt
     },);
