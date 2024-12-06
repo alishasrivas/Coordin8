@@ -188,6 +188,22 @@ export const createEvent = async (req, res) => {
   }
 };
 
+// Creates a new EventParticipantInstance based on the user_id and event_id
+export const createEventParticipant = async (event_id, user_id) => {
+  try {
+    // Inserts a new EventParticipantInstance record into the database using Sequelize
+    const eventParticipant = await EventParticipantInstance.create({
+      event_id,
+      user_id,
+      accepted: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
+    });
+    return eventParticipant;
+  } catch (error) {
+    console.error("Error creating event participant:", error);
+    throw error; // createEvent function will handle the error
+  }
+};
+
 //callback functions for profile settings feature
 
 export const updateUserProfile = async (req, res) => {
