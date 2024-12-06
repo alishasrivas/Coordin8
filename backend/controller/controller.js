@@ -140,6 +140,19 @@ export const createEvent = async (req, res) => {
       const foundUserIds = invitedUsers.map((invitee) => invitee.user_id);
       // Extract email from each invitee
       const foundEmails = invitedUsers.map((invitee) => invitee.email);
+
+      // Identifies and creates and array of missing emails
+      const missingEmails = invitees.filter(
+        (email) => !foundEmails.includes(email)
+      );
+      if (missingEmails.length > 0) {
+        // Inform users that some emails are not linked to registered users
+        return res.status(400).json({
+          message:
+            "Some invitees are not registered users. Failed to create event",
+          missingEmails,
+        });
+      }
     }
 
     // Response upon successful event creation
