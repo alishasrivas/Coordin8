@@ -1,5 +1,5 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent";
-
+//TODO: merge this and the setup account component
 export class SignUpComponent extends BaseComponent {
     #container = null;
     #hub = null
@@ -40,6 +40,7 @@ export class SignUpComponent extends BaseComponent {
     }
     #attachEventListeners() {
         //Add logic for event litseners right here
+        //TODO
     }
     render() {
         if (this.#container) {

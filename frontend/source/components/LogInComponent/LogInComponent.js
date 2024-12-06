@@ -1,8 +1,9 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent";
-
+import { Events } from "../../eventhub/Events";
 export class LogInComponent extends BaseComponent {
     #container = null;
     #hub = null
+    #isError = false
     constructor() {
         super();
         this.loadCSS('LogInComponent');
@@ -13,6 +14,7 @@ export class LogInComponent extends BaseComponent {
         this.#container = document.createElement("div");
         this.#container.classList.add("log-in-container");
         this.#container.innerHTML = this.#getTemplate();
+        this.#attachEventListeners();
     }
     #getTemplate() {
         return `
@@ -34,13 +36,30 @@ export class LogInComponent extends BaseComponent {
         `
     }
     #attachEventListeners() {
+        //TODO
         //Add logic for event litseners right here
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.#handleSubmit({ email, password });
+        })
+    }
+
+
+    #handleSubmit(data) {
+        const { email, password } = data
+        //TODO: implement validation for email and password
+        this.#hub.publish(Events.LogIn, { email: email.value, password: password.value });
+        alert("Log In Sucessful");
     }
     render() {
         if (this.#container) {
             return this.#container;
         }
         this.#createContainer();
+        console.log("Log In Component Rendered");
         this.#attachEventListeners();
         return this.#container;
     }
