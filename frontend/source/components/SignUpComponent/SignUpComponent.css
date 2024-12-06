@@ -40,7 +40,7 @@
 
 input {
     margin-top: 4px;
-    padding: 10px;
+    padding: 5px;
 }
 
 .input-block {
@@ -77,6 +77,15 @@ input {
     padding-left: 10px;
 }
 
+#noti_pref {
+    height: 2.5em;
+    width: 2.5em;
+    margin: 0;
+    accent-color: #2ECC71;
+
+}
+
+
 .submit-button {
     background-color: #2ECC71;
     padding: 1% 3% 1% 3%;
@@ -88,6 +97,7 @@ input {
 }
 
 .submit-button:focus {
+
     background-color: #239452;
 }
 
@@ -105,7 +115,7 @@ input {
 }
 
 /* slider */
-.switch {
+/* .switch {
     position: relative;
     display: inline-block;
     width: 55px;
@@ -113,14 +123,12 @@ input {
     margin-top: 10px;
 }
 
-/* Hide default HTML checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* The slider */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -159,11 +167,10 @@ input:checked+.slider:before {
     transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
 
 .slider.round:before {
     border-radius: 50%;
-}
+} */

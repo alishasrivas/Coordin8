@@ -42,10 +42,7 @@ export class SignUpComponent extends BaseComponent {
                     </div>
                     <div class="inner_input toggle">
                         <label for="noti_pref">Email Notification:</label>
-                        <label class="switch">
-                            <input type="checkbox" id="noti_pref">
-                            <span class="slider round"></span>
-                        </label>
+                        <input type="checkbox" id="noti_pref">
                     </div>
 
                 </div>
@@ -53,6 +50,7 @@ export class SignUpComponent extends BaseComponent {
             <button type="submit" class="submit-button">Sign Up</button>
         `
     }
+
     #attachEventListeners() {
         //Add logic for event litseners right here
         //TODO
