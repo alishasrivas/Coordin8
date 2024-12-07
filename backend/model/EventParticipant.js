@@ -22,7 +22,7 @@ export function EventParticipantModel(sequelize) {
             type: DataTypes.UUID.V4,
             allowNull: false,
         },
-        status: {
+        accepted: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
         },

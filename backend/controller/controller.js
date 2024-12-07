@@ -267,3 +267,29 @@ export const getUserProfile = async (req, res) => {
       .json({ message: "Internal Server Error at getUserProfile" });
   }
 };
+
+
+// callback function for getting all events 
+
+export const getUserEvents = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Get events where the user is the organizer
+    const organizedEvents = await EventInstance.findAll({
+      where: { organizer_id: userId },
+      include: EventParticipantInstance,
+    });
+
+    // Get events where the user has accepted the invitation
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, accepted: true },
+      include: EventInstance,
+    });
+
+    res.status(200).json({ organizedEvents, acceptedEvents });
+  } catch (error) {
+    console.error("Error getting user events:", error);
+    res.status(500).json({ message: "Internal Server Error at getUserEvents" });
+  }
+}
