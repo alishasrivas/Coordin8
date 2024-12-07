@@ -1,5 +1,9 @@
 import { factoryResponse } from "../src/factoryResponse.js";
-import { EventInstance, UserInstance } from "../model/main.js";
+import {
+  EventInstance,
+  EventParticipantInstance,
+  UserInstance,
+} from "../model/main.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -87,19 +91,16 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
   //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
-    req.session.destroy(
-      (err) => {
-        if (err) {
-          console.error("Error destroying session:", err);
-          return res.status(500).json(factoryResponse(500, "Logout failed"));
-        }
-        res.clearCookie('connect.sid');
-        process.env.JWT_SECRET_KEY = ""; //invalidate the token by deleting the secret key associated with it
-        res.json(factoryResponse(200, "Logout successful"));
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Error destroying session:", err);
+        return res.status(500).json(factoryResponse(500, "Logout failed"));
       }
-    )
-  }
-  catch (error) {
+      res.clearCookie("connect.sid");
+      process.env.JWT_SECRET_KEY = ""; //invalidate the token by deleting the secret key associated with it
+      res.json(factoryResponse(200, "Logout successful"));
+    });
+  } catch (error) {
     console.error("Error logging out user:", error);
     res
       .status(500)
@@ -113,18 +114,93 @@ export const logout = (req, res) => {
 export const createEvent = async (req, res) => {
   try {
     // Parse data from client
-    const { title, description, invitees, event_time } = req.body;
-    // Inserts a new event record into the database using Sequelize
+    const { title, description, invitees, event_time, organizer_id } = req.body;
+
+    // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
       description,
-      invitees,
       event_time,
+      organizer_id,
+      invitees,
     });
+
+    // Handle invitees if provided and create EventParticipantInstances
+    if (Array.isArray(invitees) && invitees.length > 0) {
+      // Want to find user IDs for invitees
+      // Use Sequelize to query the UserInstance table and retrieve all records where the email column matches any of the emails provided in the invitees array.
+      // Will create an array of UserInstance records representing each invitee
+      const invitedUsers = await UserInstance.findAll({
+        where: {
+          email: invitees,
+        },
+      });
+
+      // Extract user_id from each invitee
+      const foundUserIds = invitedUsers.map((invitee) => invitee.user_id);
+      // Extract email from each invitee
+      const foundEmails = invitedUsers.map((invitee) => invitee.email);
+
+      // Identifies and creates and array of missing emails
+      const missingEmails = invitees.filter(
+        (email) => !foundEmails.includes(email)
+      );
+      if (missingEmails.length > 0) {
+        // Inform users that some emails are not linked to registered users
+        return res.status(400).json({
+          message:
+            "Some invitees are not registered users. Failed to create event",
+          missingEmails,
+        });
+      }
+
+      let failedParticipants = [];
+      // Create EventParticipantInstance for each invitee
+      for (const userId of foundUserIds) {
+        try {
+          await createEventParticipant(event.event_id, userId);
+        } catch (error) {
+          console.error(
+            `Failed to create EventParticipant for user ${userId}:`,
+            error
+          );
+          // Maintain an array of all failed event participant creations
+          failedParticipants.push(userId);
+        }
+      }
+
+      if (failedParticipants.length > 0) {
+        // Response upon successful event creation with failed event participant creations
+        return res.status(201).json({
+          message:
+            "Event created with some EventParticipant creation failures.",
+          event,
+          failedParticipants,
+        });
+      }
+    }
+
+    // Response upon successful event creation with no event participant creation issues
     res.status(201).json({ message: "Event created successfully", event });
   } catch (error) {
     console.error("Error creating event:", error);
     res.status(500).json({ message: "Failed to create event" });
+  }
+};
+
+// Creates a new EventParticipantInstance based on the user_id and event_id
+export const createEventParticipant = async (event_id, user_id) => {
+  try {
+    // Inserts a new EventParticipantInstance record into the database using Sequelize
+    const eventParticipant = await EventParticipantInstance.create({
+      event_id,
+      user_id,
+      accepted: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
+    });
+    return eventParticipant;
+  } catch (error) {
+    console.error("Error creating event participant:", error);
+    throw error; // createEvent function will handle the error
   }
 };
 
@@ -133,8 +209,14 @@ export const createEvent = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   try {
     const userId = req.params.id; //access dynamic parameter
-    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = req.body;
-    console.log("Loaded variable")
+    const {
+      username,
+      email,
+      primary_time_zone,
+      secondary_time_zone,
+      notificationPreferences,
+    } = req.body;
+    console.log("Loaded variable");
     await UserInstance.update(
       {
         username,
@@ -146,37 +228,42 @@ export const updateUserProfile = async (req, res) => {
       {
         where: { user_id: userId },
       }
-    )
-    console.log("Reached here")
-  }
-  catch (error) {
+    );
+    console.log("Reached here");
+  } catch (error) {
     console.error("Error updating user profile:", error);
-    res.status(500).json({ message: "Internal Server Error at updateUserProfile" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at updateUserProfile" });
   }
-}
+};
 
 export const getUserProfile = async (req, res) => {
   try {
-
     const userId = req.params.id;
     const userProfile = await UserInstance.findOne({
       where: { user_id: userId },
     });
 
-    const { username, email, primary_time_zone, secondary_time_zone, notificationPreferences } = userProfile.dataValues;
+    const {
+      username,
+      email,
+      primary_time_zone,
+      secondary_time_zone,
+      notificationPreferences,
+    } = userProfile.dataValues;
 
     res.status(200).json({
       username,
       email,
       primary_time_zone,
       secondary_time_zone,
-      notificationPreferences
+      notificationPreferences,
     });
-
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error getting user profile:", error);
-    res.status(500).json({ message: "Internal Server Error at getUserProfile" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at getUserProfile" });
   }
-}
-
+};
