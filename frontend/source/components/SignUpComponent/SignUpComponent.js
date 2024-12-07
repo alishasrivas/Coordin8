@@ -53,8 +53,17 @@ export class SignUpComponent extends BaseComponent {
 
     #attachEventListeners() {
         //Add logic for event litseners right here
-        //TODO
+        const email = this.#container.querySelector('#email');
+        const password = this.#container.querySelector('#password');
+        const username = this.#container.querySelector('#username');
+        const primary_time_zone = this.#container.querySelector('#primary_time_zone');
+        const noti_pref = this.#container.querySelector('#noti_pref');
+        const submitBtn = this.#container.querySelector('.submit-button');
 
+        submitBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.#handleSubmit({ email, password, username, primary_time_zone, noti_pref });
+        })
 
         const reRouteBtn = this.#container.querySelector('.login_route_btn');
         console.log(reRouteBtn)
@@ -70,5 +79,11 @@ export class SignUpComponent extends BaseComponent {
         this.#createContainer();
         this.#attachEventListeners();
         return this.#container;
+    }
+
+    #handleSubmit(data) {
+        //TODO: add validation for all fields
+        const { email, password, username, primary_time_zone, noti_pref } = data
+        this.#hub.publish(Events.Register, { email: email.value, password: password.value, username: username.value, primary_time_zone: primary_time_zone.value, noti_pref: noti_pref.checked });
     }
 }

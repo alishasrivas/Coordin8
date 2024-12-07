@@ -21,7 +21,7 @@ export const test = async (req, res) => {
 // This route creates a new user in the database.
 export const register = async (req, res) => {
   try {
-    const { email, password, username, primary_time_zone } = req.body;
+    const { email, password, username, primary_time_zone, notificationPreferences } = req.body;
     // Check if the email is already taken
     if (await existsUser(email))
       return res
@@ -35,6 +35,7 @@ export const register = async (req, res) => {
       password: hash,
       username,
       primary_time_zone,
+      notificationPreferences
     });
     res.json(factoryResponse(200, "Registration successful"));
     console.log("User registered successfully");

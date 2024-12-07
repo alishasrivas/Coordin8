@@ -76,7 +76,7 @@ export class RepositoryRemoteService extends Service {
         }
     }
 
-    async register({ email, password, username, primary_time_zone }) {
+    async register({ email, password, username, primary_time_zone, noti_pref }) {
         try {
             const response = await fetch(BASE_URL + "register", {
                 method: "POST",
@@ -88,6 +88,7 @@ export class RepositoryRemoteService extends Service {
                     password: password,
                     username: username,
                     primary_time_zone: primary_time_zone,
+                    notificationPreferences: noti_pref,
                 }),
             })
             if (!response.ok) {
@@ -148,7 +149,7 @@ export class RepositoryRemoteService extends Service {
             });
 
             this.subscribe(Events.Register, (data) => {
-                this.register(data).catch((error) => {
+                this.register(data).then(data => alert("Register Successfully")).catch((error) => {
                     console.error(error);
                 });
             });
