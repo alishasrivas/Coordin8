@@ -8,7 +8,8 @@ import {
     test,
     createEvent,
     updateUserProfile,
-    getUserProfile
+    getUserProfile, 
+    updateEvent
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -27,6 +28,8 @@ router.get("/protected", authenticatedJWT, (req, res) => {
 
 // When an HTTP POST request is made to the /events endpoint with a valid JWT, the createEvent function will be called
 router.post("/events", authenticatedJWT, createEvent);
+
+router.put("/events/:id", authenticatedJWT, updateEvent);
 
 
 //endpoints for profile settings features

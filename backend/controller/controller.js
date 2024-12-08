@@ -268,3 +268,24 @@ export const getUserProfile = async (req, res) => {
       .json({ message: "Internal Server Error at getUserProfile" });
   }
 };
+
+export const updateEvent = async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    const updateData = req.body;
+
+    // Update the event in the database
+    const [updatedCount] = await EventInstance.update(updateData, {
+      where: { event_id: eventId },
+    });
+
+    if (updatedCount === 0) {
+      return res.status(404).json(factoryResponse(404, "Event not found or no changes made"));
+    }
+
+    res.status(200).json(factoryResponse(200, "Event updated successfully"));
+  } catch (error) {
+    console.error("Update event error:", error);
+    res.status(500).json(factoryResponse(500, "Internal server error during event update"));
+  }
+};
