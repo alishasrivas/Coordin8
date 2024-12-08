@@ -8,7 +8,9 @@ import {
     test,
     createEvent,
     updateUserProfile,
-    getUserProfile
+    getUserProfile,
+    getUserNewEvents,
+    updateUserStatus
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -32,4 +34,9 @@ router.post("/events", authenticatedJWT, createEvent);
 //endpoints for profile settings features
 router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
 router.get('/userInfo/:id', authenticatedJWT, getUserProfile);
+
+//endpoints for event finalization
+router.post("/newEvents", authenticatedJWT, getUserNewEvents);
+router.post("/finalize", authenticatedJWT, updateUserStatus);
+
 export default router;
