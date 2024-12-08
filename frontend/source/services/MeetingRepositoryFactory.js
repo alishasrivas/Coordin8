@@ -1,5 +1,6 @@
 import { MeetingRepositoryService } from "./MeetingRepositoryService.js";
 import { MeetingRepositoryRemoteFakeService } from "./MeetingRepositoryRemoteFakeService.js";
+import { RepositoryRemoteService } from "./RepositoryRemoteService.js";
 
 /**
  * Factory class to create instances of meet repository services.
@@ -32,7 +33,7 @@ export class MeetingRepositoryFactory {
     if (repoType === "local") {
       return new MeetingRepositoryService();
     } else if (repoType === "remote") {
-      return new MeetingRepositoryRemoteFakeService();
+      return new RepositoryRemoteService();
     } else {
       throw new Error(`Invalid repository type: ${repoType}`);
     }

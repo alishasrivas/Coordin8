@@ -33,4 +33,16 @@ export const Events = {
 
   //user availability events
   UserAvailabilitySubmission: 'UserAvailabilitySubmission',
+
+  //Authentication Events
+  LogIn: 'LogIn',
+  LogInSuccess: 'LoginSucess', //change from Log in page to home page
+  LogOutSuccess: 'LogOutSucess', //change from home page to log in page
+  LogOut: 'LogOut',
+  Register: 'Register',
+
+  //Switching between Register and LogIn View
+  LogInToRegister: 'LogInToRegister',
+  RegisterToLogIn: 'RegisterToLogIn',
+
 };
