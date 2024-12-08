@@ -199,7 +199,7 @@ export const deleteEventInstance = async (req, res) => {
     }
     return res.status(404).json({ message: "Failed to delete event" });
   } catch (error){
-    console.error("Error creating event:", error);
+    console.error("Error deleting event:", error);
     return res.status(500).json({ message: "Sever error: Failed to delete EventInstance" });
   }
 };
