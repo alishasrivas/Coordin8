@@ -126,14 +126,14 @@ export const logout = (req, res) => {
 export const createEvent = async (req, res) => {
   try {
     // Parse data from client
-    const { title, description, invitees, event_time, organizer_id } = req.body;
+    const { title, description, invitees, event_time } = req.body;
 
     // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
       description,
       event_time,
-      organizer_id,
+      organizer_id: req.user.user_id,
       invitees,
     });
 
@@ -226,7 +226,7 @@ export const createEventParticipant = async (event_id, user_id) => {
     const eventParticipant = await EventParticipantInstance.create({
       event_id,
       user_id,
-      status: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
+      status: null, // status should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
     });
     return eventParticipant;
   } catch (error) {
