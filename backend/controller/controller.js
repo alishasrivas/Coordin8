@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 //!define main logic and functions for backend here
-//load environemtn variables
+//load environment variables
 dotenv.config({ path: "../.env" });
 const existsUser = async (email) => {
   const user = await UserInstance.findOne({ where: { email } });
@@ -25,7 +25,13 @@ export const test = async (req, res) => {
 // This route creates a new user in the database.
 export const register = async (req, res) => {
   try {
-    const { email, password, username, primary_time_zone, notificationPreferences } = req.body;
+    const {
+      email,
+      password,
+      username,
+      primary_time_zone,
+      notificationPreferences,
+    } = req.body;
     // Check if the email is already taken
     if (await existsUser(email))
       return res
@@ -39,7 +45,7 @@ export const register = async (req, res) => {
       password: hash,
       username,
       primary_time_zone,
-      notificationPreferences
+      notificationPreferences,
     });
     res.json(factoryResponse(200, "Registration successful"));
     console.log("User registered successfully");
@@ -72,9 +78,13 @@ export const login = async (req, res, next) => {
     // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     //   expiresIn: "1h",
     // });
-    const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { user_id: user.user_id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res.json({
       status: 200,
@@ -92,7 +102,6 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
   //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
-
     console.log(`Log Out route: current user id ${req.user.user_id}`);
     req.session.destroy((err) => {
       if (err) {
@@ -193,16 +202,20 @@ export const createEvent = async (req, res) => {
 
 //Deletes an EventInstance
 export const deleteEventInstance = async (req, res) => {
-  try{
-    const {idofevent} = req.params;
-    const numdeleted = await EventInstance.destroy({where:{event_id: idofevent}});
-    if (numdeleted === 0){
+  try {
+    const { idofevent } = req.params;
+    const numdeleted = await EventInstance.destroy({
+      where: { event_id: idofevent },
+    });
+    if (numdeleted === 0) {
       return res.status(404).json({ message: "Event deleted successfully" });
     }
     return res.status(404).json({ message: "Failed to delete event" });
-  } catch (error){
+  } catch (error) {
     console.error("Error deleting event:", error);
-    return res.status(500).json({ message: "Sever error: Failed to delete EventInstance" });
+    return res
+      .status(500)
+      .json({ message: "Sever error: Failed to delete EventInstance" });
   }
 };
 
@@ -213,7 +226,7 @@ export const createEventParticipant = async (event_id, user_id) => {
     const eventParticipant = await EventParticipantInstance.create({
       event_id,
       user_id,
-      accepted: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
+      status: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
     });
     return eventParticipant;
   } catch (error) {
