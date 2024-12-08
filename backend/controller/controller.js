@@ -72,7 +72,7 @@ export const login = async (req, res, next) => {
     // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     //   expiresIn: "1h",
     // });
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
 
@@ -92,6 +92,8 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
   //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
+
+    console.log(`Log Out route: current user id ${req.user.user_id}`);
     req.session.destroy((err) => {
       if (err) {
         console.error("Error destroying session:", err);
@@ -230,7 +232,6 @@ export const updateUserProfile = async (req, res) => {
         where: { user_id: userId },
       }
     );
-    console.log("Reached here");
   } catch (error) {
     console.error("Error updating user profile:", error);
     res
