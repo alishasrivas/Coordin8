@@ -270,10 +270,10 @@ export const getUserProfile = async (req, res) => {
 };
 
 //callback function for returning all events where user is a participant and has not selected status
-//POST route to recieve userid from frontend
+//GET route
 export const getUserNewEvents = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId  = req.user.user_id;
     const newEventParticipants = await EventParticipantInstance.findAll({
       where: {
         user_id: userId,
@@ -303,7 +303,8 @@ export const getUserNewEvents = async (req, res) => {
 //POST route
 export const updateUserStatus = async (req, res) => {
   try {
-    const { userId, eventId, attending } = req.body;
+    const { eventId, attending } = req.body;
+    userId = req.user.user_id;
     const updateStatus = await EventParticipantInstance.update(
       { status: attending },
       { where: {event_id: eventId, user_id: userId} }
