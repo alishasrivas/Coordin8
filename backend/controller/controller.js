@@ -72,7 +72,7 @@ export const login = async (req, res, next) => {
     // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     //   expiresIn: "1h",
     // });
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
 
@@ -292,5 +292,53 @@ export const getUserEvents = async (req, res) => {
   } catch (error) {
     console.error("Error getting user events:", error);
     res.status(500).json({ message: "Internal Server Error at getUserEvents" });
+  }
+}
+
+export const getOrganizedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const events = await EventInstance.findAll({
+      where: { organizer_id: userId },
+    });
+
+    const organizedEvents = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(organizedEvents);
+  } catch (error) {
+    console.error("Error getting organized events:", error);
+    res.status(500).json({ message: "Internal Server Error at getOrganizedEvents" });
+  }
+};
+
+
+// Callback function for getting all events where the user has accepted the invitation. First, we take the accepted events ids from the EventParticipantInstance table. Then, we get the details of the accepted events from the EventInstance table. Finally, we return the accepted events detail to the client.
+export const getAcceptedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, accepted: true },
+    });
+
+    const eventIds = acceptedEvents.map(event => event.event_id);
+
+    const events = await EventInstance.findAll({
+      where: { event_id: eventIds },
+    });
+
+    const acceptedEventsDetail = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(acceptedEventsDetail);
+  } catch (error) {
+    console.error("Error getting accepted events:", error);
+    res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
   }
 }

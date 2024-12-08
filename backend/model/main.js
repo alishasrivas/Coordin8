@@ -39,76 +39,101 @@ async function synDatabase() {
 
 await synDatabase();
 
-//Testing database
 
-try {
-  console.log("Testing database");
-  await synDatabase();
+async function initializeDatabase() {
+  try {
+    console.log("Testing database");
+    await synDatabase();
 
-  // const user = await UserInstance.findAll();
-  // console.log(user.map(u => u.dataValues));
+    // Check if users already exist
+    const existingInvitee1 = await UserInstance.findOne({ where: { email: "invitee1@gmail.com" } });
+    const existingInvitee2 = await UserInstance.findOne({ where: { email: "invitee2@gmail.com" } });
+    const existingInvitee3 = await UserInstance.findOne({ where: { email: "invitee3@gmail.com" } });
 
-  // const updatedRow = await UserInstance.update({ primary_time_zone: "Russia/Saint Petesrburg", secondary_time_zone: "Russia/ Moscow", notificationPreferences: false }, { where: { email: "test2@gmail.com" } });
-  // console.log(updatedRow); //updateRows will reflect how many rows are updated
+    let invitee1, invitee2, invitee3;
 
-  //     const deletedRows = await UserInstance.destroy({ where: { email: "test2@gmail.com" } });
-  //     const user = await UserInstance.findOne({ where: { email: "test2@gmail.com" } });
-  //     console.log(user.toJSON() ? user : "No user found");
+    if (!existingInvitee1) {
+      invitee1 = await UserInstance.create({
+        email: "invitee1@gmail.com",
+        username: "Invitee1",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "Russia/Moscow"
+      });
+    } else {
+      invitee1 = existingInvitee1;
+    }
 
-  const invitee1 = await UserInstance.create({
-    email: "invitee1@gmail.com",
-    username: "Invitee1",
-    password: await bcrypt.hash("password123", 10),
-    primary_time_zone: "Russia/ Moscow"
-  });
+    if (!existingInvitee2) {
+      invitee2 = await UserInstance.create({
+        email: "invitee2@gmail.com",
+        username: "Invitee2",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "America/New_York"
+      });
+    } else {
+      invitee2 = existingInvitee2;
+    }
 
-  const invitee2 = await UserInstance.create({
-    email: "invitee2@gmai.com",
-    username: "Invitee2",
-    password: await bcrypt.hash("password123", 10),
-    primary_time_zone: "AMerica/New_York"
-  });
+    if (!existingInvitee3) {
+      invitee3 = await UserInstance.create({
+        email: "invitee3@gmail.com",
+        username: "Invitee3",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "America/Los_Angeles"
+      });
+    } else {
+      invitee3 = existingInvitee3;
+    }
 
-  const invitee3 = await UserInstance.create({
-    email: "invitee3@gmail.com",
-    username: "Invitee3",
-    password: await bcrypt.hash("password123", 10),
-    primary_time_zone: "America/Los_Angeles"
-  });
+    // Check if events already exist
+    const existingEvent1 = await EventInstance.findOne({ where: { title: "Event1" } });
+    const existingEvent2 = await EventInstance.findOne({ where: { title: "Event2" } });
 
-  const event1 = await EventInstance.create({
-    title: "Event1",
-    description: "Event1 Description",
-    event_time: new Date(),
-    organizer_id: invitee3.user_id,
-  });
+    let event1, event2;
 
-  const event2 = await EventInstance.create({
-    title: "Event2",
-    description: "Event2 Description",
-    event_time: new Date(),
-    organizer_id: invitee3.user_id,
+    if (!existingEvent1) {
+      event1 = await EventInstance.create({
+        title: "Event1",
+        description: "Event1 Description",
+        event_time: new Date(),
+        organizer_id: invitee3.user_id,
+      });
+    } else {
+      event1 = existingEvent1;
+    }
 
-  });
+    if (!existingEvent2) {
+      event2 = await EventInstance.create({
+        title: "Event2",
+        description: "Event2 Description",
+        event_time: new Date(),
+        organizer_id: invitee3.user_id,
+      });
+    } else {
+      event2 = existingEvent2;
+    }
 
-  const eventParticipant1_1 = await EventParticipantInstance.create({
-    event_id: event1.event_id,
-    user_id: invitee1.user_id,
-    accepted: true,
-  });
+    await EventParticipantInstance.create({
+      event_id: event1.event_id,
+      user_id: invitee1.user_id,
+      accepted: true,
+    });
 
-  const eventParticipant2_1 = await EventParticipantInstance.create({
-    event_id: event2.event_id,
-    user_id: invitee1.user_id,
-    accepted: true,
-  });
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee1.user_id,
+      accepted: true,
+    });
 
-  const eventParticipant2_2 = await EventParticipantInstance.create({
-    event_id: event2.event_id,
-    user_id: invitee2.user_id,
-    accepted: true,
-  });
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee2.user_id,
+      accepted: true,
+    });
 
-} catch (err) {
-  console.log("Error at testing database: ", err);
+  } catch (err) {
+    console.log("Error at testing database: ", err);
+  }
 }
+
+initializeDatabase();
