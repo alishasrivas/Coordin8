@@ -31,7 +31,7 @@ export class DashboardComponent extends BaseComponent {
   async #fetchEvents() {
     try {
       const events = await mainMeetingRepository.loadMeetingsFromDB();
-      console.log('Fetched events:', events); // Log fetched events
+      // console.log('Fetched events:', events); // Log fetched events
       this.#events = events;
       this.#applyCurrentFilter();
     } catch (error) {
@@ -57,7 +57,7 @@ export class DashboardComponent extends BaseComponent {
     document.body.appendChild(this.#container);
   }
 
-    #getTemplate() {
+  #getTemplate() {
     // Returns the HTML template for the component
     return `
       <div id="dashboard-header">
@@ -258,7 +258,7 @@ export class DashboardComponent extends BaseComponent {
   #exportEvents() {
     alert("Export Events");
   }
-    
+
   deleteEvent(eventName) {
     if (confirm(`Are you sure you want to delete the event "${eventName}"?`)) {
       this.#events = this.#events.filter(event => event.name !== eventName);

@@ -6,10 +6,11 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
 import { FriendsListComponent } from "../FriendsListComponent/FriendsListComponent.js"; // Import your component
-
+import { Events } from "../../eventhub/Events.js";
+//!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
   #container = null; // Private container for the component
-  #currentView = "home"; // Track the current view ('home', 'create', or 'dashboard')
+  #currentView = "home";
   #eventCreationComponent = null; // Instance of the event creation component
   #homeComponent = null; // Instance of home home component
   #dashboardComponent = null; // Instance of the dashboard component
@@ -42,7 +43,7 @@ export class AppControllerComponent extends BaseComponent {
   #createContainer() {
     this.#container = document.createElement('div');
     this.#container.classList.add('app-controller-container');
-    this.#container.innerHTML = this.#getTemplate();
+    this.#container.innerHTML = this.#getTemplate(); //When switch from log in to home will need to rerender here
     this.#attachEventListeners();
   }
 
@@ -55,6 +56,8 @@ export class AppControllerComponent extends BaseComponent {
         <button id="friendsListNavigationButton">Friends List</button>
         <button id="profileSettingsBtn">Profile Settings</button>
         <button id="eventFinalizationBtn">Event Finalization</button>
+        <button id="logout_btn">Log Out</button>
+
       </div>
       <div id="viewContainer">
         <!-- View content will be dynamically added here -->
@@ -69,6 +72,7 @@ export class AppControllerComponent extends BaseComponent {
     const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
     const eventFinalizationBtn = this.#container.querySelector('#eventFinalizationBtn');
     const friendsListBtn = this.#container.querySelector('#friendsListNavigationButton')
+    const logoutBtn = this.#container.querySelector('#logout_btn');
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
@@ -76,6 +80,7 @@ export class AppControllerComponent extends BaseComponent {
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
     eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
     friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
+    logoutBtn.addEventListener("click", () => this.#hub.publish(Events.LogOut));
   }
 
   #switchView(view) {

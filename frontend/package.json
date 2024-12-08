@@ -23,7 +23,7 @@
   },
   "contributors": [],
   "scripts": {
-    "start-server": "http-server ./source -p 3000"
+    "start-server": "http-server ./source -p 8080"
   },
   "dependencies": {
     "http-server": "^14.1.1",
