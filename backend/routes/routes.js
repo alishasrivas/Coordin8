@@ -8,7 +8,8 @@ import {
     test,
     createEvent,
     updateUserProfile,
-    getUserProfile
+    getUserProfile,
+    checkUserExist
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -30,6 +31,7 @@ router.post("/events", authenticatedJWT, createEvent);
 
 
 //endpoints for profile settings features
-router.patch('/userInfo/', authenticatedJWT, updateUserProfile);
-router.get('/userInfo/', authenticatedJWT, getUserProfile);
+router.patch('/userInfo', authenticatedJWT, updateUserProfile);
+router.get('/userInfo', authenticatedJWT, getUserProfile);
+router.post('/checkEmail', authenticatedJWT, checkUserExist);
 export default router;

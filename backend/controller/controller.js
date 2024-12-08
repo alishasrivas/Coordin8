@@ -16,6 +16,26 @@ const existsUser = async (email) => {
   return user;
 };
 
+export const checkUserExist = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await UserInstance.findOne({ where: { email } });
+    if (user) {
+      res.status(200).json({ status: true });
+    }
+    else {
+      res.status(200).json({ status: false });
+    }
+
+  }
+  catch (error) {
+    console.error("Error checking if user exists:", error);
+    res
+      .status(500)
+      .json(factoryResponse(500, "Internal Server Error at checkUserExist"));
+  }
+}
+
 //testing function
 export const test = async (req, res) => {
   res.json(factoryResponse(200, "Hello?"));
@@ -218,7 +238,24 @@ export const updateUserProfile = async (req, res) => {
       secondary_time_zone,
       notificationPreferences,
     } = req.body;
-    console.log("Loaded variable");
+    //check if email or username belongs to another user
+
+    const userEmail = await UserInstance.findOne({
+      where: { email },
+    });
+
+    const userUsername = await UserInstance.findOne({
+      where: { username },
+    });
+
+    if (userEmail.user_id !== userId) {
+      return res.status(409).json({ message: "Email is already in use of another user" });
+    }
+
+    if (userUsername.user_id !== userId) {
+      return res.status(409).json({ message: "Username is already in use of another user" });
+    }
+
     await UserInstance.update(
       {
         username,

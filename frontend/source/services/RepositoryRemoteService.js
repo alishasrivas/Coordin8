@@ -181,10 +181,16 @@ export class RepositoryRemoteService extends Service {
                 })
             })
             if (!response.ok) {
+
+                if (response.status === 409) {
+                    const data = await response.json();
+                    this.publish(Events.DuplicateUser, data);
+                }
                 throw new Error(`/updateUser HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             const data = await response.json();
             console.log(`/updateUser ${response.status} ${response.statusText}`);
+            alert("Update user info successfully");
             return data;
         }
         catch (error) {
@@ -192,6 +198,8 @@ export class RepositoryRemoteService extends Service {
             throw error;
         }
     }
+
+
 
 
     //TODO: register your events to litseners (to a backend callback) right here

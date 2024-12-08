@@ -9,6 +9,7 @@ export class ProfileSettingComponent extends BaseComponent {
     #ErrorEmail = "";
     #ErrorPrimaryTZ = "";
     #ErrorSecondaryTZ = "";
+    #BackEndErrorr = "";
     #isError = false
 
     constructor() {
@@ -16,6 +17,8 @@ export class ProfileSettingComponent extends BaseComponent {
         this.loadCSS('ProfileSettingComponent');
         //initialize the event litsener for submission and fetching for the components
         this.#hub = EventHub.getInstance();
+        this.#hub.subscribe(Events.fetchProfileSettings, () => this.#fetchUserData().catch((error) => { console.error(error) }));
+        this.#hub.subscribe(Events.DuplicateUser, (data) => this.#backendErrorHandling(data)); // will trigger when status 409 is reached on fetching, then will call rerender and show error at the bottom
     }
     render() {
         if (this.#container) {
@@ -29,7 +32,8 @@ export class ProfileSettingComponent extends BaseComponent {
         // this.#loading = true;
         this.#container = document.createElement("div");
         this.#container.classList.add("profile-container");
-        this.#fetchUserData().then((userData) => { console.log(userData) }).catch((error) => { console.error(error) });
+        // this.#fetchUserData().catch((error) => { console.error(error) });
+        this.#hub.publish(Events.fetchProfileSettings);
         this.#container.innerHTML = this.#getTemplate();
         this.#attachEventListeners();
     };
@@ -74,6 +78,7 @@ export class ProfileSettingComponent extends BaseComponent {
                         </label>
                     </div>
                 </div>
+                <p class = 'err-msg'>${this.#BackEndErrorr}</p>
                 <div class="footer">
                     <button type="submit" class="submit-button">Save</button>
                 </div>
@@ -124,11 +129,11 @@ export class ProfileSettingComponent extends BaseComponent {
         }
         else {
             this.#publishUpdateData({ username: username.value, email: email.value, primary_time_zone: primary_tz.value, secondary_time_zone: secondary_tz.value, notificationPreferences: email_noti.checked });
-            alert("Profile settings updated successfully!");
         }
     }
     #reRenderHTML() {
         this.#container.innerHTML = this.#getTemplate(); //include any error messages if exist
+        this.#hub.publish(Events.fetchProfileSettings);
         this.#isError = false;
         this.#ErrorEmail = "";
         this.#ErrorName = "";
@@ -149,6 +154,12 @@ export class ProfileSettingComponent extends BaseComponent {
         this.#container.querySelector("#noti_pref").checked = userData.notificationPreferences;
 
         return userData;
+    }
+
+    #backendErrorHandling({ message }) {
+        this.#BackEndErrorr = message;
+        this.#reRenderHTML();
+        this.#BackEndErrorr = "";
     }
 
 }
