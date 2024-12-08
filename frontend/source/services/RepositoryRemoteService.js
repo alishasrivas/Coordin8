@@ -33,12 +33,10 @@ function deleteCookie(name) {
 export class RepositoryRemoteService extends Service {
     constructor() {
         super();
+    }
 
-        //test cookie
-        setCookie("myCookie", "myValue");
-        console.log("Now delete");
-        deleteCookie("myCookie");
-
+    getAccessToken() {
+        return getCookie("accessToken");
     }
 
     //TODO: add your fetch calls to backend here
@@ -68,7 +66,7 @@ export class RepositoryRemoteService extends Service {
             console.log(`/login ${response.status} ${response.statusText}`);
             //trigger events LogIn Success so that it can switch screen
             this.publish(Events.LogInSuccess);
-
+            return data;
         }
         catch (error) {
             console.error("Error logging in:", error);
@@ -120,12 +118,63 @@ export class RepositoryRemoteService extends Service {
                 throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             deleteCookie("accessToken"); //delete token on client end
+            localStorage.clear(); //clear local storage
             console.log(`/logout ${response.status} ${response.statusText}`);
             //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
             this.publish(Events.LogOutSuccess);
         }
         catch (error) {
             console.error("Error logging out:", error);
+            throw error;
+        }
+    }
+
+    async getOrganizedEvents() {
+        try {
+            const token = getCookie("accessToken");
+            console.log(token);
+            if (!token) {
+                throw new Error("No access token found");
+            }
+            const response = await fetch(BASE_URL + "organizedEvents", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            const data = await response.json();
+            console.log(`/organizedEvents ${response.status} ${response.statusText}`);
+            return data;
+        } catch (error) {
+            console.error("Error getting organized events:", error);
+            throw error;
+        }
+    }
+
+    async getAcceptedEvents() {
+        try {
+            const token = getCookie("accessToken");
+            console.log(token);
+            if (!token) {
+                throw new Error("No access token found");
+            }
+            const response = await fetch(BASE_URL + "acceptedEvents", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            const data = await response.json();
+            console.log(`/acceptedEvents ${response.status} ${response.statusText}`);
+            return data;
+        } catch (error) {
+            console.error("Error getting accepted events:", error);
             throw error;
         }
     }
@@ -157,6 +206,5 @@ export class RepositoryRemoteService extends Service {
             console.error("Error in addSubscriptions:", error);
             throw error;
         }
-
     }
 }

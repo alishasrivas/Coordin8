@@ -31,6 +31,7 @@ export class AppControllerComponent extends BaseComponent {
     this.#profileSetting = new ProfileSettingComponent();
     this.#eventFinalizationComponent = new EventFinalizationComponent();
     this.#friendsListComponent = new FriendsListComponent();
+    this.#hub.subscribe(Events.LogInSuccess, this.#onLogInSuccess.bind(this));
   }
 
   // Render the AppController component and return the container
@@ -38,6 +39,10 @@ export class AppControllerComponent extends BaseComponent {
     this.#createContainer();
     this.#setupContainerContent();
     return this.#container;
+  }
+
+  async #onLogInSuccess() {
+    this.#dashboardComponent.initialize();
   }
 
   #createContainer() {
