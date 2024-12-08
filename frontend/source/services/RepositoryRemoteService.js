@@ -56,7 +56,7 @@ export class RepositoryRemoteService extends Service {
             })
 
             if (!response.ok) {
-                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+                throw new Error(`/login HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
 
             //take the access tokens from response and set it to the headers
@@ -92,7 +92,7 @@ export class RepositoryRemoteService extends Service {
                 }),
             })
             if (!response.ok) {
-                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+                throw new Error(`/register HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             console.log(`/register ${response.status} ${response.statusText}`);
         }
@@ -117,7 +117,7 @@ export class RepositoryRemoteService extends Service {
                 }
             })
             if (!response.ok) {
-                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+                throw new Error(`/logout HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             deleteCookie("accessToken"); //delete token on client end
             console.log(`/logout ${response.status} ${response.statusText}`);
@@ -144,14 +144,51 @@ export class RepositoryRemoteService extends Service {
                 }
             })
             if (!response.ok) {
-                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+                throw new Error(`/getUser HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             const data = await response.json();
-            console.log(`/user ${response.status} ${response.statusText}`);
+            console.log(`/getUser ${response.status} ${response.statusText}`);
             return data;
         }
         catch (error) {
             console.error("Error getting user info:", error);
+            throw error;
+        }
+    }
+
+    async updateUserInfo({ username,
+        email,
+        primary_time_zone,
+        secondary_time_zone,
+        notificationPreferences, }) {
+        try {
+            const token = getCookie("accessToken");
+            if (!token) {
+                throw new Error("No access token found");
+            }
+            const response = await fetch(BASE_URL + "userInfo", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    primary_time_zone: primary_time_zone,
+                    secondary_time_zone: secondary_time_zone,
+                    notificationPreferences: notificationPreferences,
+                })
+            })
+            if (!response.ok) {
+                throw new Error(`/updateUser HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            const data = await response.json();
+            console.log(`/updateUser ${response.status} ${response.statusText}`);
+            return data;
+        }
+        catch (error) {
+            console.error("Error updating user info:", error);
             throw error;
         }
     }
@@ -179,6 +216,13 @@ export class RepositoryRemoteService extends Service {
                     console.error(error);
                 });
             });
+
+            this.subscribe(Events.updateProfileSettings, (data) => {
+                this.updateUserInfo(data).then(data => alert("Update Profile Successfully")).catch((error) => {
+                    console.error(error);
+                });
+            })
+
         } catch (error) {
             console.error("Error in addSubscriptions:", error);
             throw error;

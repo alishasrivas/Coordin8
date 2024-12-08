@@ -1,7 +1,7 @@
 import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
-import { mainMeetingRepository } from "../../main.js";
+import { mainRepository } from "../../main.js";
 export class ProfileSettingComponent extends BaseComponent {
     #container = null;
     #hub = null;
@@ -45,7 +45,7 @@ export class ProfileSettingComponent extends BaseComponent {
                 <div class="input-block"> 
                     <h3>Personal Information</h1>
                         <div class="inner-input">
-                            <label for="name">Name:</label>
+                            <label for="name">Username:</label>
                             <label for="email">Email:</label>
                             <input type="text" name="username" id="name" >
                             <input type="text" name="email" id="email" >
@@ -123,7 +123,7 @@ export class ProfileSettingComponent extends BaseComponent {
             this.#reRenderHTML();
         }
         else {
-            this.#publishUpdateData({ username: username.value, email: email.value, primary_tz: primary_tz.value, secondary_tz: secondary_tz.value, email_noti: email_noti.checked });
+            this.#publishUpdateData({ username: username.value, email: email.value, primary_time_zone: primary_tz.value, secondary_time_zone: secondary_tz.value, notificationPreferences: email_noti.checked });
             alert("Profile settings updated successfully!");
         }
     }
@@ -140,13 +140,13 @@ export class ProfileSettingComponent extends BaseComponent {
     }
 
     async #fetchUserData() {
-        const userData = await mainMeetingRepository.getUserData();
+        const userData = await mainRepository.getUserInfo();
         console.log("Finish fetching data");
         this.#container.querySelector("#name").value = userData.username;
         this.#container.querySelector("#email").value = userData.email;
-        this.#container.querySelector("#primary-time-zone").value = userData.primary_tz;
-        this.#container.querySelector("#secondary-time-zone").value = userData.secondary_tz;
-        this.#container.querySelector("#noti_pref").checked = userData.email_noti;
+        this.#container.querySelector("#primary-time-zone").value = userData.primary_time_zone;
+        this.#container.querySelector("#secondary-time-zone").value = userData.secondary_time_zone;
+        this.#container.querySelector("#noti_pref").checked = userData.notificationPreferences;
 
         return userData;
     }

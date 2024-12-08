@@ -30,6 +30,6 @@ router.post("/events", authenticatedJWT, createEvent);
 
 
 //endpoints for profile settings features
-router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
-router.get('/userInfo/:id', authenticatedJWT, getUserProfile);
+router.patch('/userInfo/', authenticatedJWT, updateUserProfile);
+router.get('/userInfo/', authenticatedJWT, getUserProfile);
 export default router;

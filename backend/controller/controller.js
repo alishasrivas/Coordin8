@@ -92,7 +92,6 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
   //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
-
     console.log(`Log Out route: current user id ${req.user.user_id}`);
     req.session.destroy((err) => {
       if (err) {
@@ -211,7 +210,7 @@ export const createEventParticipant = async (event_id, user_id) => {
 
 export const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id; //access dynamic parameter
+    const userId = req.user.user_id; //access dynamic parameter
     const {
       username,
       email,
@@ -242,7 +241,7 @@ export const updateUserProfile = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.user_id;
     const userProfile = await UserInstance.findOne({
       where: { user_id: userId },
     });
