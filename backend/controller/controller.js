@@ -268,3 +268,33 @@ export const getUserProfile = async (req, res) => {
       .json({ message: "Internal Server Error at getUserProfile" });
   }
 };
+
+//callback function for returning all events where user is a participant and has not selected status
+//POST route to recieve userid from frontend
+export const getUserNewEvents = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const newEventParticipants = await EventParticipantInstance.findAll({
+      where: {
+        user_id: userId,
+        status: null
+      }
+    });
+    const newEventIds = newEventParticipants.map((event) => event.event_id);
+    const newEvents = [];
+    for(let i = 0; i < newEventIds.length; i++){
+      const event = await EventInstance.findOne({
+        where: { event_id: newEventIds[i] }
+      });
+      newEvents.push(event);
+    }
+    res
+      .status(200)
+      .json({ newEvents });
+  } catch (error) {
+    console.log("Error getting new events for user", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error at getUserNewEvents" });
+  }
+}
