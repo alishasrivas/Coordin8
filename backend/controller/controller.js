@@ -191,6 +191,21 @@ export const createEvent = async (req, res) => {
   }
 };
 
+//Deletes an EventInstance
+export const deleteEventInstance = async (req, res) => {
+  try{
+    const {idofevent} = req.params;
+    const numdeleted = await EventInstance.destroy({where:{event_id: idofevent}});
+    if (numdeleted === 0){
+      return res.status(404).json({ message: "Event deleted successfully" });
+    }
+    return res.status(404).json({ message: "Failed to delete event" });
+  } catch (error){
+    console.error("Error deleting event:", error);
+    return res.status(500).json({ message: "Sever error: Failed to delete EventInstance" });
+  }
+};
+
 // Creates a new EventParticipantInstance based on the user_id and event_id
 export const createEventParticipant = async (event_id, user_id) => {
   try {
