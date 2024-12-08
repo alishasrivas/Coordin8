@@ -36,7 +36,7 @@ router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
 router.get('/userInfo/:id', authenticatedJWT, getUserProfile);
 
 //endpoints for event finalization
-router.post("/newEvents", authenticatedJWT, getUserNewEvents);
+router.get("/newEvents", authenticatedJWT, getUserNewEvents);
 router.post("/finalize", authenticatedJWT, updateUserStatus);
 
 export default router;
