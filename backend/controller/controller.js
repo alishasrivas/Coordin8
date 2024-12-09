@@ -203,19 +203,47 @@ export const createEvent = async (req, res) => {
 //Deletes an EventInstance
 export const deleteEventInstance = async (req, res) => {
   try {
-    const { idofevent } = req.params;
-    const numdeleted = await EventInstance.destroy({
-      where: { event_id: idofevent },
+    const event_id = req.params.eventid;
+    await EventInstance.destroy({
+      where: { event_id },
     });
-    if (numdeleted === 0) {
-      return res.status(404).json({ message: "Event deleted successfully" });
-    }
-    return res.status(404).json({ message: "Failed to delete event" });
+    res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.error("Error deleting event:", error);
     return res
       .status(500)
       .json({ message: "Sever error: Failed to delete EventInstance" });
+  }
+};
+
+// Updates event attributes as details given by user given event_id
+export const updateEvent = async (req, res) => {
+  try {
+    const eventid = req.params.eventid
+    const {
+      title,
+      event_time,
+      location,
+      description,
+      organizer_id
+    } = req.body;
+    await EventInstance.update(
+      {
+        title,
+        event_time,
+        location,
+        description,
+        organizer_id
+      },
+      {
+        where: { event_id: eventid },
+      }
+    );
+    console.log("Event updated!")
+    res.status(200).json(factoryResponse(200, "Your event has been updated!"))
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json(factoryResponse(500, "Internal Server Error at updateEvent"))
   }
 };
 
