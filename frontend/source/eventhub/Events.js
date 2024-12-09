@@ -23,7 +23,6 @@ export const Events = {
   SwitchToAvailabilityView: 'SwitchToAvailabilityView',
   SwitchToSettingsView: 'SwitchToSettingsView',
   SwitchToAuthenticationView: 'SwitchToAuthenticationView',
-  SwitchToFriendsListView: 'SwitchToFriendsListView',
   SwitchToDateFinalizationView: 'SwitchToDateFinalizationView',
 
   //profile settings event
