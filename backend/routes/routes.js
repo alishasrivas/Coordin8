@@ -9,7 +9,8 @@ import {
     createEvent,
     updateUserProfile,
     getUserProfile,
-    deleteEventInstance
+    deleteEventInstance,
+    updateEvent
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -29,6 +30,7 @@ router.get("/protected", authenticatedJWT, (req, res) => {
 // When an HTTP POST request is made to the /events endpoint with a valid JWT, the createEvent function will be called
 router.post("/events", authenticatedJWT, createEvent);
 router.delete("/events/:idofevent", authenticatedJWT, deleteEventInstance);
+router.update("/events/:eventid", authenticatedJWT, updateEvent);
 
 //endpoints for profile settings features
 router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
