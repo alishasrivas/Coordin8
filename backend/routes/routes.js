@@ -9,11 +9,11 @@ import {
     createEvent,
     updateUserProfile,
     getUserProfile,
+    deleteEventInstance,
+    updateEvent,
     getUserNewEvents,
     updateUserStatus,
-    deleteEventInstance,
-    deleteEventInstance,
-    updateEvent
+    deleteEventInstance
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
