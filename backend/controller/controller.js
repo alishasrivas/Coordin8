@@ -325,3 +325,54 @@ export const getUserProfile = async (req, res) => {
       .json({ message: "Internal Server Error at getUserProfile" });
   }
 };
+
+//callback function for returning all events where user is a participant and has not selected status
+//GET route
+export const getUserNewEvents = async (req, res) => {
+  try {
+    const userId  = req.user.user_id;
+    const newEventParticipants = await EventParticipantInstance.findAll({
+      where: {
+        user_id: userId,
+        status: null
+      }
+    });
+    const newEventIds = newEventParticipants.map((event) => event.event_id);
+    const newEvents = [];
+    for(let i = 0; i < newEventIds.length; i++){
+      const event = await EventInstance.findOne({
+        where: { event_id: newEventIds[i] }
+      });
+      newEvents.push(event);
+    }
+    res
+      .status(200)
+      .json({ newEvents });
+  } catch (error) {
+    console.log("Error getting new events for user", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error at getUserNewEvents" });
+  }
+}
+
+//callback function for updating user status for a given event
+//POST route
+export const updateUserStatus = async (req, res) => {
+  try {
+    const { eventId, attending } = req.body;
+    userId = req.user.user_id;
+    const updateStatus = await EventParticipantInstance.update(
+      { status: attending },
+      { where: {event_id: eventId, user_id: userId} }
+    );
+    res
+      .status(200)
+      .json({ updateStatus });
+  } catch (error) {
+    console.log("Error updating status for user", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error at updateUserStatus" });
+  }
+}
