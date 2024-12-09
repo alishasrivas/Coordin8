@@ -227,6 +227,14 @@ export class RepositoryRemoteService extends Service {
             console.error(error);
           });
       });
+      // Subscribes to the NewMeeting event. When triggered, calls createEvent to send a POST request to the backend /events route and handles the response.
+      this.subscribe(Events.NewMeeting, (data) => {
+        this.createEvent(data)
+          .then((data) => alert("Created Event Successfully"))
+          .catch((error) => {
+            console.error(error);
+          });
+      });
     } catch (error) {
       console.error("Error in addSubscriptions:", error);
       throw error;
