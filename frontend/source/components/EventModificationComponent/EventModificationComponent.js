@@ -141,7 +141,7 @@ export class EventModificationComponent extends BaseComponent {
     });
   }
 
-  #saveEventChanges(eventName) {
+  async #saveEventChanges(eventName) {
     const updatedName = this.#container.querySelector("#eventName").value;
     const updatedDescription = this.#container.querySelector("#eventDescription").value;
     const updatedDate = this.#container.querySelector("#enter-date").value;
@@ -150,14 +150,65 @@ export class EventModificationComponent extends BaseComponent {
 
     const eventIndex = this.#events.findIndex(event => event.name === eventName);
     if (eventIndex > -1) {
-      this.#events[eventIndex].name = updatedName;
-      this.#events[eventIndex].description = updatedDescription;
-      this.#events[eventIndex].times[0].date = updatedDate;
-      this.#events[eventIndex].times[0].startTime = updatedStartTime;
-      this.#events[eventIndex].times[0].endTime = updatedEndTime;
-      this.#events[eventIndex].invitees = this.#invitees;
-      alert(`Event "${eventName}" updated successfully!`);
-      this.#updateEventsList(); // Refresh the list view after saving
+        const updatedEvent = {
+          name: updatedName,
+          description: updatedDescription,
+          times: [{ date: updatedDate, startTime: updatedStartTime, endTime: updatedEndTime }],
+          invitees: this.#invitees,
+        };
+
+        try{
+            const response = await fetch(`/events/${this.#events[eventIndex].id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedEvent),
+            });
+            if (response.ok) {
+                alert(`Event "${eventName}" updated successfully!`);
+                this.#updateEventsList(); // Refresh the list view after saving
+                eventEmitter.emit('eventUpdated', updatedEvent); // Notify subscribers
+            } else {
+                console.error("Failed to update event:", await response.text());
+            }
+        }
+        catch (error) {
+            console.error("Error updating event:", error);
+        }
+    }
+  }
+
+  async fetchEventData(){
+    try {
+        const response = await fetch('');
+        const data = await response.json();
+        this.render();
+    }
+    catch (error) {
+        console.error("Failed to fetch event data:", error);
+    }
+  }
+  
+}
+
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  subscribe(event, listener) {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener);
+  }
+
+  emit(event, data) {
+    if (this.events[event]) {
+      this.events[event].forEach(listener => listener(data));
     }
   }
 }
+
+const eventEmitter = new EventEmitter();
