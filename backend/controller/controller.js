@@ -219,6 +219,41 @@ export const deleteEventInstance = async (req, res) => {
   }
 };
 
+// Updates event attributes as details given by user given event_id
+export const updateEvent = async (req, res) => {
+  try {
+    const eventid = req.params.id
+    const{
+      title,
+      event_time,
+      location,
+      description,
+      organizer_id
+    } = req.body;
+    console.log("Variables for event update loaded")
+    const [numRows] = await EventInstance.update(
+      {
+        title,
+        event_time,
+        location,
+        description,
+        organizer_id
+      },
+      {
+        where: {event_id: eventid},
+      }
+    );
+    if (numRows=== 0){
+      return res.status(404).json(factoryResponse(404, "2 possible errors: No changes found or Did not find event"))
+    }
+    console.log("Event updated!")
+    res.status(200).json(factoryResponse(200, "Your event has been updated!"))
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json(factoryResponse(500, "Internal Server Error at updateEvent"))
+  }
+};
+
 // Creates a new EventParticipantInstance based on the user_id and event_id
 export const createEventParticipant = async (event_id, user_id) => {
   try {
