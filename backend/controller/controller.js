@@ -203,14 +203,11 @@ export const createEvent = async (req, res) => {
 //Deletes an EventInstance
 export const deleteEventInstance = async (req, res) => {
   try {
-    const { idofevent } = req.params;
-    const numdeleted = await EventInstance.destroy({
-      where: { event_id: idofevent },
+    const event_id = req.params.eventid;
+    await EventInstance.destroy({
+      where: { event_id },
     });
-    if (numdeleted === 0) {
-      return res.status(404).json({ message: "Event deleted successfully" });
-    }
-    return res.status(404).json({ message: "Failed to delete event" });
+    res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.error("Error deleting event:", error);
     return res
@@ -222,16 +219,15 @@ export const deleteEventInstance = async (req, res) => {
 // Updates event attributes as details given by user given event_id
 export const updateEvent = async (req, res) => {
   try {
-    const eventid = req.params.id
-    const{
+    const eventid = req.params.eventid
+    const {
       title,
       event_time,
       location,
       description,
       organizer_id
     } = req.body;
-    console.log("Variables for event update loaded")
-    const [numRows] = await EventInstance.update(
+    await EventInstance.update(
       {
         title,
         event_time,
@@ -240,12 +236,9 @@ export const updateEvent = async (req, res) => {
         organizer_id
       },
       {
-        where: {event_id: eventid},
+        where: { event_id: eventid },
       }
     );
-    if (numRows=== 0){
-      return res.status(404).json(factoryResponse(404, "2 possible errors: No changes found or Did not find event"))
-    }
     console.log("Event updated!")
     res.status(200).json(factoryResponse(200, "Your event has been updated!"))
   } catch (error) {
