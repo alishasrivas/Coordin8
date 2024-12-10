@@ -156,6 +156,26 @@ export class RepositoryRemoteService extends Service {
         }
     }
 
+    async updateEvent(eventId, updatedEvent) {
+        const token = getCookie("accessToken");
+        const response = await fetch(`${BASE_URL}events/${eventId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedEvent),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log(`/events/${eventId} ${response.status} ${response.statusText}`);
+        this.publish(Events.EventUpdateSuccess, data); // Publish success event
+        return data;
+    }
 
     //TODO: register your events to litseners (to a backend callback) right here
     addSubscriptions() {
@@ -178,6 +198,15 @@ export class RepositoryRemoteService extends Service {
                 this.register(data).then(data => alert("Register Successfully")).catch((error) => {
                     console.error(error);
                 });
+            });
+
+            this.subscribe(Events.EventUpdate, (data) => {
+                this.updateEvent(data.eventId, data.updatedEvent)
+                    .then((data) => alert("Event updated successfully"))
+                    .catch((error) => {
+                        console.error(error);
+                        alert("Event update failed");
+                    });
             });
         } catch (error) {
             console.error("Error in addSubscriptions:", error);

@@ -10,7 +10,11 @@ dotenv.config({ path: '../.env' });
 
 //configure express app
 app.use(express.json());
-app.use(cors()); //set up cors in case we need to run front-end and backend seperately
+app.use(cors({
+    origin: 'http://127.0.0.1:8080',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 

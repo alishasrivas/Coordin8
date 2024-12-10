@@ -1,9 +1,13 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+// In EventModificationComponent.js
+import { RepositoryRemoteService } from '../../services/RepositoryRemoteService.js';
+import { Events } from '../../eventhub/Events.js';
 
 export class EventModificationComponent extends BaseComponent {
   #events = null;
   #container = null;
   #invitees = [];
+  #repositoryService = new RepositoryRemoteService();
 
   constructor(events, container) {
     super();
@@ -151,30 +155,18 @@ export class EventModificationComponent extends BaseComponent {
     const eventIndex = this.#events.findIndex(event => event.name === eventName);
     if (eventIndex > -1) {
         const updatedEvent = {
-          name: updatedName,
-          description: updatedDescription,
-          times: [{ date: updatedDate, startTime: updatedStartTime, endTime: updatedEndTime }],
-          invitees: this.#invitees,
+            name: updatedName,
+            description: updatedDescription,
+            times: [{ date: updatedDate, startTime: updatedStartTime, endTime: updatedEndTime }],
+            invitees: this.#invitees,
         };
 
-        try{
-            const response = await fetch(`/events/${this.#events[eventIndex].id}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedEvent),
-            });
-            if (response.ok) {
-                alert(`Event "${eventName}" updated successfully!`);
-                this.#updateEventsList(); // Refresh the list view after saving
-                eventEmitter.emit('eventUpdated', updatedEvent); // Notify subscribers
-            } else {
-                console.error("Failed to update event:", await response.text());
-            }
-        }
-        catch (error) {
-            console.error("Error updating event:", error);
+        try {
+            // Use the service to update the event
+            await this.#repositoryService.updateEvent(this.#events[eventIndex].id, updatedEvent);
+            console.log("Event updated successfully");
+        } catch (error) {
+            console.error("Failed to update event:", error);
         }
     }
   }
@@ -191,24 +183,3 @@ export class EventModificationComponent extends BaseComponent {
   }
   
 }
-
-class EventEmitter {
-  constructor() {
-    this.events = {};
-  }
-
-  subscribe(event, listener) {
-    if (!this.events[event]) {
-      this.events[event] = [];
-    }
-    this.events[event].push(listener);
-  }
-
-  emit(event, data) {
-    if (this.events[event]) {
-      this.events[event].forEach(listener => listener(data));
-    }
-  }
-}
-
-const eventEmitter = new EventEmitter();

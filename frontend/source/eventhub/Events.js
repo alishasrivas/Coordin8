@@ -44,4 +44,6 @@ export const Events = {
   LogInToRegister: 'LogInToRegister',
   RegisterToLogIn: 'RegisterToLogIn',
 
+  EventUpdate: 'EventUpdate',
+
 };
