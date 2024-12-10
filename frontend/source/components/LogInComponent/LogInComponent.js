@@ -7,6 +7,9 @@ export class LogInComponent extends BaseComponent {
     #BackEndError = ""
     #emailInput = null;
     #passwordInput = null;
+    #emailError = "";
+    #passwordError = "";
+    #isError = false;
     constructor() {
         super();
         this.loadCSS('LogInComponent');
@@ -43,10 +46,12 @@ export class LogInComponent extends BaseComponent {
                     <div class="inner_input">
                         <label for="email">Email:</label>
                         <input type="text" id="email">
+                        <p class = 'err-msg'>${this.#emailError}</p>
                     </div>
                     <div class="inner_input">
                         <label for="password">Password:</label>
                         <input type="password" id="password">
+                        <p class = 'err-msg'>${this.#passwordError}</p>
                     </div>
                 </div>
                 <p class = 'err-msg big'>${this.#BackEndError}</p>
@@ -75,7 +80,37 @@ export class LogInComponent extends BaseComponent {
         const { email, password } = data
         this.#emailInput = email.value;
         this.#passwordInput = password.value;
+
+        if (email.value.trim() === "") {
+            this.#emailError = "Email cannot be empty"
+            this.#isError = true;
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            this.#emailError = "Please enter a valid email address";
+            this.#isError = true;
+        }
+        if (password.value.trim() === "") {
+            this.#passwordError = "Password cannot be empty";
+            this.#isError = true;
+        }
+
+        if (this.#isError) {
+            this.#rerenderHTML();
+            //reset front end error message so later call won't affect
+            this.#emailError = "";
+            this.#passwordError = "";
+            this.#isError = false;
+            return;
+        }
+
+
         this.#hub.publish(Events.LogIn, { email: email.value, password: password.value });
+    }
+
+    #rerenderHTML() {
+        this.#container.innerHTML = this.#getTemplate();
+        this.#reassignInput();
+        this.#attachEventListeners();
     }
 
     render() {
