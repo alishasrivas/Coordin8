@@ -39,7 +39,7 @@ export class RepositoryRemoteService extends Service {
   }
 
   async getAccessToken() {
-    return getCookie("accessToken")
+    return getCookie("accessToken");
   }
 
   //TODO: add your fetch calls to backend here
@@ -193,7 +193,6 @@ export class RepositoryRemoteService extends Service {
       // On successful event creation, display success message and return event details
       const data = await response.json();
       console.log(`/events ${response.status} ${response.statusText}`);
-      alert("Event created successfully");
       return data;
     } catch (error) {
       console.error("Error creating event:", error);
@@ -286,7 +285,7 @@ export class RepositoryRemoteService extends Service {
       // Subscribes to the NewMeeting event. When triggered, calls createEvent to send a POST request to the backend /events route and handles the response.
       this.subscribe(Events.NewMeeting, (data) => {
         this.createEvent(data)
-          .then((data) => alert("Created Event Successfully"))
+          .then((data) => alert("Event Created Successfully"))
           .catch((error) => {
             console.error(error);
           });
