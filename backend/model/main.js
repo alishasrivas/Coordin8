@@ -89,15 +89,17 @@ async function initializeDatabase() {
     // Check if events already exist
     const existingEvent1 = await EventInstance.findOne({ where: { title: "Event1" } });
     const existingEvent2 = await EventInstance.findOne({ where: { title: "Event2" } });
+    const existingEvent3 = await EventInstance.findOne({ where: { title: "Event3" } });
 
-    let event1, event2;
+    let event1, event2, event3;
 
     if (!existingEvent1) {
       event1 = await EventInstance.create({
-        title: "Event1",
-        description: "Event1 Description",
-        event_time: new Date(),
-        organizer_id: invitee3.user_id,
+        title: "study session today",
+        description: "we will code",
+        event_time: ["10:20","11:00","2025-10-20"],
+        organizer_id: invitee1.user_id,
+        invitees: ["invite2@gmail.com", "invite3@gmail.com"],
       });
     } else {
       event1 = existingEvent1;
@@ -105,31 +107,62 @@ async function initializeDatabase() {
 
     if (!existingEvent2) {
       event2 = await EventInstance.create({
-        title: "Event2",
-        description: "Event2 Description",
-        event_time: new Date(),
-        organizer_id: invitee3.user_id,
+        title: "study session tomorrow",
+        description: "we will code",
+        event_time: ["10:20", "11:00", "2025-10-21"],
+        organizer_id: invitee2.user_id,
+        invitees: ["invite1@gmail.com", "invite3@gmail.com"],
       });
     } else {
       event2 = existingEvent2;
     }
 
+    if(!existingEvent3){
+      event3 = await EventInstance.create({
+        title: "study session tomorrow of tomorrow",
+        description: "we will code",
+        event_time: ["10:20", "11:00", "2025-10-22"],
+        organizer_id: invitee1.user_id,
+        invitees: ["invite1@gmail.com", "invite2@gmail.com"],
+      });
+    } else {
+      event3 = existingEvent3;
+    }
+
     await EventParticipantInstance.create({
       event_id: event1.event_id,
-      user_id: invitee1.user_id,
-      accepted: true,
-    });
-
-    await EventParticipantInstance.create({
-      event_id: event2.event_id,
-      user_id: invitee1.user_id,
-      accepted: true,
-    });
-
-    await EventParticipantInstance.create({
-      event_id: event2.event_id,
       user_id: invitee2.user_id,
-      accepted: true,
+      status: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event1.event_id,
+      user_id: invitee3.user_id,
+      status: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee1.user_id,
+      status: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee3.user_id,
+      status: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event3.event_id,
+      user_id: invitee1.user_id,
+      status: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event3.event_id,
+      user_id: invitee2.user_id,
+      status: true,
     });
 
   } catch (err) {
@@ -137,4 +170,4 @@ async function initializeDatabase() {
   }
 }
 
-// initializeDatabase();
+initializeDatabase();

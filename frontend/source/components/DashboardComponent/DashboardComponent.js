@@ -110,9 +110,11 @@ export class DashboardComponent extends BaseComponent {
       const listItem = document.createElement('li');
       listItem.classList.add('event-item');
       listItem.innerHTML = `
-        <h3>${event.title}</h3>
-        <p>${event.description}</p>
-        <time>${new Date(event.event_time).toLocaleString()}</time>
+        <h3>Event title: ${event.title}</h3>
+        <p>Description: ${event.description}</p>
+        <p>Start Time: ${event.event_time[0]}</p>
+        <p>End Time: ${event.event_time[1]}</p>
+        <p>Date: ${event.event_time[2]}</p>
       `;
       organizedEventsList.appendChild(listItem);
     });
@@ -127,9 +129,11 @@ export class DashboardComponent extends BaseComponent {
       const listItem = document.createElement('li');
       listItem.classList.add('event-item');
       listItem.innerHTML = `
-        <h3>${event.title}</h3>
-        <p>${event.description}</p>
-        <time>${new Date(event.event_time).toLocaleString()}</time>
+        <h3>Event title: ${event.title}</h3>
+        <p>Description: ${event.description}</p>
+        <p>Start Time: ${event.event_time[0]}</p>
+        <p>End Time: ${event.event_time[1]}</p>
+        <p>Date: ${event.event_time[2]}</p>
       `;
       acceptedEventsList.appendChild(listItem);
     });
