@@ -4,12 +4,14 @@ import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 
 export class EventCreationComponent extends BaseComponent {
   #container = null;
+  #hub = null;
   #potentialTimes = [];
   #potentialInvitees = [];
 
   constructor() {
     super();
     this.loadCSS("EventCreationComponent");
+    this.#hub = EventHub.getInstance();
   }
 
   render() {
@@ -121,13 +123,19 @@ export class EventCreationComponent extends BaseComponent {
       return;
     }
 
-    // Publish a 'NewEvent' event with the event name, description, potential times, and potential invitees
-    this.#publishNewEvent(
-      eventName,
-      eventDescription,
-      this.#potentialInvitees,
-      this.#potentialTimes
-    );
+    // Ensure user only submits 1 time
+    if (this.#potentialTimes.length !== 1) {
+      alert("Submit only 1 time.");
+      return;
+    }
+
+    // Publish a 'NewMeeting' event with the corresponding event details (title, description, invitees, event_time)
+    this.#hub.publish(Events.NewMeeting, {
+      title: eventName,
+      description: eventDescription,
+      invitees: this.#potentialInvitees,
+      event_time: this.#potentialTimes,
+    });
 
     // Clear event details inputs
     this.#clearEventDetailsInputs(eventNameInput, eventDescriptionInput);
@@ -299,14 +307,6 @@ export class EventCreationComponent extends BaseComponent {
   #isDateValid(date) {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // Regex for YYYY-MM-DD format
     return dateRegex.test(date); // Ensure date input matches the YYYY-MM-DD format
-  }
-
-  #publishNewEvent(name, description, invitees, times) {
-    const hub = EventHub.getInstance();
-    // Publish a NewMeeting event with all necessary data
-    hub.publish(Events.NewMeeting, { name, description, invitees, times });
-    // Publish a StoreMeeting event with all necessary data
-    hub.publish(Events.StoreMeeting, { name, description, invitees, times });
   }
 
   #clearEventDetailsInputs(eventName, eventDescription) {
