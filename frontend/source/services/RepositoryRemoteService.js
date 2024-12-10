@@ -34,10 +34,10 @@ export class RepositoryRemoteService extends Service {
     constructor() {
         super();
 
-        //test cookie
-        setCookie("myCookie", "myValue");
-        console.log("Now delete");
-        deleteCookie("myCookie");
+        // //test cookie
+        // setCookie("myCookie", "myValue");
+        // console.log("Now delete");
+        // deleteCookie("myCookie");
 
     }
 
