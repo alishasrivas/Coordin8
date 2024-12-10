@@ -97,7 +97,7 @@ async function initializeDatabase() {
       event1 = await EventInstance.create({
         title: "study session today",
         description: "we will code",
-        event_time: ["10:20","11:00","2025-10-20"],
+        event_time: [{startTime: "10:20", endTime: "11:00", date: "2025-10-20"}],
         organizer_id: invitee1.user_id,
         invitees: ["invite2@gmail.com", "invite3@gmail.com"],
       });
@@ -109,7 +109,7 @@ async function initializeDatabase() {
       event2 = await EventInstance.create({
         title: "study session tomorrow",
         description: "we will code",
-        event_time: ["10:20", "11:00", "2025-10-21"],
+        event_time: [{startTime: "10:20", endTime: "11:00", date: "2025-10-21"}],
         organizer_id: invitee2.user_id,
         invitees: ["invite1@gmail.com", "invite3@gmail.com"],
       });
@@ -121,8 +121,8 @@ async function initializeDatabase() {
       event3 = await EventInstance.create({
         title: "study session tomorrow of tomorrow",
         description: "we will code",
-        event_time: ["10:20", "11:00", "2025-10-22"],
-        organizer_id: invitee1.user_id,
+        event_time: [{startTime: "10:20", endTime: "11:00", date: "2025-10-22"}],
+        organizer_id: invitee3.user_id,
         invitees: ["invite1@gmail.com", "invite2@gmail.com"],
       });
     } else {
