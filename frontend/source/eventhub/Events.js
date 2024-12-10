@@ -49,6 +49,7 @@ export const Events = {
 
   //Error handling for authentication events
   BackEndLogInFailure: 'BackEndLogInFailure',
+  RegisterBackEndFailure: 'RegisterBackEndFailure',
 
 
 };

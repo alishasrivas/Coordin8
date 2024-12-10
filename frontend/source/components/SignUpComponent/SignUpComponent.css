@@ -118,6 +118,7 @@ input {
 .err-msg {
     color: #d2171d;
     font-size: small;
+    text-align: center;
 
 }
 

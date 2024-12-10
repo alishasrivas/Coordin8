@@ -11,11 +11,19 @@ export class SignUpComponent extends BaseComponent {
     #usernameError = "";
     #timeZoneError = "";
     #userInnput = { email: null, password: null, username: null, primary_time_zone: null };
+    #BackEndError = "";
 
     constructor() {
         super();
         this.loadCSS('SignUpComponent');
         this.#hub = EventHub.getInstance();
+        this.#hub.subscribe(Events.RegisterBackEndFailure, (data) => {
+            this.#BackEndError = data.message;
+            this.#container.innerHTML = this.#getTemplate();
+            this.#reassignInput();
+            this.#attachEventListeners();
+            this.#BackEndError = "";
+        })
     }
     #createContainer() {
         // Create and configure the container element
@@ -51,8 +59,9 @@ export class SignUpComponent extends BaseComponent {
                         <input type="text" id="primary_time_zone">
                         <p class = 'err-msg'>${this.#timeZoneError}</p>
                     </div>
-
                 </div>
+                <p class = 'err-msg big'>${this.#BackEndError}</p>
+
             </form>
             <button type="submit" class="submit-button">Sign Up</button>
         `
@@ -94,6 +103,7 @@ export class SignUpComponent extends BaseComponent {
         this.#container.querySelector("#password").value = this.#userInnput.password;
         this.#container.querySelector("#username").value = this.#userInnput.username;
         this.#container.querySelector("#primary_time_zone").value = this.#userInnput.primary_time_zone;
+        this.#resetUserInput();
     }
 
     #handleSubmit(data) {
@@ -138,7 +148,6 @@ export class SignUpComponent extends BaseComponent {
     #rerenderHTML() {
         this.#container.innerHTML = this.#getTemplate();
         this.#reassignInput();
-        this.#resetUserInput();
         this.#attachEventListeners();
     }
 

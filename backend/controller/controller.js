@@ -16,6 +16,11 @@ const existsUser = async (email) => {
   return user;
 };
 
+const ExistUserName = async (username) => {
+  const user = await UserInstance.findOne({ where: { username } });
+  return user;
+}
+
 export const checkUserExist = async (req, res) => {
   try {
     const { email } = req.body;
@@ -55,9 +60,15 @@ export const register = async (req, res) => {
     // Check if the email is already taken
     if (await existsUser(email))
       return res
-        .status(400)
+        .status(409)
         .json(
-          factoryResponse(400, "Your email is linked to an existing account")
+          { message: "Your email is linked to an existing account. Please log in." }
+        );
+    if (await ExistUserName(username))
+      return res
+        .status(409)
+        .json(
+          { message: "Your username is linked to an existing account. Please log in." }
         );
     const hash = await bcrypt.hash(password, 10);
     await UserInstance.create({

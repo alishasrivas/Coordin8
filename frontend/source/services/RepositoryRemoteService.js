@@ -95,6 +95,10 @@ export class RepositoryRemoteService extends Service {
                 }),
             })
             if (!response.ok) {
+                if (response.status === 409) {
+                    const data = await response.json();
+                    this.publish(Events.RegisterBackEndFailure, data);
+                }
                 throw new Error(`/register HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
             console.log(`/register ${response.status} ${response.statusText}`);
