@@ -34,9 +34,7 @@ export function EventsModel(sequelize) {
         type: DataTypes.UUID.V4,
         allowNull: false,
       },
-      // file_attachment: { // don't need this for now
-      //   type: DataTypes.STRING, //TODO: may need to change here
-      // },
+
     },
     {
       timestamps: true, // Enable timestamps for createdAt and updatedAt

@@ -5,6 +5,7 @@ import { EventsModel } from "./Event.js";
 import { EventParticipantModel } from "./EventParticipant.js";
 import bcrypt from "bcryptjs";
 
+
 export const UserInstance = UserModel(dbInstance);
 export const EventInstance = EventsModel(dbInstance);
 export const EventParticipantInstance = EventParticipantModel(dbInstance);

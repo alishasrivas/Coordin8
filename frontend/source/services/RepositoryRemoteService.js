@@ -10,8 +10,6 @@ function setCookie(name, value) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-
-
 // Get a cookie
 function getCookie(name) {
     const nameEQ = name + "=";
@@ -178,7 +176,33 @@ export class RepositoryRemoteService extends Service {
             throw error;
         }
     }
-
+    
+    async getUserInfo() {
+        try {
+            const token = getCookie("accessToken");
+            if (!token) {
+                throw new Error("No access token found");
+            }
+            const response = await fetch(BASE_URL + "userInfo", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: Bearer ${token},
+                },
+            });
+            if (!response.ok) {
+                throw new Error(
+                    HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}
+                );
+            }
+              const data = await response.json();
+              console.log(/user ${response.status} ${response.statusText});
+              return data;
+          } catch (error) {
+              console.error("Error getting user info:", error);
+              throw error;
+          }
+    }
 
     //TODO: register your events to litseners (to a backend callback) right here
     addSubscriptions() {
@@ -196,7 +220,6 @@ export class RepositoryRemoteService extends Service {
                     alert("Log out failed");
                 });
             });
-
             this.subscribe(Events.Register, (data) => {
                 this.register(data).then(data => alert("Register Successfully")).catch((error) => {
                     console.error(error);
