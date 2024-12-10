@@ -101,7 +101,33 @@ export class RepositoryRemoteService extends Service {
             throw error;
         }
     }
-
+    
+    async deleteEventInstance(eventId){
+        try {
+            const cookie = getCookie("accessToken");
+            if (!cookie){
+                throw new Error("No access token found")
+            }
+        
+        const response = await fetch(`${BASE_URL}events/${eventId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+        }
+        console.log(`/events/${eventId} ${response.status} ${response.statusText}`)
+        return { success : true};
+    }
+    catch (error){
+        console.error("Error deleting event:", error);
+        throw error;
+    }
+    };
+    
     async logOut() {
         try {
             //call the backend endpoint to invalidate the tokens 
@@ -173,7 +199,14 @@ export class RepositoryRemoteService extends Service {
                     alert("Log out failed");
                 });
             });
-
+            
+            this.subscribe(Events.deleteEventInstance, () => {
+                this.deleteEventInstance().then(data => alert("Event Deleted Successfully")).catch((error) => {
+                    console.error(error);
+                    alert("Deletion failed");
+                });
+            });
+            
             this.subscribe(Events.Register, (data) => {
                 this.register(data).then(data => alert("Register Successfully")).catch((error) => {
                     console.error(error);
