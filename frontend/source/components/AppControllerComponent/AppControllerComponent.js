@@ -14,10 +14,10 @@ export class AppControllerComponent extends BaseComponent {
   #homeComponent = null; // Instance of home home component
   #dashboardComponent = null; // Instance of the dashboard component
   #hub = null; // EventHub instance for managing events
-  #profileSetting = null // profile setting page
+  #profileSetting = null; // profile setting page
   #eventFinalizationComponent = null; // Instance of the event finalization component
-  #LogIn = null
-  #SignUp = null
+  #LogIn = null;
+  #SignUp = null;
 
   constructor() {
     super();
@@ -28,6 +28,7 @@ export class AppControllerComponent extends BaseComponent {
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
     this.#eventFinalizationComponent = new EventFinalizationComponent();
+    this.#hub.subscribe(Events.LogInSuccess, this.#onLogInSuccess.bind(this));
   }
 
   // Render the AppController component and return the container
@@ -37,9 +38,13 @@ export class AppControllerComponent extends BaseComponent {
     return this.#container;
   }
 
+  async #onLogInSuccess() {
+    this.#dashboardComponent.initialize();
+  }
+
   #createContainer() {
-    this.#container = document.createElement('div');
-    this.#container.classList.add('app-controller-container');
+    this.#container = document.createElement("div");
+    this.#container.classList.add("app-controller-container");
     this.#container.innerHTML = this.#getTemplate(); //When switch from log in to home will need to rerender here
     this.#attachEventListeners();
   }
@@ -62,12 +67,16 @@ export class AppControllerComponent extends BaseComponent {
   }
 
   #attachEventListeners() {
-    const homeBtn = this.#container.querySelector('#homeBtn');
-    const createEventBtn = this.#container.querySelector('#createEventBtn');
-    const dashboardBtn = this.#container.querySelector('#dashboardBtn'); // Select Dashboard button
-    const profileSettingsBtn = this.#container.querySelector('#profileSettingsBtn');
-    const eventFinalizationBtn = this.#container.querySelector('#eventFinalizationBtn');
-    const logoutBtn = this.#container.querySelector('#logout_btn');
+    const homeBtn = this.#container.querySelector("#homeBtn");
+    const createEventBtn = this.#container.querySelector("#createEventBtn");
+    const dashboardBtn = this.#container.querySelector("#dashboardBtn"); // Select Dashboard button
+    const profileSettingsBtn = this.#container.querySelector(
+      "#profileSettingsBtn"
+    );
+    const eventFinalizationBtn = this.#container.querySelector(
+      "#eventFinalizationBtn"
+    );
+    const logoutBtn = this.#container.querySelector("#logout_btn");
 
     homeBtn.addEventListener('click', () => this.#switchView('home'));
     createEventBtn.addEventListener('click', () => this.#switchView('create'));
@@ -83,23 +92,23 @@ export class AppControllerComponent extends BaseComponent {
   }
 
   #setupContainerContent() {
-    const viewContainer = this.#container.querySelector('#viewContainer');
-    viewContainer.innerHTML = '';
+    const viewContainer = this.#container.querySelector("#viewContainer");
+    viewContainer.innerHTML = "";
 
     switch (this.#currentView) {
-      case 'home':
+      case "home":
         viewContainer.appendChild(this.#homeComponent.render()); // Render HomeComponent
         break;
-      case 'create':
+      case "create":
         viewContainer.appendChild(this.#eventCreationComponent.render()); // Render EventCreationComponent
         break;
-      case 'dashboard':
+      case "dashboard":
         viewContainer.appendChild(this.#dashboardComponent.render()); // Render DashboardComponent
         break;
-      case 'profile':
+      case "profile":
         viewContainer.appendChild(this.#profileSetting.render()); // Render ProfileSettingComponent
         break;
-      case 'eventFinal':
+      case "eventFinal":
         viewContainer.appendChild(this.#eventFinalizationComponent.render()); // Render EventFinalizationComponent
         break;
     }
