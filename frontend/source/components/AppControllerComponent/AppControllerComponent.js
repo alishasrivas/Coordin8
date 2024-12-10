@@ -80,7 +80,10 @@ export class AppControllerComponent extends BaseComponent {
 
     homeBtn.addEventListener("click", () => this.#switchView("home"));
     createEventBtn.addEventListener("click", () => this.#switchView("create"));
-    dashboardBtn.addEventListener("click", () => this.#switchView("dashboard")); // Add event listener for Dashboard button
+    dashboardBtn.addEventListener("click", () => {
+      this.#dashboardComponent.initialize();
+      this.#switchView("dashboard")
+    }); // Add event listener for Dashboard button
     profileSettingsBtn.addEventListener("click", () =>
       this.#switchView("profile")
     );
