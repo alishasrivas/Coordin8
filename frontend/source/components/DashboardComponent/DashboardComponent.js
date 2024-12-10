@@ -9,35 +9,30 @@ export class DashboardComponent extends BaseComponent {
   #repositoryRemoteService = new RepositoryRemoteService();
   constructor() {
     super();
-    this.#checkLoginStatus();
+    this.loadCSS("DashboardComponent");
   }
 
   async initialize() {
-    await this.#checkLoginStatus();
-  }
-
-  async #checkLoginStatus() {
-    try {
-      const isLoggedIn = await this.#repositoryRemoteService.getAccessToken();
-      if (isLoggedIn) {
-        this.#loadEvents();
-      } else {
-        console.warn("User is not logged in.");
-      }
-    } catch (error) {
-      console.error("Error checking login status:", error);
-    }
+    await this.#loadEvents();
   }
 
   async #loadEvents() {
     try {
       // Fetch organized events
       const organizedEvents = await this.#repositoryRemoteService.getOrganizedEvents();
-      this.#onFetchOrganizedEvents(organizedEvents);
+      if (organizedEvents) {
+        this.#onFetchOrganizedEvents(organizedEvents);
+      } else {
+        console.warn("No organized events found.");
+      }
 
       // Fetch accepted events
       const acceptedEvents = await this.#repositoryRemoteService.getAcceptedEvents();
-      this.#onFetchAcceptedEvents(acceptedEvents);
+      if (acceptedEvents)
+        this.#onFetchAcceptedEvents(acceptedEvents);
+      else {
+        console.warn("No accepted events found.");
+      }
     } catch (error) {
       console.error("Error loading events:", error);
     }

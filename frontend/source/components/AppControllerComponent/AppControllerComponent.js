@@ -78,11 +78,18 @@ export class AppControllerComponent extends BaseComponent {
     );
     const logoutBtn = this.#container.querySelector("#logout_btn");
 
-    homeBtn.addEventListener('click', () => this.#switchView('home'));
-    createEventBtn.addEventListener('click', () => this.#switchView('create'));
-    dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
-    profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
-    eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
+    homeBtn.addEventListener("click", () => this.#switchView("home"));
+    createEventBtn.addEventListener("click", () => this.#switchView("create"));
+    dashboardBtn.addEventListener("click", () => {
+      this.#dashboardComponent.initialize();
+      this.#switchView("dashboard")
+    }); // Add event listener for Dashboard button
+    profileSettingsBtn.addEventListener("click", () =>
+      this.#switchView("profile")
+    );
+    eventFinalizationBtn.addEventListener("click", () =>
+      this.#switchView("eventFinal")
+    );
     logoutBtn.addEventListener("click", () => this.#hub.publish(Events.LogOut));
   }
 
