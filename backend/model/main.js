@@ -1,8 +1,10 @@
-//Define realtionship between different models here
+//Define relationship between different models here
 import { UserModel } from "./User.js";
 import { dbInstance } from "./database.js";
 import { EventsModel } from "./Event.js";
 import { EventParticipantModel } from "./EventParticipant.js";
+import bcrypt from "bcryptjs";
+
 
 export const UserInstance = UserModel(dbInstance);
 export const EventInstance = EventsModel(dbInstance);
@@ -27,7 +29,6 @@ EventInstance.belongsTo(UserInstance, {
   as: "organizer",
 });
 
-
 //sync database
 async function synDatabase() {
   try {
@@ -39,61 +40,101 @@ async function synDatabase() {
 
 await synDatabase();
 
-//Testing database
 
-try {
-  console.log("Testing database");
-  await synDatabase();
+async function initializeDatabase() {
+  try {
+    console.log("Testing database");
+    await synDatabase();
 
-  // const user = await UserInstance.findAll();
-  // console.log(user.map(u => u.dataValues));
+    // Check if users already exist
+    const existingInvitee1 = await UserInstance.findOne({ where: { email: "invitee1@gmail.com" } });
+    const existingInvitee2 = await UserInstance.findOne({ where: { email: "invitee2@gmail.com" } });
+    const existingInvitee3 = await UserInstance.findOne({ where: { email: "invitee3@gmail.com" } });
 
-  // const updatedRow = await UserInstance.update({ primary_time_zone: "Russia/Saint Petesrburg", secondary_time_zone: "Russia/ Moscow", notificationPreferences: false }, { where: { email: "test2@gmail.com" } });
-  // console.log(updatedRow); //updateRows will reflect how many rows are updated
+    let invitee1, invitee2, invitee3;
 
-  //     const deletedRows = await UserInstance.destroy({ where: { email: "test2@gmail.com" } });
-  //     const user = await UserInstance.findOne({ where: { email: "test2@gmail.com" } });
-  //     console.log(user.toJSON() ? user : "No user found");
+    if (!existingInvitee1) {
+      invitee1 = await UserInstance.create({
+        email: "invitee1@gmail.com",
+        username: "Invitee1",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "Russia/Moscow"
+      });
+    } else {
+      invitee1 = existingInvitee1;
+    }
 
-  // const event1 = await EventInstance.create({
-  //     title: "testEvent3",
-  //     description: "This is the test event",
-  // })
+    if (!existingInvitee2) {
+      invitee2 = await UserInstance.create({
+        email: "invitee2@gmail.com",
+        username: "Invitee2",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "America/New_York"
+      });
+    } else {
+      invitee2 = existingInvitee2;
+    }
 
-  // const user2 = await UserInstance.create({
-  //     username: "tan",
-  //     password: "string",
-  //     email: "tan@gmail.com",
-  //     notificationPreferences: true,
-  //     primary_time_zone: "America/New_York",
-  //     secondary_time_zone: "America/Los_Angeles",
-  // })
+    if (!existingInvitee3) {
+      invitee3 = await UserInstance.create({
+        email: "invitee3@gmail.com",
+        username: "Invitee3",
+        password: await bcrypt.hash("password123", 10),
+        primary_time_zone: "America/Los_Angeles"
+      });
+    } else {
+      invitee3 = existingInvitee3;
+    }
 
-  // const user1 = await UserInstance.create({
-  //     username: "tan10101",
-  //     password: "string",
-  //     email: "tan@umass.com",
-  //     notificationPreferences: true,
-  //     primary_time_zone: "Russia/Saint Petesrburg",
-  //     secondary_time_zone: "China/Xian",
-  // })
+    // Check if events already exist
+    const existingEvent1 = await EventInstance.findOne({ where: { title: "Event1" } });
+    const existingEvent2 = await EventInstance.findOne({ where: { title: "Event2" } });
 
-  // await EventParticipantInstance.create({
-  //     user_id: user2.user_id,
-  //     event_id: event1.event_id,
-  //     event_time_preference: Date.now(),
-  // })
+    let event1, event2;
 
-  // const event2 = await EventInstance.create({
-  //     title: "testEvent4",
-  //     description: "This is the test event",
-  //     organizer_id: user2.user_id,
-  // })
+    if (!existingEvent1) {
+      event1 = await EventInstance.create({
+        title: "Event1",
+        description: "Event1 Description",
+        event_time: new Date(),
+        organizer_id: invitee3.user_id,
+      });
+    } else {
+      event1 = existingEvent1;
+    }
 
-  // const invite1 = await InvitationInstance.create({
-  //     user_id: user1.user_id,
-  //     event_id: event2.event_id,
-  // })
-} catch (err) {
-  console.log("Error at testing database: ", err);
+    if (!existingEvent2) {
+      event2 = await EventInstance.create({
+        title: "Event2",
+        description: "Event2 Description",
+        event_time: new Date(),
+        organizer_id: invitee3.user_id,
+      });
+    } else {
+      event2 = existingEvent2;
+    }
+
+    await EventParticipantInstance.create({
+      event_id: event1.event_id,
+      user_id: invitee1.user_id,
+      accepted: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee1.user_id,
+      accepted: true,
+    });
+
+    await EventParticipantInstance.create({
+      event_id: event2.event_id,
+      user_id: invitee2.user_id,
+      accepted: true,
+    });
+
+  } catch (err) {
+    console.log("Error at testing database: ", err);
+  }
 }
+
+// initializeDatabase();

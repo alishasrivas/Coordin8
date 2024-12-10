@@ -1,173 +1,83 @@
 /* DashboardComponent.css */
 .dashboard-container {
-  min-height: 100%;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#dashboard-header {
+#blue-header {
+  background-color: rgb(14, 155, 243);
+  padding: 5px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#dashboard-body {
+  padding: 5px;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.event-section {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.event-section h2 {
+  display: flex;
   background-color: #007bff;
   color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px 8px 0 0;
-}
-
-#dashboard-header h1 {
-  margin: 0;
-}
-
-#search-bar {
-  width: 100%;
   padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  display: block;
-  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0 0 10px 0;
 }
 
-.button-group {
+.event-list {
+  list-style-type: none;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-}
-
-.button-group button {
-  padding: 10px 20px;
-  margin: 5px;
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
-}
-
-.button-group button.active {
-  background-color: cyan;
-  color: black;
-}
-
-.button-group button:hover {
-  background-color: cyan;
-  color: black;
-  border-radius: 8px;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dropbtn:hover {
-  background: linear-gradient(135deg, #0056b3, #003f7f);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.dropdown-content button {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-content button:hover {
-  background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-#events-list {
-  margin-top: 20px;
-}
-
-.event {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin: 10px 0;
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.event-details {
-  flex-grow: 1;
-}
-
-.event-details h2 {
-  margin: 0 0 10px;
-}
-
-.event-details p {
-  margin: 0 0 10px;
-}
-
-.event-details ul {
-  list-style: none;
-  padding: 0;
+  padding: 10px;
   margin: 0;
 }
 
-.event-details ul li {
-  margin: 5px 0;
-}
-
-.event-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.event-buttons button {
-  padding: 10px 20px;
-  background-color: white;
-  color: black;
+.event-item {
+  list-style-type: none;
+  padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #f6f8f9, #e9ecef);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 48%;
 }
 
-.event-buttons button:hover {
-  background-color: cyan;
-  color: black;
-  border-radius: 8px;
+.event-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.event-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.event-item p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.event-item time {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #999;
 }

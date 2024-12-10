@@ -28,6 +28,7 @@ export class AppControllerComponent extends BaseComponent {
     this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
     this.#eventFinalizationComponent = new EventFinalizationComponent();
+    this.#hub.subscribe(Events.LogInSuccess, this.#onLogInSuccess.bind(this));
   }
 
   // Render the AppController component and return the container
@@ -35,6 +36,10 @@ export class AppControllerComponent extends BaseComponent {
     this.#createContainer();
     this.#setupContainerContent();
     return this.#container;
+  }
+
+  async #onLogInSuccess() {
+    this.#dashboardComponent.initialize();
   }
 
   #createContainer() {

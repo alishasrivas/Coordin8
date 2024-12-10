@@ -85,7 +85,6 @@ export const login = async (req, res, next) => {
         expiresIn: "1h",
       }
     );
-
     res.json({
       status: 200,
       message: "Login successful",
@@ -127,7 +126,6 @@ export const createEvent = async (req, res) => {
   try {
     // Parse data from client
     const { title, description, invitees, event_time } = req.body;
-
     // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
@@ -326,6 +324,79 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+
+// callback function for getting all events 
+
+export const getUserEvents = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Get events where the user is the organizer
+    const organizedEvents = await EventInstance.findAll({
+      where: { organizer_id: userId },
+      include: EventParticipantInstance,
+    });
+
+    // Get events where the user has accepted the invitation
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, status: true },
+      include: EventInstance,
+    });
+
+    res.status(200).json({ organizedEvents, acceptedEvents });
+  } catch (error) {
+    console.error("Error getting user events:", error);
+    res.status(500).json({ message: "Internal Server Error at getUserEvents" });
+  }
+}
+
+export const getOrganizedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const events = await EventInstance.findAll({
+      where: { organizer_id: userId },
+    });
+
+    const organizedEvents = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(organizedEvents);
+  } catch (error) {
+    console.error("Error getting organized events:", error);
+    res.status(500).json({ message: "Internal Server Error at getOrganizedEvents" });
+  }
+};
+
+
+// Callback function for getting all events where the user has accepted the invitation. First, we take the accepted events ids from the EventParticipantInstance table. Then, we get the details of the accepted events from the EventInstance table. Finally, we return the accepted events detail to the client.
+export const getAcceptedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, status: true },
+    });
+
+    const eventIds = acceptedEvents.map(event => event.event_id);
+
+    const events = await EventInstance.findAll({
+      where: { event_id: eventIds },
+    });
+
+    const acceptedEventsDetail = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(acceptedEventsDetail);
+  } catch (error) {
+    console.error("Error getting accepted events:", error);
+    res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
+  }
+}
 //callback function for returning all events where user is a participant and has not selected status
 //GET route
 export const getUserNewEvents = async (req, res) => {
