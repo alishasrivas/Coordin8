@@ -395,6 +395,8 @@ export const getAcceptedEvents = async (req, res) => {
   } catch (error) {
     console.error("Error getting accepted events:", error);
     res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
+  }
+}
 //callback function for returning all events where user is a participant and has not selected status
 //GET route
 export const getUserNewEvents = async (req, res) => {
