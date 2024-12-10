@@ -255,6 +255,56 @@ export class RepositoryRemoteService extends Service {
     }
   }
 
+  async getNewEvents() {
+        try {
+            const token = this.getCookie("accessToken");
+            if(!token) {
+                throw new Error("no access token found");
+            }
+            const response = await fetch(BASE_URL + "newEvents", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if(!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error getting accepted events:", error);
+            throw error;
+        }
+    }
+
+    async finalizeParticipation(eventId, status) {
+        try {
+            const token = getCookie("accessToken");
+            if(!token) {
+                throw new Error("no access token found");
+            }
+            const response = await fetch(BASE_URL + "finalize", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    eventId: eventId,
+                    status: status
+                })
+            });
+            if(!response.ok) {
+                throw new Error(`HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Error finalizing event participation", error);
+            throw error;
+        }
+    }
+  
   //TODO: register your events to listeners (to a backend callback) right here
   addSubscriptions() {
     try {
