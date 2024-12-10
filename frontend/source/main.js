@@ -3,7 +3,6 @@ import { AppControllerComponent } from "./components/AppControllerComponent/AppC
 import { MeetingRepositoryFactory } from "./services/MeetingRepositoryFactory.js";
 
 // Create an instance of AppControllerComponent
-export const mainMeetingRepository = MeetingRepositoryFactory.get("local");
 export const mainRepository = MeetingRepositoryFactory.get("remote"); //call to inialize certain subscriptions
 
 
