@@ -74,7 +74,6 @@ export class AppControllerComponent extends BaseComponent {
     dashboardBtn.addEventListener('click', () => this.#switchView('dashboard')); // Add event listener for Dashboard button
     profileSettingsBtn.addEventListener('click', () => this.#switchView('profile'));
     eventFinalizationBtn.addEventListener('click', () => this.#switchView('eventFinal'));
-    friendsListBtn.addEventListener("click", () => this.#switchView('friendsList'));
     logoutBtn.addEventListener("click", () => this.#hub.publish(Events.LogOut));
   }
 
