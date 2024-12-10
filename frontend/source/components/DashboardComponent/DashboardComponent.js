@@ -112,9 +112,11 @@ export class DashboardComponent extends BaseComponent {
       listItem.innerHTML = `
         <h3>Event title: ${event.title}</h3>
         <p>Description: ${event.description}</p>
-        <p>Start Time: ${event.event_time[0]}</p>
-        <p>End Time: ${event.event_time[1]}</p>
-        <p>Date: ${event.event_time[2]}</p>
+        ${event.event_time.map(time => `
+          <p>Start Time: ${time.startTime}</p>
+          <p>End Time: ${time.endTime}</p>
+          <p>Date: ${time.date}</p>
+        `).join('')}
       `;
       organizedEventsList.appendChild(listItem);
     });
@@ -131,9 +133,11 @@ export class DashboardComponent extends BaseComponent {
       listItem.innerHTML = `
         <h3>Event title: ${event.title}</h3>
         <p>Description: ${event.description}</p>
-        <p>Start Time: ${event.event_time[0]}</p>
-        <p>End Time: ${event.event_time[1]}</p>
-        <p>Date: ${event.event_time[2]}</p>
+        ${event.event_time.map(time => `
+          <p>Start Time: ${time.startTime}</p>
+          <p>End Time: ${time.endTime}</p>
+          <p>Date: ${time.date}</p>
+        `).join('')}
       `;
       acceptedEventsList.appendChild(listItem);
     });
