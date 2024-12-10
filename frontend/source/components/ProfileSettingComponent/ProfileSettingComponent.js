@@ -1,7 +1,7 @@
 import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
-import { mainMeetingRepository } from "../../main.js";
+import { mainRepository } from "../../main.js";
 export class ProfileSettingComponent extends BaseComponent {
     #container = null;
     #hub = null;
@@ -9,15 +9,18 @@ export class ProfileSettingComponent extends BaseComponent {
     #ErrorEmail = "";
     #ErrorPrimaryTZ = "";
     #ErrorSecondaryTZ = "";
+    #BackEndErrorr = "";
     #isError = false
-
     constructor() {
         super();
         this.loadCSS('ProfileSettingComponent');
         //initialize the event litsener for submission and fetching for the components
         this.#hub = EventHub.getInstance();
+        this.#hub.subscribe(Events.fetchProfileSettings, () => this.#fetchUserData().catch((error) => { console.error(error) }));
+        this.#hub.subscribe(Events.DuplicateUser, (data) => this.#backendErrorHandling(data)); // will trigger when status 409 is reached on fetching, then will call rerender and show error at the bottom
     }
     render() {
+        console.log("ProfileSettingComponent render");
         if (this.#container) {
             return this.#container;
         }
@@ -29,7 +32,8 @@ export class ProfileSettingComponent extends BaseComponent {
         // this.#loading = true;
         this.#container = document.createElement("div");
         this.#container.classList.add("profile-container");
-        this.#fetchUserData().then((userData) => { console.log(userData) }).catch((error) => { console.error(error) });
+        // this.#fetchUserData().catch((error) => { console.error(error) });
+        this.#hub.publish(Events.fetchProfileSettings);
         this.#container.innerHTML = this.#getTemplate();
         this.#attachEventListeners();
     };
@@ -45,7 +49,7 @@ export class ProfileSettingComponent extends BaseComponent {
                 <div class="input-block"> 
                     <h3>Personal Information</h1>
                         <div class="inner-input">
-                            <label for="name">Name:</label>
+                            <label for="name">Username:</label>
                             <label for="email">Email:</label>
                             <input type="text" name="username" id="name" >
                             <input type="text" name="email" id="email" >
@@ -74,6 +78,7 @@ export class ProfileSettingComponent extends BaseComponent {
                         </label>
                     </div>
                 </div>
+                <p class = 'err-msg big'>${this.#BackEndErrorr}</p>
                 <div class="footer">
                     <button type="submit" class="submit-button">Save</button>
                 </div>
@@ -101,19 +106,24 @@ export class ProfileSettingComponent extends BaseComponent {
     }
 
     #handleSubmitData(data) {
+        //TODO: for some reasons it keep throwing back at the homepage
         const { username, email, primary_tz, secondary_tz, email_noti } = data
         if (username.value.trim() === "") {
-            this.#ErrorName = "Please enter name properly"
+            this.#ErrorName = "Username cannot be empty"
             this.#isError = true
         }
 
         if (email.value.trim() === "") {
-            this.#ErrorEmail = "Please enter email properly"
+            this.#ErrorEmail = "Email cannot be empty"
             this.#isError = true
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            this.#ErrorEmail = "Please enter a valid email address";
+            this.#isError = true;
         }
 
         if (primary_tz.value.trim() === "") {
-            this.#ErrorPrimaryTZ = "Please enter primary timezone properly"
+            this.#ErrorPrimaryTZ = "Primary timezone cannot be empty"
             this.#isError = true
         }
 
@@ -123,12 +133,12 @@ export class ProfileSettingComponent extends BaseComponent {
             this.#reRenderHTML();
         }
         else {
-            this.#publishUpdateData({ username: username.value, email: email.value, primary_tz: primary_tz.value, secondary_tz: secondary_tz.value, email_noti: email_noti.checked });
-            alert("Profile settings updated successfully!");
+            this.#publishUpdateData({ username: username.value, email: email.value, primary_time_zone: primary_tz.value, secondary_time_zone: secondary_tz.value, notificationPreferences: email_noti.checked });
         }
     }
     #reRenderHTML() {
         this.#container.innerHTML = this.#getTemplate(); //include any error messages if exist
+        this.#hub.publish(Events.fetchProfileSettings);
         this.#isError = false;
         this.#ErrorEmail = "";
         this.#ErrorName = "";
@@ -140,15 +150,21 @@ export class ProfileSettingComponent extends BaseComponent {
     }
 
     async #fetchUserData() {
-        const userData = await mainMeetingRepository.getUserData();
+        const userData = await mainRepository.getUserInfo();
         console.log("Finish fetching data");
         this.#container.querySelector("#name").value = userData.username;
         this.#container.querySelector("#email").value = userData.email;
-        this.#container.querySelector("#primary-time-zone").value = userData.primary_tz;
-        this.#container.querySelector("#secondary-time-zone").value = userData.secondary_tz;
-        this.#container.querySelector("#noti_pref").checked = userData.email_noti;
+        this.#container.querySelector("#primary-time-zone").value = userData.primary_time_zone;
+        this.#container.querySelector("#secondary-time-zone").value = userData.secondary_time_zone;
+        this.#container.querySelector("#noti_pref").checked = userData.notificationPreferences;
 
         return userData;
+    }
+
+    #backendErrorHandling({ message }) {
+        this.#BackEndErrorr = message;
+        this.#reRenderHTML();
+        this.#BackEndErrorr = "";
     }
 
 }

@@ -16,6 +16,31 @@ const existsUser = async (email) => {
   return user;
 };
 
+const ExistUserName = async (username) => {
+  const user = await UserInstance.findOne({ where: { username } });
+  return user;
+}
+
+export const checkUserExist = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await UserInstance.findOne({ where: { email } });
+    if (user) {
+      res.status(200).json({ status: true });
+    }
+    else {
+      res.status(200).json({ status: false });
+    }
+
+  }
+  catch (error) {
+    console.error("Error checking if user exists:", error);
+    res
+      .status(500)
+      .json(factoryResponse(500, "Internal Server Error at checkUserExist"));
+  }
+}
+
 //testing function
 export const test = async (req, res) => {
   res.json(factoryResponse(200, "Hello?"));
@@ -35,9 +60,15 @@ export const register = async (req, res) => {
     // Check if the email is already taken
     if (await existsUser(email))
       return res
-        .status(400)
+        .status(409)
         .json(
-          factoryResponse(400, "Your email is linked to an existing account")
+          { message: "Your email is linked to an existing account. Please log in." }
+        );
+    if (await ExistUserName(username))
+      return res
+        .status(409)
+        .json(
+          { message: "Your username is linked to an existing account. Please log in." }
         );
     const hash = await bcrypt.hash(password, 10);
     await UserInstance.create({
@@ -67,11 +98,11 @@ export const login = async (req, res, next) => {
       return res
         .status(401)
         .json(
-          factoryResponse(401, "User had not existed, please register first")
+          { message: 'Email is not linked to any account, register first' }
         );
     }
     if (!(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json(factoryResponse(401, "Invalid credentials"));
+      return res.status(401).json({ message: "Invalid email or password" });
     }
     //everything is ok now proceeds to include tokens for response
     process.env["JWT_SECRET_KEY"] = randomBytes(16).toString("hex");
@@ -265,7 +296,7 @@ export const createEventParticipant = async (event_id, user_id) => {
 
 export const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id; //access dynamic parameter
+    const userId = req.user.user_id; //access dynamic parameter
     const {
       username,
       email,
@@ -273,7 +304,24 @@ export const updateUserProfile = async (req, res) => {
       secondary_time_zone,
       notificationPreferences,
     } = req.body;
-    console.log("Loaded variable");
+    //check if email or username belongs to another user
+
+    const userEmail = await UserInstance.findOne({
+      where: { email },
+    });
+
+    const userUsername = await UserInstance.findOne({
+      where: { username },
+    });
+
+    if (userEmail.user_id !== userId) {
+      return res.status(409).json({ message: "Email is already in use of another user" });
+    }
+
+    if (userUsername.user_id !== userId) {
+      return res.status(409).json({ message: "Username is already in use of another user" });
+    }
+
     await UserInstance.update(
       {
         username,
@@ -296,7 +344,7 @@ export const updateUserProfile = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.user_id;
     const userProfile = await UserInstance.findOne({
       where: { user_id: userId },
     });
@@ -401,7 +449,7 @@ export const getAcceptedEvents = async (req, res) => {
 //GET route
 export const getUserNewEvents = async (req, res) => {
   try {
-    const userId  = req.user.user_id;
+    const userId = req.user.user_id;
     const newEventParticipants = await EventParticipantInstance.findAll({
       where: {
         user_id: userId,
@@ -410,7 +458,7 @@ export const getUserNewEvents = async (req, res) => {
     });
     const newEventIds = newEventParticipants.map((event) => event.event_id);
     const newEvents = [];
-    for(let i = 0; i < newEventIds.length; i++){
+    for (let i = 0; i < newEventIds.length; i++) {
       const event = await EventInstance.findOne({
         where: { event_id: newEventIds[i] }
       });
@@ -435,7 +483,7 @@ export const updateUserStatus = async (req, res) => {
     userId = req.user.user_id;
     const updateStatus = await EventParticipantInstance.update(
       { status: attending },
-      { where: {event_id: eventId, user_id: userId} }
+      { where: { event_id: eventId, user_id: userId } }
     );
     res
       .status(200)
