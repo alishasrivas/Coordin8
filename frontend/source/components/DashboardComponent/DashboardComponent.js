@@ -32,11 +32,13 @@ export class DashboardComponent extends BaseComponent {
   async #loadEvents() {
     try {
       // Fetch organized events
-      const organizedEvents = await this.#repositoryRemoteService.getOrganizedEvents();
+      const organizedEvents =
+        await this.#repositoryRemoteService.getOrganizedEvents();
       this.#onFetchOrganizedEvents(organizedEvents);
 
       // Fetch accepted events
-      const acceptedEvents = await this.#repositoryRemoteService.getAcceptedEvents();
+      const acceptedEvents =
+        await this.#repositoryRemoteService.getAcceptedEvents();
       this.#onFetchAcceptedEvents(acceptedEvents);
     } catch (error) {
       console.error("Error loading events:", error);
@@ -52,7 +54,6 @@ export class DashboardComponent extends BaseComponent {
     this.#acceptedEvents = events;
     this.#updateContainerContent();
   }
-
 
   render() {
     if (this.#container) {
@@ -100,40 +101,44 @@ export class DashboardComponent extends BaseComponent {
 
   #addEvents() {
     // Add organized and accepted events to the respective lists
-    const organizedEventsList = this.#container.querySelector("#organized-events-list");
-    console.log('Organized Events:', this.#organizedEvents);
+    const organizedEventsList = this.#container.querySelector(
+      "#organized-events-list"
+    );
+    console.log("Organized Events:", this.#organizedEvents);
     if (!organizedEventsList) {
-      console.error('Organized events list element not found');
+      console.error("Organized events list element not found");
       return;
     }
-    this.#organizedEvents.forEach(event => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('event-item');
+    this.#organizedEvents.forEach((event) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("event-item");
       listItem.innerHTML = `
         <h3>Event title: ${event.title}</h3>
         <p>Description: ${event.description}</p>
-        <p>Start Time: ${event.event_time[0]}</p>
-        <p>End Time: ${event.event_time[1]}</p>
-        <p>Date: ${event.event_time[2]}</p>
+        <p>Start Time: ${event.event_time[0].startTime}</p>
+        <p>End Time: ${event.event_time[0].endTime}</p>
+        <p>Date: ${event.event_time[0].date}</p>
       `;
       organizedEventsList.appendChild(listItem);
     });
-  
-    const acceptedEventsList = this.#container.querySelector("#accepted-events-list");
-    console.log('Accepted Events:', this.#acceptedEvents);
+
+    const acceptedEventsList = this.#container.querySelector(
+      "#accepted-events-list"
+    );
+    console.log("Accepted Events:", this.#acceptedEvents);
     if (!acceptedEventsList) {
-      console.error('Accepted events list element not found');
+      console.error("Accepted events list element not found");
       return;
     }
-    this.#acceptedEvents.forEach(event => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('event-item');
+    this.#acceptedEvents.forEach((event) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("event-item");
       listItem.innerHTML = `
         <h3>Event title: ${event.title}</h3>
         <p>Description: ${event.description}</p>
-        <p>Start Time: ${event.event_time[0]}</p>
-        <p>End Time: ${event.event_time[1]}</p>
-        <p>Date: ${event.event_time[2]}</p>
+        <p>Start Time: ${event.event_time[0].startTime}</p>
+        <p>End Time: ${event.event_time[0].endTime}</p>
+        <p>Date: ${event.event_time[0].date}</p>
       `;
       acceptedEventsList.appendChild(listItem);
     });
