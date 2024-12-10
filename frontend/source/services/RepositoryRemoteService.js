@@ -190,7 +190,6 @@ export class RepositoryRemoteService extends Service {
             }
             const data = await response.json();
             console.log(`/updateUser ${response.status} ${response.statusText}`);
-            alert("Update user info successfully");
             return data;
         }
         catch (error) {

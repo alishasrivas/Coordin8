@@ -78,7 +78,7 @@ export class ProfileSettingComponent extends BaseComponent {
                         </label>
                     </div>
                 </div>
-                <p class = 'err-msg'>${this.#BackEndErrorr}</p>
+                <p class = 'err-msg big'>${this.#BackEndErrorr}</p>
                 <div class="footer">
                     <button type="submit" class="submit-button">Save</button>
                 </div>
@@ -106,19 +106,24 @@ export class ProfileSettingComponent extends BaseComponent {
     }
 
     #handleSubmitData(data) {
+        //TODO: for some reasons it keep throwing back at the homepage
         const { username, email, primary_tz, secondary_tz, email_noti } = data
         if (username.value.trim() === "") {
-            this.#ErrorName = "Please enter name properly"
+            this.#ErrorName = "Username cannot be empty"
             this.#isError = true
         }
 
         if (email.value.trim() === "") {
-            this.#ErrorEmail = "Please enter email properly"
+            this.#ErrorEmail = "Email cannot be empty"
             this.#isError = true
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            this.#ErrorEmail = "Please enter a valid email address";
+            this.#isError = true;
         }
 
         if (primary_tz.value.trim() === "") {
-            this.#ErrorPrimaryTZ = "Please enter primary timezone properly"
+            this.#ErrorPrimaryTZ = "Primary timezone cannot be empty"
             this.#isError = true
         }
 

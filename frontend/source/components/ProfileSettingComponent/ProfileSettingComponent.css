@@ -154,3 +154,7 @@ input:checked+.slider:before {
     font-size: small;
 
 }
+
+.big {
+    font-size: large;
+}
