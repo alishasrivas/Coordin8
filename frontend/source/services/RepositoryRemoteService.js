@@ -32,10 +32,10 @@ export class RepositoryRemoteService extends Service {
   constructor() {
     super();
 
-    //test cookie
-    setCookie("myCookie", "myValue");
-    console.log("Now delete");
-    deleteCookie("myCookie");
+    // //test cookie
+    // setCookie("myCookie", "myValue");
+    // console.log("Now delete");
+    // deleteCookie("myCookie");
   }
 
   async getAccessToken() {
@@ -57,9 +57,7 @@ export class RepositoryRemoteService extends Service {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
+        throw new Error(`/login HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
 
       //take the access tokens from response and set it to the headers
@@ -91,14 +89,13 @@ export class RepositoryRemoteService extends Service {
           primary_time_zone: primary_time_zone,
           notificationPreferences: noti_pref,
         }),
-      });
+      })
       if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
+        throw new Error(`/register HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
       console.log(`/register ${response.status} ${response.statusText}`);
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Error registering:", error);
       throw error;
     }
@@ -106,7 +103,7 @@ export class RepositoryRemoteService extends Service {
 
   async logOut() {
     try {
-      //call the backend endpoint to invalidate the tokens
+      //call the backend endpoint to invalidate the tokens 
       const token = getCookie("accessToken");
       if (!token) {
         throw new Error("No access token found");
@@ -115,115 +112,19 @@ export class RepositoryRemoteService extends Service {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+          "Authorization": `Bearer ${token}`,
+        }
+      })
       if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
+        throw new Error(`/logout HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
       deleteCookie("accessToken"); //delete token on client end
       console.log(`/logout ${response.status} ${response.statusText}`);
       //trigger  events LogOut Success so that it can switch screen (switch back to LogIn screen)
       this.publish(Events.LogOutSuccess);
-    } catch (error) {
-      throw error;
     }
-  }
-
-  async getOrganizedEvents() {
-    try {
-      const token = getCookie("accessToken");
-      console.log(token);
-      if (!token) {
-        throw new Error("No access token found");
-      }
-      const response = await fetch(BASE_URL + "organizedEvents", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
-      }
-      const data = await response.json();
-      console.log(`/organizedEvents ${response.status} ${response.statusText}`);
-      return data;
-    } catch (error) {
-      console.error("Error getting organized events:", error);
-    }
-  }
-
-  // createEvent sends a POST request to the backend /events endpoint with event details. On success, a new event is created. On failure, an error message displays
-  async createEvent({ title, description, invitees, event_time }) {
-    try {
-      // Retrieves JWT token from cookies for authentication; required to authorize the event creation request.
-      const token = getCookie("accessToken");
-      if (!token) {
-        throw new Error("No access token found");
-      }
-      // Sends a POST request to the backend to create a new event. Populates the request body with event details.
-      const response = await fetch(BASE_URL + "events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: title,
-          description: description,
-          invitees: invitees,
-          event_time: event_time,
-        }),
-      });
-      if (!response.ok) {
-        // Handles non-OK responses: for a 409 Conflict, a new meeting is published. For other HTTP issues, an error is thrown
-        if (response.status === 409) {
-          const data = await response.json();
-          this.publish(Events.NewMeeting, data);
-        }
-        throw new Error(
-          `/events HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
-      }
-      // On successful event creation, display success message and return event details
-      const data = await response.json();
-      console.log(`/events ${response.status} ${response.statusText}`);
-      alert("Event created successfully");
-      return data;
-    } catch (error) {
-      console.error("Error creating event:", error);
-      throw error;
-    }
-  }
-
-  async getAcceptedEvents() {
-    try {
-      const token = getCookie("accessToken");
-      console.log(token);
-      if (!token) {
-        throw new Error("No access token found");
-      }
-      const response = await fetch(BASE_URL + "acceptedEvents", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
-      }
-      const data = await response.json();
-      console.log(`/acceptedEvents ${response.status} ${response.statusText}`);
-      return data;
-    } catch (error) {
-      console.error("Error getting accepted events:", error);
+    catch (error) {
+      console.error("Error logging out:", error);
       throw error;
     }
   }
@@ -238,33 +139,75 @@ export class RepositoryRemoteService extends Service {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+          "Authorization": `Bearer ${token}`,
+        }
+      })
       if (!response.ok) {
-        throw new Error(
-          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
-        );
+        throw new Error(`/getUser HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log(`/user ${response.status} ${response.statusText}`);
+      console.log(`/getUser ${response.status} ${response.statusText}`);
       return data;
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Error getting user info:", error);
       throw error;
     }
   }
 
-  //TODO: register your events to listeners (to a backend callback) right here
+  async updateUserInfo({ username,
+    email,
+    primary_time_zone,
+    secondary_time_zone,
+    notificationPreferences, }) {
+    try {
+      const token = getCookie("accessToken");
+      if (!token) {
+        throw new Error("No access token found");
+      }
+      const response = await fetch(BASE_URL + "userInfo", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          primary_time_zone: primary_time_zone,
+          secondary_time_zone: secondary_time_zone,
+          notificationPreferences: notificationPreferences,
+        })
+      })
+      if (!response.ok) {
+
+        if (response.status === 409) {
+          const data = await response.json();
+          this.publish(Events.DuplicateUser, data);
+        }
+        throw new Error(`/updateUser HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log(`/updateUser ${response.status} ${response.statusText}`);
+      return data;
+    }
+    catch (error) {
+      console.error("Error updating user info:", error);
+      throw error;
+    }
+  }
+
+
+
+
+  //TODO: register your events to litseners (to a backend callback) right here
   addSubscriptions() {
     try {
       this.subscribe(Events.LogIn, (data) => {
-        this.logIn(data)
-          .then((data) => alert("Log In Success"))
-          .catch((error) => {
-            console.error(error);
-            alert("Log in failed");
-          });
+        this.logIn(data).then((data) => alert("Log In Success")).catch((error) => {
+          console.error(error);
+          alert("Log in failed");
+        });
       });
 
       this.subscribe(Events.LogOut, () => {
@@ -291,6 +234,13 @@ export class RepositoryRemoteService extends Service {
             console.error(error);
           });
       });
+
+      this.subscribe(Events.updateProfileSettings, (data) => {
+        this.updateUserInfo(data).then(data => alert("Update Profile Successfully")).catch((error) => {
+          console.error(error);
+        });
+      })
+
     } catch (error) {
       console.error("Error in addSubscriptions:", error);
       throw error;

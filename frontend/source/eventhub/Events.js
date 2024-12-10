@@ -44,4 +44,8 @@ export const Events = {
   LogInToRegister: 'LogInToRegister',
   RegisterToLogIn: 'RegisterToLogIn',
 
+  //Error handling events for profile settings
+  DuplicateUser: 'DuplicateUser',
+
+
 };

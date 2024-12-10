@@ -9,6 +9,7 @@ import {
     createEvent,
     updateUserProfile,
     getUserProfile,
+    checkUserExist,
     getUserEvents,
     getOrganizedEvents,
     getAcceptedEvents,
@@ -38,14 +39,15 @@ router.delete("/events/:eventid", authenticatedJWT, deleteEventInstance);
 router.patch("/events/:eventid", authenticatedJWT, updateEvent);
 
 //endpoints for profile settings features
-router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
-router.get('/userInfo/:id', authenticatedJWT, getUserProfile);
+router.patch('/userInfo', authenticatedJWT, updateUserProfile);
+router.get('/userInfo', authenticatedJWT, getUserProfile);
 
 // endpoint for getting all events that have true accepted value and same user_id as the token
 router.get('/getUserEvents/:id', authenticatedJWT, getUserEvents);
 
 router.get('/organizedEvents', authenticatedJWT, getOrganizedEvents);
 router.get('/acceptedEvents', authenticatedJWT, getAcceptedEvents);
+router.post('/checkEmail', authenticatedJWT, checkUserExist);
 
 //endpoints for event finalization
 router.get("/newEvents", authenticatedJWT, getUserNewEvents);
