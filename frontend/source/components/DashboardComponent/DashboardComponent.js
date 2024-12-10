@@ -105,13 +105,21 @@ export class DashboardComponent extends BaseComponent {
       const listItem = document.createElement('li');
       listItem.classList.add('event-item');
       listItem.innerHTML = `
-        <h3>Event title: ${event.title}</h3>
-        <p>Description: ${event.description}</p>
-        ${event.event_time.map(time => `
-          <p>Start Time: ${time.startTime}</p>
-          <p>End Time: ${time.endTime}</p>
-          <p>Date: ${time.date}</p>
-        `).join('')}
+        <div class="event-content">
+          <div class="event-details">
+            <h3>Event title: ${event.title}</h3>
+            <p>Description: ${event.description}</p>
+            ${event.event_time.map(time => `
+              <p>Start Time: ${time.startTime}</p>
+              <p>End Time: ${time.endTime}</p>
+              <p>Date: ${time.date}</p>
+            `).join('')}
+          </div>
+          <div class="event-buttons">
+            <button class="delete-event-button">Delete</button>
+            <button class="edit-event-button">Edit</button>
+          </div>
+        </div>
       `;
       organizedEventsList.appendChild(listItem);
     });
@@ -126,13 +134,21 @@ export class DashboardComponent extends BaseComponent {
       const listItem = document.createElement('li');
       listItem.classList.add('event-item');
       listItem.innerHTML = `
-        <h3>Event title: ${event.title}</h3>
-        <p>Description: ${event.description}</p>
-        ${event.event_time.map(time => `
-          <p>Start Time: ${time.startTime}</p>
-          <p>End Time: ${time.endTime}</p>
-          <p>Date: ${time.date}</p>
-        `).join('')}
+        <div class="event-content">
+          <div class="event-details">
+            <h3>Event title: ${event.title}</h3>
+            <p>Description: ${event.description}</p>
+            ${event.event_time.map(time => `
+              <p>Start Time: ${time.startTime}</p>
+              <p>End Time: ${time.endTime}</p>
+              <p>Date: ${time.date}</p>
+            `).join('')}
+          </div>
+          <div class="event-buttons">
+            <button class="delete-event-button">Delete</button>
+            <button class="edit-event-button">Edit</button>
+          </div>
+        </div>
       `;
       acceptedEventsList.appendChild(listItem);
     });
