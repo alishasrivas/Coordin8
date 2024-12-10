@@ -126,6 +126,40 @@ export const createEvent = async (req, res) => {
   try {
     // Parse data from client
     const { title, description, invitees, event_time } = req.body;
+
+    console.log("backend event_time:", event_time);
+
+    // Validate that event_time is a valid JSON object or array
+    if (!Array.isArray(event_time) || event_time.length === 0) {
+      return res.status(400).json({
+        message: "Invalid event_time format. Must be a non-empty array.",
+      });
+    }
+
+    // Validate event_time structure
+    event_time.forEach((time) => {
+      if (!time.startTime || !time.endTime || !time.date) {
+        throw new Error(
+          "Each time object must include startTime, endTime, and date."
+        );
+      }
+    });
+
+    // Check if an event with the same title already exists for this user
+    const sameTitle = await EventInstance.findOne({
+      where: {
+        title,
+      },
+    });
+
+    if (sameTitle) {
+      // Inform user that the title is already used
+      console.log("Can't use the same event title more than once.");
+      return res.status(400).json({
+        message: "Can't use the same event title more than once.",
+      });
+    }
+
     // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
@@ -217,31 +251,27 @@ export const deleteEventInstance = async (req, res) => {
 // Updates event attributes as details given by user given event_id
 export const updateEvent = async (req, res) => {
   try {
-    const eventid = req.params.eventid
-    const {
-      title,
-      event_time,
-      location,
-      description,
-      organizer_id
-    } = req.body;
+    const eventid = req.params.eventid;
+    const { title, event_time, location, description, organizer_id } = req.body;
     await EventInstance.update(
       {
         title,
         event_time,
         location,
         description,
-        organizer_id
+        organizer_id,
       },
       {
         where: { event_id: eventid },
       }
     );
-    console.log("Event updated!")
-    res.status(200).json(factoryResponse(200, "Your event has been updated!"))
+    console.log("Event updated!");
+    res.status(200).json(factoryResponse(200, "Your event has been updated!"));
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json(factoryResponse(500, "Internal Server Error at updateEvent"))
+    res
+      .status(500)
+      .json(factoryResponse(500, "Internal Server Error at updateEvent"));
   }
 };
 
@@ -324,8 +354,7 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-
-// callback function for getting all events 
+// callback function for getting all events
 
 export const getUserEvents = async (req, res) => {
   try {
@@ -348,7 +377,7 @@ export const getUserEvents = async (req, res) => {
     console.error("Error getting user events:", error);
     res.status(500).json({ message: "Internal Server Error at getUserEvents" });
   }
-}
+};
 
 export const getOrganizedEvents = async (req, res) => {
   try {
@@ -357,7 +386,7 @@ export const getOrganizedEvents = async (req, res) => {
       where: { organizer_id: userId },
     });
 
-    const organizedEvents = events.map(event => ({
+    const organizedEvents = events.map((event) => ({
       title: event.title,
       description: event.description,
       event_time: event.event_time,
@@ -366,10 +395,11 @@ export const getOrganizedEvents = async (req, res) => {
     res.status(200).json(organizedEvents);
   } catch (error) {
     console.error("Error getting organized events:", error);
-    res.status(500).json({ message: "Internal Server Error at getOrganizedEvents" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at getOrganizedEvents" });
   }
 };
-
 
 // Callback function for getting all events where the user has accepted the invitation. First, we take the accepted events ids from the EventParticipantInstance table. Then, we get the details of the accepted events from the EventInstance table. Finally, we return the accepted events detail to the client.
 export const getAcceptedEvents = async (req, res) => {
@@ -379,13 +409,13 @@ export const getAcceptedEvents = async (req, res) => {
       where: { user_id: userId, status: true },
     });
 
-    const eventIds = acceptedEvents.map(event => event.event_id);
+    const eventIds = acceptedEvents.map((event) => event.event_id);
 
     const events = await EventInstance.findAll({
       where: { event_id: eventIds },
     });
 
-    const acceptedEventsDetail = events.map(event => ({
+    const acceptedEventsDetail = events.map((event) => ({
       title: event.title,
       description: event.description,
       event_time: event.event_time,
@@ -394,38 +424,38 @@ export const getAcceptedEvents = async (req, res) => {
     res.status(200).json(acceptedEventsDetail);
   } catch (error) {
     console.error("Error getting accepted events:", error);
-    res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at getAcceptedEvents" });
   }
-}
+};
 //callback function for returning all events where user is a participant and has not selected status
 //GET route
 export const getUserNewEvents = async (req, res) => {
   try {
-    const userId  = req.user.user_id;
+    const userId = req.user.user_id;
     const newEventParticipants = await EventParticipantInstance.findAll({
       where: {
         user_id: userId,
-        status: null
-      }
+        status: null,
+      },
     });
     const newEventIds = newEventParticipants.map((event) => event.event_id);
     const newEvents = [];
-    for(let i = 0; i < newEventIds.length; i++){
+    for (let i = 0; i < newEventIds.length; i++) {
       const event = await EventInstance.findOne({
-        where: { event_id: newEventIds[i] }
+        where: { event_id: newEventIds[i] },
       });
       newEvents.push(event);
     }
-    res
-      .status(200)
-      .json({ newEvents });
+    res.status(200).json({ newEvents });
   } catch (error) {
     console.log("Error getting new events for user", error);
     res
       .status(500)
       .json({ message: "Internal server error at getUserNewEvents" });
   }
-}
+};
 
 //callback function for updating user status for a given event
 //POST route
@@ -435,15 +465,13 @@ export const updateUserStatus = async (req, res) => {
     userId = req.user.user_id;
     const updateStatus = await EventParticipantInstance.update(
       { status: attending },
-      { where: {event_id: eventId, user_id: userId} }
+      { where: { event_id: eventId, user_id: userId } }
     );
-    res
-      .status(200)
-      .json({ updateStatus });
+    res.status(200).json({ updateStatus });
   } catch (error) {
     console.log("Error updating status for user", error);
     res
       .status(500)
       .json({ message: "Internal server error at updateUserStatus" });
   }
-}
+};
