@@ -27,7 +27,7 @@ export function EventsModel(sequelize) {
         allowNull: true,
       },
       event_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.JSON,
         allowNull: true,
       },
       organizer_id: {
