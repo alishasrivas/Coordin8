@@ -87,9 +87,9 @@ async function initializeDatabase() {
     }
 
     // Check if events already exist
-    const existingEvent1 = await EventInstance.findOne({ where: { title: "Event1" } });
-    const existingEvent2 = await EventInstance.findOne({ where: { title: "Event2" } });
-    const existingEvent3 = await EventInstance.findOne({ where: { title: "Event3" } });
+    const existingEvent1 = await EventInstance.findOne({ where: { title: "study session today" } });
+    const existingEvent2 = await EventInstance.findOne({ where: { title: "study session tomorrow" } });
+    const existingEvent3 = await EventInstance.findOne({ where: { title: "study session tomorrow of tomorrow" } });
 
     let event1, event2, event3;
 
