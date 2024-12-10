@@ -38,6 +38,10 @@ export class RepositoryRemoteService extends Service {
     deleteCookie("myCookie");
   }
 
+  async getAccessToken() {
+    return getCookie("accessToken")
+  }
+
   //TODO: add your fetch calls to backend here
   async logIn({ email, password }) {
     try {
