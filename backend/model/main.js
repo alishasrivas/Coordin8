@@ -5,7 +5,6 @@ import { EventsModel } from "./Event.js";
 import { EventParticipantModel } from "./EventParticipant.js";
 import bcrypt from "bcryptjs";
 
-
 export const UserInstance = UserModel(dbInstance);
 export const EventInstance = EventsModel(dbInstance);
 export const EventParticipantInstance = EventParticipantModel(dbInstance);
@@ -40,16 +39,21 @@ async function synDatabase() {
 
 await synDatabase();
 
-
 async function initializeDatabase() {
   try {
     console.log("Testing database");
     await synDatabase();
 
     // Check if users already exist
-    const existingInvitee1 = await UserInstance.findOne({ where: { email: "invitee1@gmail.com" } });
-    const existingInvitee2 = await UserInstance.findOne({ where: { email: "invitee2@gmail.com" } });
-    const existingInvitee3 = await UserInstance.findOne({ where: { email: "invitee3@gmail.com" } });
+    const existingInvitee1 = await UserInstance.findOne({
+      where: { email: "invitee1@gmail.com" },
+    });
+    const existingInvitee2 = await UserInstance.findOne({
+      where: { email: "invitee2@gmail.com" },
+    });
+    const existingInvitee3 = await UserInstance.findOne({
+      where: { email: "invitee3@gmail.com" },
+    });
 
     let invitee1, invitee2, invitee3;
 
@@ -58,7 +62,7 @@ async function initializeDatabase() {
         email: "invitee1@gmail.com",
         username: "Invitee1",
         password: await bcrypt.hash("password123", 10),
-        primary_time_zone: "Russia/Moscow"
+        primary_time_zone: "Russia/Moscow",
       });
     } else {
       invitee1 = existingInvitee1;
@@ -69,7 +73,7 @@ async function initializeDatabase() {
         email: "invitee2@gmail.com",
         username: "Invitee2",
         password: await bcrypt.hash("password123", 10),
-        primary_time_zone: "America/New_York"
+        primary_time_zone: "America/New_York",
       });
     } else {
       invitee2 = existingInvitee2;
@@ -80,16 +84,22 @@ async function initializeDatabase() {
         email: "invitee3@gmail.com",
         username: "Invitee3",
         password: await bcrypt.hash("password123", 10),
-        primary_time_zone: "America/Los_Angeles"
+        primary_time_zone: "America/Los_Angeles",
       });
     } else {
       invitee3 = existingInvitee3;
     }
 
     // Check if events already exist
-    const existingEvent1 = await EventInstance.findOne({ where: { title: "Event1" } });
-    const existingEvent2 = await EventInstance.findOne({ where: { title: "Event2" } });
-    const existingEvent3 = await EventInstance.findOne({ where: { title: "Event3" } });
+    const existingEvent1 = await EventInstance.findOne({
+      where: { title: "Event1" },
+    });
+    const existingEvent2 = await EventInstance.findOne({
+      where: { title: "Event2" },
+    });
+    const existingEvent3 = await EventInstance.findOne({
+      where: { title: "Event3" },
+    });
 
     let event1, event2, event3;
 
@@ -97,7 +107,7 @@ async function initializeDatabase() {
       event1 = await EventInstance.create({
         title: "study session today",
         description: "we will code",
-        event_time: ["10:20","11:00","2025-10-20"],
+        event_time: ["10:20", "11:00", "2025-10-20"],
         organizer_id: invitee1.user_id,
         invitees: ["invite2@gmail.com", "invite3@gmail.com"],
       });
@@ -117,7 +127,7 @@ async function initializeDatabase() {
       event2 = existingEvent2;
     }
 
-    if(!existingEvent3){
+    if (!existingEvent3) {
       event3 = await EventInstance.create({
         title: "study session tomorrow of tomorrow",
         description: "we will code",
@@ -164,7 +174,6 @@ async function initializeDatabase() {
       user_id: invitee2.user_id,
       status: true,
     });
-
   } catch (err) {
     console.log("Error at testing database: ", err);
   }

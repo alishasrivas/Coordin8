@@ -213,7 +213,11 @@ export class EventCreationComponent extends BaseComponent {
     console.log("Time are valid");
 
     // Create the time object and add it to the array
-    const time = { startTime, endTime, date };
+    const time = {
+      startTime: String(startTime),
+      endTime: String(endTime),
+      date: String(date),
+    };
     this.#potentialTimes.push(time);
 
     // Add the new time to the visible list
