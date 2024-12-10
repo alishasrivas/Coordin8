@@ -222,18 +222,17 @@ export const updateEvent = async (req, res) => {
     const eventid = req.params.eventid
     const {
       title,
-      event_time,
-      location,
       description,
-      organizer_id
+      invitees,
+      event_time
     } = req.body;
     await EventInstance.update(
       {
         title,
-        event_time,
-        location,
         description,
-        organizer_id
+        invitees,
+        event_time,
+        organizer_id: req.user.user_id,
       },
       {
         where: { event_id: eventid },
