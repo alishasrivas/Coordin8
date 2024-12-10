@@ -87,11 +87,11 @@ export const login = async (req, res, next) => {
       return res
         .status(401)
         .json(
-          factoryResponse(401, "User had not existed, please register first")
+          { message: 'Email is not linked to any account, register first' }
         );
     }
     if (!(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json(factoryResponse(401, "Invalid credentials"));
+      return res.status(401).json({ message: "Invalid email or password" });
     }
     //everything is ok now proceeds to include tokens for response
     process.env["JWT_SECRET_KEY"] = randomBytes(16).toString("hex");
@@ -367,7 +367,7 @@ export const getUserProfile = async (req, res) => {
 //GET route
 export const getUserNewEvents = async (req, res) => {
   try {
-    const userId  = req.user.user_id;
+    const userId = req.user.user_id;
     const newEventParticipants = await EventParticipantInstance.findAll({
       where: {
         user_id: userId,
@@ -376,7 +376,7 @@ export const getUserNewEvents = async (req, res) => {
     });
     const newEventIds = newEventParticipants.map((event) => event.event_id);
     const newEvents = [];
-    for(let i = 0; i < newEventIds.length; i++){
+    for (let i = 0; i < newEventIds.length; i++) {
       const event = await EventInstance.findOne({
         where: { event_id: newEventIds[i] }
       });
@@ -401,7 +401,7 @@ export const updateUserStatus = async (req, res) => {
     userId = req.user.user_id;
     const updateStatus = await EventParticipantInstance.update(
       { status: attending },
-      { where: {event_id: eventId, user_id: userId} }
+      { where: { event_id: eventId, user_id: userId } }
     );
     res
       .status(200)

@@ -56,6 +56,10 @@ export class RepositoryRemoteService extends Service {
             })
 
             if (!response.ok) {
+                if (response.status === 401) {
+                    const data = await response.json();
+                    this.publish(Events.BackEndLogInFailure, data);
+                }
                 throw new Error(`/login HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
 

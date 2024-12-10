@@ -90,3 +90,13 @@ input {
     padding: 0;
     font-size: large;
 }
+
+.err-msg {
+    color: #d2171d;
+    font-size: small;
+
+}
+
+.big {
+    font-size: large;
+}

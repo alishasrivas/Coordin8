@@ -47,5 +47,8 @@ export const Events = {
   //Error handling events for profile settings
   DuplicateUser: 'DuplicateUser',
 
+  //Error handling for authentication events
+  BackEndLogInFailure: 'BackEndLogInFailure',
+
 
 };

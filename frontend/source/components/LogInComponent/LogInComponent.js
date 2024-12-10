@@ -4,11 +4,27 @@ import { EventHub } from "../../eventhub/EventHub.js";
 export class LogInComponent extends BaseComponent {
     #container = null;
     #hub = null
-    #isError = false
+    #BackEndError = ""
+    #emailInput = null;
+    #passwordInput = null;
     constructor() {
         super();
         this.loadCSS('LogInComponent');
         this.#hub = EventHub.getInstance();
+        this.#hub.subscribe(Events.BackEndLogInFailure, (data) => {
+            this.#BackEndError = data.message;
+            this.#container.innerHTML = this.#getTemplate();
+            this.#reassignInput();
+            this.#attachEventListeners();
+            this.#BackEndError = "";
+        })
+    }
+    #reassignInput() {
+        //this function is used to reassign input that user entered before back to the field for them
+        this.#container.querySelector("#email").value = this.#emailInput;
+        this.#container.querySelector("#password").value = this.#passwordInput;
+        this.#emailInput = null;
+        this.#passwordInput = null;
     }
     #createContainer() {
         // Create and configure the container element
@@ -33,6 +49,7 @@ export class LogInComponent extends BaseComponent {
                         <input type="password" id="password">
                     </div>
                 </div>
+                <p class = 'err-msg big'>${this.#BackEndError}</p>
             </form>
             <button type="submit" class="submit-button-login">Log In</button>
         `
@@ -56,9 +73,11 @@ export class LogInComponent extends BaseComponent {
 
     #handleSubmit(data) {
         const { email, password } = data
-        //TODO: implement validation for email and password
+        this.#emailInput = email.value;
+        this.#passwordInput = password.value;
         this.#hub.publish(Events.LogIn, { email: email.value, password: password.value });
     }
+
     render() {
         if (this.#container) {
             return this.#container;
