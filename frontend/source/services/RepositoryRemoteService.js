@@ -57,9 +57,12 @@ export class RepositoryRemoteService extends Service {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          const data = await response.json();
+          this.publish(Events.BackEndLogInFailure, data);
+        }
         throw new Error(`/login HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
-
       //take the access tokens from response and set it to the headers
       const expirationDate = new Date();
       expirationDate.setHours(expirationDate.getHours() + 1);
@@ -69,13 +72,15 @@ export class RepositoryRemoteService extends Service {
       console.log(`/login ${response.status} ${response.statusText}`);
       //trigger events LogIn Success so that it can switch screen
       this.publish(Events.LogInSuccess);
-    } catch (error) {
+
+    }
+    catch (error) {
       console.error("Error logging in:", error);
       throw error;
     }
   }
 
-  async register({ email, password, username, primary_time_zone, noti_pref }) {
+  async register({ email, password, username, primary_time_zone }) {
     try {
       const response = await fetch(BASE_URL + "register", {
         method: "POST",
@@ -87,10 +92,14 @@ export class RepositoryRemoteService extends Service {
           password: password,
           username: username,
           primary_time_zone: primary_time_zone,
-          notificationPreferences: noti_pref,
+          notificationPreferences: false,
         }),
       })
       if (!response.ok) {
+        if (response.status === 409) {
+          const data = await response.json();
+          this.publish(Events.RegisterBackEndFailure, data);
+        }
         throw new Error(`/register HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
       }
       console.log(`/register ${response.status} ${response.statusText}`);
