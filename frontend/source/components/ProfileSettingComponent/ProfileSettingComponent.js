@@ -11,7 +11,6 @@ export class ProfileSettingComponent extends BaseComponent {
     #ErrorSecondaryTZ = "";
     #BackEndErrorr = "";
     #isError = false
-
     constructor() {
         super();
         this.loadCSS('ProfileSettingComponent');
@@ -21,6 +20,7 @@ export class ProfileSettingComponent extends BaseComponent {
         this.#hub.subscribe(Events.DuplicateUser, (data) => this.#backendErrorHandling(data)); // will trigger when status 409 is reached on fetching, then will call rerender and show error at the bottom
     }
     render() {
+        console.log("ProfileSettingComponent render");
         if (this.#container) {
             return this.#container;
         }
