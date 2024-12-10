@@ -62,7 +62,6 @@ export class RepositoryRemoteService extends Service {
                 }
                 throw new Error(`/login HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`);
             }
-
             //take the access tokens from response and set it to the headers
             const expirationDate = new Date();
             expirationDate.setHours(expirationDate.getHours() + 1);
@@ -80,7 +79,7 @@ export class RepositoryRemoteService extends Service {
         }
     }
 
-    async register({ email, password, username, primary_time_zone, noti_pref }) {
+    async register({ email, password, username, primary_time_zone }) {
         try {
             const response = await fetch(BASE_URL + "register", {
                 method: "POST",
@@ -92,7 +91,7 @@ export class RepositoryRemoteService extends Service {
                     password: password,
                     username: username,
                     primary_time_zone: primary_time_zone,
-                    notificationPreferences: noti_pref,
+                    notificationPreferences: false,
                 }),
             })
             if (!response.ok) {

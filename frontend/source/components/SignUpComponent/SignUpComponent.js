@@ -5,6 +5,13 @@ import { Events } from "../../eventhub/Events.js";
 export class SignUpComponent extends BaseComponent {
     #container = null;
     #hub = null
+    #isError = false;
+    #emailError = "";
+    #passwordError = "";
+    #usernameError = "";
+    #timeZoneError = "";
+    #userInnput = { email: null, password: null, username: null, primary_time_zone: null };
+
     constructor() {
         super();
         this.loadCSS('SignUpComponent');
@@ -27,22 +34,22 @@ export class SignUpComponent extends BaseComponent {
                     <div class="inner_input">
                         <label for="email">Email:</label>
                         <input type="text" id="email">
+                        <p class = 'err-msg'>${this.#emailError}</p>
                     </div>
                     <div class="inner_input">
                         <label for="password">Password:</label>
                         <input type="password" id="password">
+                        <p class = 'err-msg'>${this.#passwordError}</p>
                     </div>
                     <div class="inner_input">
                         <label for="username">Username:</label>
                         <input type="text" id="username">
+                        <p class = 'err-msg'>${this.#usernameError}</p>
                     </div>
                     <div class="inner_input">
                         <label for="primary_time_zone">Primary Time Zone:</label>
                         <input type="text" id="primary_time_zone">
-                    </div>
-                    <div class="inner_input toggle">
-                        <label for="noti_pref">Email Notification:</label>
-                        <input type="checkbox" id="noti_pref">
+                        <p class = 'err-msg'>${this.#timeZoneError}</p>
                     </div>
 
                 </div>
@@ -51,20 +58,21 @@ export class SignUpComponent extends BaseComponent {
         `
     }
 
+    #resetUserInput() {
+        this.#userInnput = { email: null, password: null, username: null, primary_time_zone: null }
+    }
+
     #attachEventListeners() {
         //Add logic for event litseners right here
         const email = this.#container.querySelector('#email');
         const password = this.#container.querySelector('#password');
         const username = this.#container.querySelector('#username');
         const primary_time_zone = this.#container.querySelector('#primary_time_zone');
-        const noti_pref = this.#container.querySelector('#noti_pref');
         const submitBtn = this.#container.querySelector('.submit-button');
-
         submitBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            this.#handleSubmit({ email, password, username, primary_time_zone, noti_pref });
+            this.#handleSubmit({ email, password, username, primary_time_zone });
         })
-
         const reRouteBtn = this.#container.querySelector('.login_route_btn');
         console.log(reRouteBtn)
         reRouteBtn.addEventListener('click', (event) => {
@@ -81,9 +89,57 @@ export class SignUpComponent extends BaseComponent {
         return this.#container;
     }
 
-    #handleSubmit(data) {
-        //TODO: add validation for all fields
-        const { email, password, username, primary_time_zone, noti_pref } = data
-        this.#hub.publish(Events.Register, { email: email.value, password: password.value, username: username.value, primary_time_zone: primary_time_zone.value, noti_pref: noti_pref.checked });
+    #reassignInput() {
+        this.#container.querySelector("#email").value = this.#userInnput.email;
+        this.#container.querySelector("#password").value = this.#userInnput.password;
+        this.#container.querySelector("#username").value = this.#userInnput.username;
+        this.#container.querySelector("#primary_time_zone").value = this.#userInnput.primary_time_zone;
     }
+
+    #handleSubmit(data) {
+        const { email, password, username, primary_time_zone } = data
+        this.#userInnput = { email: email.value, password: password.value, username: username.value, primary_time_zone: primary_time_zone.value }
+        if (email.value.trim() === "") {
+            this.#emailError = "Email cannot be empty"
+            this.#isError = true;
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+            this.#emailError = "Please enter a valid email address";
+            this.#isError = true;
+        }
+        if (password.value.trim() === "") {
+            this.#passwordError = "Password cannot be empty";
+            this.#isError = true;
+        }
+
+        if (username.value.trim() === "") {
+            this.#usernameError = "Username cannot be empty";
+            this.#isError = true;
+        }
+
+        if (primary_time_zone.value.trim() === "") {
+            this.#timeZoneError = "Primary Time Zone cannot be empty";
+            this.#isError = true;
+        }
+
+        if (this.#isError) {
+            this.#rerenderHTML();
+            this.#isError = false;
+            this.#emailError = "";
+            this.#passwordError = "";
+            this.#usernameError = "";
+            this.#timeZoneError = "";
+            return;
+        }
+
+        this.#hub.publish(Events.Register, { email: email.value, password: password.value, username: username.value, primary_time_zone: primary_time_zone.value });
+    }
+
+    #rerenderHTML() {
+        this.#container.innerHTML = this.#getTemplate();
+        this.#reassignInput();
+        this.#resetUserInput();
+        this.#attachEventListeners();
+    }
+
 }
