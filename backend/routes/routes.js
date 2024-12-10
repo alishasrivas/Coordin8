@@ -11,7 +11,10 @@ import {
     getUserProfile,
     checkUserExist,
     deleteEventInstance,
-    updateEvent
+    updateEvent,
+    getUserNewEvents,
+    updateUserStatus,
+    deleteEventInstance
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -37,4 +40,9 @@ router.patch("/events/:eventid", authenticatedJWT, updateEvent);
 router.patch('/userInfo', authenticatedJWT, updateUserProfile);
 router.get('/userInfo', authenticatedJWT, getUserProfile);
 router.post('/checkEmail', authenticatedJWT, checkUserExist);
+
+//endpoints for event finalization
+router.get("/newEvents", authenticatedJWT, getUserNewEvents);
+router.post("/finalize", authenticatedJWT, updateUserStatus);
+
 export default router;
