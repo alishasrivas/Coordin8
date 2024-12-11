@@ -5,6 +5,7 @@ import { EventHub } from "../../eventhub/EventHub.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
+import { NewEventsComponent } from "../NewEventsComponent/NewEventsComponent.js";
 import { Events } from "../../eventhub/Events.js";
 //!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
@@ -16,6 +17,7 @@ export class AppControllerComponent extends BaseComponent {
   #hub = null; // EventHub instance for managing events
   #profileSetting = null; // profile setting page
   #eventFinalizationComponent = null; // Instance of the event finalization component
+  #newEventsComponent = null; // Instance of the new events component
   #LogIn = null;
   #SignUp = null;
 
@@ -25,8 +27,10 @@ export class AppControllerComponent extends BaseComponent {
     this.#hub = EventHub.getInstance();
     this.#eventCreationComponent = new EventCreationComponent();
     this.#homeComponent = new HomeComponent();
+    this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
     this.#eventFinalizationComponent = new EventFinalizationComponent();
+    this.#newEventsComponent = new NewEventsComponent();
     this.#hub.subscribe(Events.LogInSuccess, this.#onLogInSuccess.bind(this));
   }
 
@@ -38,8 +42,7 @@ export class AppControllerComponent extends BaseComponent {
   }
 
   async #onLogInSuccess() {
-    this.#dashboardComponent = new DashboardComponent();
-    await this.#dashboardComponent.initialize();
+    this.#dashboardComponent.initialize();
   }
 
   #createContainer() {
@@ -57,6 +60,7 @@ export class AppControllerComponent extends BaseComponent {
         <button id="dashboardBtn">Dashboard</button> <!-- Add Dashboard button -->
         <button id="profileSettingsBtn">Profile Settings</button>
         <button id="eventFinalizationBtn">Event Finalization</button>
+        <button id="newEventsBtn">New Events</button>
         <button id="logout_btn">Log Out</button>
 
       </div>
@@ -76,6 +80,7 @@ export class AppControllerComponent extends BaseComponent {
     const eventFinalizationBtn = this.#container.querySelector(
       "#eventFinalizationBtn"
     );
+    const newEventsBtn = this.#container.querySelector("newEventsBtn");
     const logoutBtn = this.#container.querySelector("#logout_btn");
 
     homeBtn.addEventListener("click", () => this.#switchView("home"));
@@ -90,6 +95,7 @@ export class AppControllerComponent extends BaseComponent {
     eventFinalizationBtn.addEventListener("click", () =>
       this.#switchView("eventFinal")
     );
+    newEventsBtn.addEventListener('click', () => this.#switchView('newEvents'));
     logoutBtn.addEventListener("click", () => this.#hub.publish(Events.LogOut));
   }
 
@@ -117,6 +123,9 @@ export class AppControllerComponent extends BaseComponent {
         break;
       case "eventFinal":
         viewContainer.appendChild(this.#eventFinalizationComponent.render()); // Render EventFinalizationComponent
+        break;
+      case "newEvents":
+        viewContainer.appendChild(this.#newEventsComponent.render());
         break;
     }
   }
