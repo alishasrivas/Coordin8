@@ -59,3 +59,51 @@
 - **Link to Commit**: [Authentication Implementation] (https://github.com/alishasrivas/Coordin8/pull/55/commits/290838da5507204d496d78aaf7bd1169631caf2a)
 
 
+### Dec 3, 2024
+- **Task**: Added documentation on README.md on how to run backend properly
+- **Details**: Add documentation on README.md as required by milestone
+- **Link to Commit**: [Authentication Implementation] (https://github.com/alishasrivas/Coordin8/commit/dd80f26d50be7cc832882dac6a1781a27e830e0c)
+
+
+### Dec 4, 2024
+- **Task**: Finish Log Out API backend
+- **Details**: Finalized API and routes for Log Out functionalities on backend, ensured token is invalidated, have tested with API calls.
+- **Link to Commit**: [Log Out Back End Implementation] (https://github.com/alishasrivas/Coordin8/commit/54be74a414859d33f3ac85e8facadfacd002aff9)
+
+### Dec 4, 2024
+- **Task**: Finalized backend API for profile settings
+- **Details**: Finalized backend API for profile settings. Specifically, finished implementing the GET and API route and functionalities to fetch and make update call to user information.
+- **Link to Commit**: [Log Out Back End Implementation] (https://github.com/alishasrivas/Coordin8/commit/edfcee6a9544ee9187d47fd822e60a038a16394a)
+
+
+### Dec 5, 2024
+- **Task**: Added new component for switching between authentication components and main screen
+- **Details**: Finializaed CentralNavigationComponent, mapping necessary events and events tigger to make sure this will switch screen upon sucess log in or success log out.
+- **Link to Commit**: [Central Navigation Component] (https://github.com/alishasrivas/Coordin8/commit/24eac67a9cba0434fdb2026557323ba46c35e842)
+
+### Dec 6, 2024
+- **Task**: Completed front end authentication
+- **Details**: Complete front end authentication, include switching screen upon log in success or logout out success, switch screen between register form and log in form. Authentication on front end is now fully functioning.
+- **Link to Commit**: [Front End Authentication] (https://github.com/alishasrivas/Coordin8/commit/78b6c2629b8dc5b17421faecf6625f6008b2c56d)
+
+### Dec 8, 2024
+- **Task**: Finalized back end API for event deletion and event modification
+- **Details**: Fixed multiple errors in logic and routing of event deletion and modification of teammates. Finished and tested these 2 functionalities.
+- **Link to Commit**: [Finalized Event Modification and Deletion] (https://github.com/alishasrivas/Coordin8/commit/6a9ae5ebb889b7c9be5876344a85c84581ede6ce)
+
+### Dec 8, 2024
+- **Task**: Complete profile setting functionality on front end
+- **Details**: Completed mapping backend to front end component for profile setting. 
+- **Link to Commit**: [Finalized Profile Setting on front end] (https://github.com/alishasrivas/Coordin8/commit/b7ff9d57e621278f051b4a8a18797d5857c2b4be)
+
+
+### Dec 9, 2024
+- **Task**: Complete error handling and input validation for profile setting component
+- **Details**: Finished error handling and input validation (front end and backend ) for profile setting component
+- **Link to Commit**: [Finalized error handling and input validation] (https://github.com/alishasrivas/Coordin8/commit/e19774cfe77529832a84b0c45491e59e588b9c93)
+
+### Dec 10, 2024
+- **Task**: Complete error handling and input validation for authentication components
+- **Details**: Finished error handling and input validation (front end and backend ) for authentication components
+- **Link to Commit**: [Finalized error handling and input validation] (https://github.com/alishasrivas/Coordin8/commit/1e15e9b354f3aad7cb200b87f026cb0b6d0448ac)
+
