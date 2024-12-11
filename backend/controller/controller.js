@@ -56,19 +56,14 @@ export const register = async (req, res) => {
     } = req.body;
     // Check if the email is already taken
     if (await existsUser(email))
-      return res
-        .status(409)
-        .json({
-          message:
-            "Your email is linked to an existing account. Please log in.",
-        });
+      return res.status(409).json({
+        message: "Your email is linked to an existing account. Please log in.",
+      });
     if (await ExistUserName(username))
-      return res
-        .status(409)
-        .json({
-          message:
-            "Your username is linked to an existing account. Please log in.",
-        });
+      return res.status(409).json({
+        message:
+          "Your username is linked to an existing account. Please log in.",
+      });
     const hash = await bcrypt.hash(password, 10);
     await UserInstance.create({
       email,
@@ -94,11 +89,9 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await UserInstance.findOne({ where: { email } });
     if (!user) {
-      return res
-        .status(401)
-        .json({
-          message: "Email is not linked to any account, register first",
-        });
+      return res.status(401).json({
+        message: "Email is not linked to any account, register first",
+      });
     }
     if (!(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -156,6 +149,35 @@ export const createEvent = async (req, res) => {
   try {
     // Parse data from client
     const { title, description, invitees, event_time } = req.body;
+
+    // Validate that event_time is a valid JSON object or array
+    if (!Array.isArray(event_time) || event_time.length === 0) {
+      return res.status(400).json({
+        message: "Invalid event_time format. Must be a non-empty array.",
+      });
+    }
+    // Validate event_time structure
+    event_time.forEach((time) => {
+      if (!time.startTime || !time.endTime || !time.date) {
+        throw new Error(
+          "Each time object must include startTime, endTime, and date."
+        );
+      }
+    });
+    // Check if an event with the same title already exists for this user
+    const sameTitle = await EventInstance.findOne({
+      where: {
+        title,
+      },
+    });
+    if (sameTitle) {
+      // Inform user that the title is already used
+      console.log("Can't use the same event title more than once.");
+      return res.status(400).json({
+        message: "Can't use the same event title more than once.",
+      });
+    }
+
     // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
