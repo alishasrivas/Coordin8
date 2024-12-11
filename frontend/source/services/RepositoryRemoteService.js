@@ -285,10 +285,18 @@ export class RepositoryRemoteService extends Service {
         }),
       });
       if (!response.ok) {
+        // Await error message from backend
+        const data = await response.json();
+
+        // Handle 400 Bad Request
+        if (response.status === 400) {
+          alert(`Error: ${data.message}`);
+          throw new Error(data.message);
+        }
         // Handles non-OK responses: for a 409 Conflict, a new meeting is published. For other HTTP issues, an error is thrown
         if (response.status === 409) {
-          const data = await response.json();
           this.publish(Events.NewMeeting, data);
+          throw new Error(data.message);
         }
         throw new Error(
           `/events HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
