@@ -186,6 +186,8 @@ export class DashboardComponent extends BaseComponent {
     });
   }
   #handleDeleteEvent(eventId) {
-    this.#repositoryRemoteService.deleteEventInstance(eventId);
+    this.#repositoryRemoteService.deleteEventInstance(eventId).then(() => {
+      this.#loadEvents();
+    });
   }
 }
