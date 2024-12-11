@@ -55,7 +55,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 48%;
+  width: 100%;
 }
 
 .event-item:hover {
@@ -80,4 +80,44 @@
   margin-top: 15px;
   font-size: 14px;
   color: #999;
+}
+
+.event-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-details {
+  flex-grow: 1;
+}
+
+.event-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button.delete-event-button,
+button.edit-event-button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button.delete-event-button {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+button.edit-event-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+button.delete-event-button:hover,
+button.edit-event-button:hover {
+  opacity: 0.8;
 }

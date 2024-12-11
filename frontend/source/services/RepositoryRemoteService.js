@@ -348,6 +348,35 @@ export class RepositoryRemoteService extends Service {
     }
   }
 
+  async deleteEventInstance(eventId) {
+    try {
+      const cookie = getCookie("accessToken");
+      if (!cookie) {
+        throw new Error("No access token found");
+      }
+
+      const response = await fetch(`${BASE_URL}events/${eventId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(
+          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
+        );
+      }
+      console.log(
+        `/events/${eventId} ${response.status} ${response.statusText}`
+      );
+      return { success: true };
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      throw error;
+    }
+  }
+
   //TODO: register your events to litseners (to a backend callback) right here
   addSubscriptions() {
     try {
@@ -401,6 +430,15 @@ export class RepositoryRemoteService extends Service {
             alert("Event update failed");
         });
     });
+
+      this.subscribe(Events.UnStoreMeetings, (data) => {
+        this.deleteEventInstance(data)
+          .then((data) => alert("Event Deleted Successfully"))
+          .catch((error) => {
+            console.error(error);
+            alert("Deletion failed");
+          });
+      });
     } catch (error) {
       console.error("Error in addSubscriptions:", error);
       throw error;

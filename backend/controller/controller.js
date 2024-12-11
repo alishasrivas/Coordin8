@@ -19,7 +19,7 @@ const existsUser = async (email) => {
 const ExistUserName = async (username) => {
   const user = await UserInstance.findOne({ where: { username } });
   return user;
-}
+};
 
 export const checkUserExist = async (req, res) => {
   try {
@@ -27,19 +27,16 @@ export const checkUserExist = async (req, res) => {
     const user = await UserInstance.findOne({ where: { email } });
     if (user) {
       res.status(200).json({ status: true });
-    }
-    else {
+    } else {
       res.status(200).json({ status: false });
     }
-
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error checking if user exists:", error);
     res
       .status(500)
       .json(factoryResponse(500, "Internal Server Error at checkUserExist"));
   }
-}
+};
 
 //testing function
 export const test = async (req, res) => {
@@ -61,15 +58,17 @@ export const register = async (req, res) => {
     if (await existsUser(email))
       return res
         .status(409)
-        .json(
-          { message: "Your email is linked to an existing account. Please log in." }
-        );
+        .json({
+          message:
+            "Your email is linked to an existing account. Please log in.",
+        });
     if (await ExistUserName(username))
       return res
         .status(409)
-        .json(
-          { message: "Your username is linked to an existing account. Please log in." }
-        );
+        .json({
+          message:
+            "Your username is linked to an existing account. Please log in.",
+        });
     const hash = await bcrypt.hash(password, 10);
     await UserInstance.create({
       email,
@@ -97,9 +96,9 @@ export const login = async (req, res, next) => {
     if (!user) {
       return res
         .status(401)
-        .json(
-          { message: 'Email is not linked to any account, register first' }
-        );
+        .json({
+          message: "Email is not linked to any account, register first",
+        });
     }
     if (!(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -245,8 +244,6 @@ export const deleteEventInstance = async (req, res) => {
   }
 };
 
-
-
 // Creates a new EventParticipantInstance based on the user_id and event_id
 export const createEventParticipant = async (event_id, user_id) => {
   try {
@@ -286,11 +283,15 @@ export const updateUserProfile = async (req, res) => {
     });
 
     if (userEmail.user_id !== userId) {
-      return res.status(409).json({ message: "Email is already in use of another user" });
+      return res
+        .status(409)
+        .json({ message: "Email is already in use of another user" });
     }
 
     if (userUsername.user_id !== userId) {
-      return res.status(409).json({ message: "Username is already in use of another user" });
+      return res
+        .status(409)
+        .json({ message: "Username is already in use of another user" });
     }
 
     await UserInstance.update(
@@ -398,7 +399,7 @@ export const getUserEvents = async (req, res) => {
     console.error("Error getting user events:", error);
     res.status(500).json({ message: "Internal Server Error at getUserEvents" });
   }
-}
+};
 
 export const getOrganizedEvents = async (req, res) => {
   try {
@@ -407,19 +408,21 @@ export const getOrganizedEvents = async (req, res) => {
       where: { organizer_id: userId },
     });
 
-    const organizedEvents = events.map(event => ({
+    const organizedEvents = events.map((event) => ({
       title: event.title,
       description: event.description,
       event_time: event.event_time,
+      event_id: event.event_id,
     }));
 
     res.status(200).json(organizedEvents);
   } catch (error) {
     console.error("Error getting organized events:", error);
-    res.status(500).json({ message: "Internal Server Error at getOrganizedEvents" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at getOrganizedEvents" });
   }
 };
-
 
 // Callback function for getting all events where the user has accepted the invitation. First, we take the accepted events ids from the EventParticipantInstance table. Then, we get the details of the accepted events from the EventInstance table. Finally, we return the accepted events detail to the client.
 export const getAcceptedEvents = async (req, res) => {
@@ -429,13 +432,13 @@ export const getAcceptedEvents = async (req, res) => {
       where: { user_id: userId, status: true },
     });
 
-    const eventIds = acceptedEvents.map(event => event.event_id);
+    const eventIds = acceptedEvents.map((event) => event.event_id);
 
     const events = await EventInstance.findAll({
       where: { event_id: eventIds },
     });
 
-    const acceptedEventsDetail = events.map(event => ({
+    const acceptedEventsDetail = events.map((event) => ({
       title: event.title,
       description: event.description,
       event_time: event.event_time,
@@ -444,9 +447,11 @@ export const getAcceptedEvents = async (req, res) => {
     res.status(200).json(acceptedEventsDetail);
   } catch (error) {
     console.error("Error getting accepted events:", error);
-    res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error at getAcceptedEvents" });
   }
-}
+};
 //callback function for returning all events where user is a participant and has not selected status
 //GET route
 export const getUserNewEvents = async (req, res) => {
@@ -455,27 +460,25 @@ export const getUserNewEvents = async (req, res) => {
     const newEventParticipants = await EventParticipantInstance.findAll({
       where: {
         user_id: userId,
-        status: null
-      }
+        status: null,
+      },
     });
     const newEventIds = newEventParticipants.map((event) => event.event_id);
     const newEvents = [];
     for (let i = 0; i < newEventIds.length; i++) {
       const event = await EventInstance.findOne({
-        where: { event_id: newEventIds[i] }
+        where: { event_id: newEventIds[i] },
       });
       newEvents.push(event);
     }
-    res
-      .status(200)
-      .json({ newEvents });
+    res.status(200).json({ newEvents });
   } catch (error) {
     console.log("Error getting new events for user", error);
     res
       .status(500)
       .json({ message: "Internal server error at getUserNewEvents" });
   }
-}
+};
 
 //callback function for updating user status for a given event
 //POST route
@@ -487,9 +490,7 @@ export const updateUserStatus = async (req, res) => {
       { status: attending },
       { where: { event_id: eventId, user_id: userId } }
     );
-    res
-      .status(200)
-      .json({ updateStatus });
+    res.status(200).json({ updateStatus });
   } catch (error) {
     console.log("Error updating status for user", error);
     res
