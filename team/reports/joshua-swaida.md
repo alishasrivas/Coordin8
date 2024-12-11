@@ -89,3 +89,40 @@
 - **Task**: Implemented Event Creation Route in backend
 - **Details**: I created the /events route in routes.js to handle event creation requests. I ensured only clients with a valid JWT can make a POST request to this route. Additionally, I implemented the createEvent function in controller.js as the callback for the /events route. On successful requests, the server stores the newly created event in the Sequelize database and sends a success message to the client. On failed requests, the server sends a failure message to the client.
 - **Link to Commit**: [Commit for clarifying EventCreation time/date input format](https://github.com/alishasrivas/Coordin8/pull/60/commits/8518d1bf151d2a2a2735f44e43ab37a98623a16e)
+
+### December 6, 2024
+
+- **Task**: Implemented backend logic for EventParticipant creation and invitee email validation
+- **Details**: I updated createEvent callback function and handled EventParticipant creation and invitee email validation.
+- **Link to Commit**: [Commit for createEventParticipant helper function](https://github.com/alishasrivas/Coordin8/pull/74/commits/8aec58447fae795c8ad2e3f68c3a819f304594f5)
+
+### December 8, 2024
+
+- **Task**: Updated Event Participant Creation "status" field and organizer_id handling
+- **Details**: In createEvent callback function, I updated the "accepted" field of EventParticipant to "status" in order to reflect the EventParticipantModel. I also refactored organizer_id handling in the createEvent function to use req.user.user_id instead of passing it from the frontend.
+- **Link to Commit**: [Commit for refactored organizer_id handling](https://github.com/alishasrivas/Coordin8/pull/90/commits/b395e7d6854c4bdf82ffccb745e3b292f4ea59f1)
+
+### December 9, 2024
+
+- **Task**: Implemented Front-End Integration for EventCreation 
+- **Details**: Integrated the EventCreationComponent on the frontend with the backend POST /events API, enabling event creation functionality. Users can submit event details through the UI, and the data will be sent to the backend using the fetch API.
+- **Link to Commit**: [Commit for createEvent function in RepositoryRemoteService.js](https://github.com/alishasrivas/Coordin8/pull/95/commits/49223530eba48f3c8eda8c5f6c541e7490f6b934)
+
+### December 10, 2024
+
+- **Task**: Fixed Dashboard and EventCreation bug in RepositoryRemoteService  
+- **Details**: Fixed some small bugs in RepositoryRemoteService.js (some functions were accidentally deleted during an earlier merge, so I added them back).
+- **Link to Commit**: [Commit for bug fix](https://github.com/alishasrivas/Coordin8/pull/114/commits/fb70d4bb751f2db5baa0befdf36be46806e56284)
+
+### December 10, 2024
+
+- **Task**: Worked with Alisha to complete Frontend Integration for Event Deletion  
+- **Details**: We added event listeners to some delete button corresponding to each event in the dashboard. When delete button is clicked, a new Event is published: UnStoreMeeting. Note: Alisha implemented deleteEventInstance in RepositoryRemoteService and attached event listeners to the delete buttons corresponding to all of the "accepted events" in DashBoardComponent.js. I had to copy her changes over to a new branch and create a new Pull Request because her original PR had lots of complex merge conflicts. I also just fixed some bugs in her code and added some things (I added the catch part in deleteEventInstance).
+- **Link to Commit**: [Commit for initial event deletion integration](https://github.com/alishasrivas/Coordin8/pull/119/commits/ab0c94b7ccfbd297c3ba4d796bdcb5abb6e17ba8)
+
+### December 10, 2024
+
+- **Task**: Worked with Bach to Re-render Dashboard after Event Deletion and fix Event Deletion errors 
+- **Details**: We added event listeners to all delete button corresponding to each event in the dashboard. After delete button is clicked, the event is correctly deleted in backend and the dashboard re-renders. 
+- **Link to Commit**: [Commit for final/improved event deletion integration](https://github.com/alishasrivas/Coordin8/pull/122/commits/82ef3fe5746cd1aebb2f00574b9f6970e4a28ff2)
+
