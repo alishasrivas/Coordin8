@@ -130,6 +130,51 @@ export class RepositoryRemoteService extends Service {
         }
     }
 
+    async updateEvent(eventId, { title, description, invitees, event_time }) {
+      try {
+          // Retrieve JWT token from cookies for authentication
+          const token = getCookie("accessToken");
+          if (!token) {
+              throw new Error("No access token found");
+          }
+
+
+          // Send a PATCH request to the backend to update the event
+          const response = await fetch(BASE_URL + "events/" + eventId, {
+              method: "PATCH",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                  title: title,
+                  description: description,
+                  invitees: invitees,
+                  event_time: event_time,
+              }),
+          });
+
+
+          if (!response.ok) {
+              // Handle non-OK responses
+              throw new Error(
+                  `/events/${eventId} HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
+              );
+          }
+
+
+          // On successful event update, display success message and return event details
+          const data = await response.json();
+          console.log(`/events/${eventId} ${response.status} ${response.statusText}`);
+          alert("Event updated successfully");
+          return data;
+      } catch (error) {
+          console.error("Error updating event:", error);
+          throw error;
+      }
+  }
+
+
 
     //TODO: register your events to litseners (to a backend callback) right here
     addSubscriptions() {
@@ -151,6 +196,15 @@ export class RepositoryRemoteService extends Service {
             this.subscribe(Events.Register, (data) => {
                 this.register(data).then(data => alert("Register Successfully")).catch((error) => {
                     console.error(error);
+                });
+            });
+
+            this.subscribe(Events.EventUpdate, (data) => {
+                this.updateEvent(data.eventId, data.updatedEvent)
+                    .then((data) => alert("Event updated successfully"))
+                .catch((error) => {
+                    console.error(error);
+                    alert("Event update failed");
                 });
             });
         } catch (error) {

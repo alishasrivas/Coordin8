@@ -269,23 +269,34 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+// Updates event attributes as details given by user given event_id
 export const updateEvent = async (req, res) => {
   try {
-    const eventId = req.params.id;
-    const updateData = req.body;
-
-    // Update the event in the database
-    const [updatedCount] = await EventInstance.update(updateData, {
-      where: { event_id: eventId },
-    });
-
-    if (updatedCount === 0) {
-      return res.status(404).json(factoryResponse(404, "Event not found or no changes made"));
-    }
-
-    res.status(200).json(factoryResponse(200, "Event updated successfully"));
+    const eventId = req.params.eventid
+    const {
+      title,
+      description,
+      invitees,
+      event_time
+    } = req.body;
+    await EventInstance.update(
+      {
+        title,
+        description,
+        invitees,
+        event_time,
+        organizer_id: req.user.user_id,
+      },
+      {
+        where: { event_id: eventId },
+      }
+    );
+    console.log("Event updated!")
+    res.status(200).json(factoryResponse(200, "Your event has been updated!"))
   } catch (error) {
-    console.error("Update event error:", error);
-    res.status(500).json(factoryResponse(500, "Internal server error during event update"));
+    console.error("Error:", error);
+    res.status(500).json(factoryResponse(500, "Internal Server Error at updateEvent"))
   }
-};
+ };
+ 
+

@@ -1,15 +1,20 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
+import { EventHub } from "../../eventhub/EventHub.js";
+import { Events } from "../../eventhub/Events.js";
+
 
 export class EventModificationComponent extends BaseComponent {
   #events = null;
   #container = null;
   #invitees = [];
+  #eventHub = null;
 
   constructor(events, container) {
     super();
     this.loadCSS("EventModificationComponent");
     this.#events = events;
     this.#container = container;
+    this.#eventHub = new EventHub();
   }
 
   render() {
@@ -150,14 +155,26 @@ export class EventModificationComponent extends BaseComponent {
 
     const eventIndex = this.#events.findIndex(event => event.name === eventName);
     if (eventIndex > -1) {
-      this.#events[eventIndex].name = updatedName;
-      this.#events[eventIndex].description = updatedDescription;
-      this.#events[eventIndex].times[0].date = updatedDate;
-      this.#events[eventIndex].times[0].startTime = updatedStartTime;
-      this.#events[eventIndex].times[0].endTime = updatedEndTime;
-      this.#events[eventIndex].invitees = this.#invitees;
-      alert(`Event "${eventName}" updated successfully!`);
-      this.#updateEventsList(); // Refresh the list view after saving
+      const updatedEventData = {
+        title: updatedName,
+        description: updatedDescription,
+        event_time: [
+          {
+            date: updatedDate,
+            startTime: updatedStartTime,
+            endTime: updatedEndTime
+          }
+        ],
+        invitees: this.#invitees
+      };
+  
+      // Use eventHub instance to publish
+      this.#eventHub.publish(Events.EventUpdate, { eventId: eventName, updatedEvent: updatedEventData });
+  
+      alert(`Event "${updatedName}" updated successfully!`);
+      this.#updateEventsList();
+    } else {
+      alert("Event not found. Please try again.");
     }
   }
 }

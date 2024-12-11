@@ -40,6 +40,7 @@ export const Events = {
   LogOutSuccess: 'LogOutSucess', //change from home page to log in page
   LogOut: 'LogOut',
   Register: 'Register',
+  EventUpdate: "EventUpdate",
 
   //Switching between Register and LogIn View
   LogInToRegister: 'LogInToRegister',

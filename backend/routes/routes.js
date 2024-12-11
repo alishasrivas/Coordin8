@@ -29,7 +29,7 @@ router.get("/protected", authenticatedJWT, (req, res) => {
 // When an HTTP POST request is made to the /events endpoint with a valid JWT, the createEvent function will be called
 router.post("/events", authenticatedJWT, createEvent);
 
-router.put("/events/:id", authenticatedJWT, updateEvent);
+router.patch("/events/:id", authenticatedJWT, updateEvent);
 
 
 //endpoints for profile settings features
