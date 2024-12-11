@@ -1,6 +1,7 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { RepositoryRemoteService } from "../../services/RepositoryRemoteService.js";
 import { EventHub } from "../../eventhub/EventHub.js";
+import { Events } from "../../eventhub/Events.js";
 
 export class DashboardComponent extends BaseComponent {
   #organizedEvents = [];
@@ -185,6 +186,12 @@ export class DashboardComponent extends BaseComponent {
           this.#handleDeleteEvent(eventId);
         });
       acceptedEventsList.appendChild(listItem);
+      listItem
+        .querySelector(".edit-event-button")
+        .addEventListener("click", (e) => {
+          const eventId = e.target.getAttribute("data-event-id");
+          this.#handleEditEvent(eventId);
+      });
     });
   }
   #handleDeleteEvent(eventName) {

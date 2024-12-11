@@ -1,6 +1,7 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { EventHub } from "../../eventhub/EventHub.js";
 import { Events } from "../../eventhub/Events.js";
+import { RepositoryRemoteService } from "../../services/RepositoryRemoteService.js";
 
 
 export class EventModificationComponent extends BaseComponent {
@@ -8,13 +9,23 @@ export class EventModificationComponent extends BaseComponent {
   #container = null;
   #invitees = [];
   #eventHub = null;
+  #repositoryRemoteService = null;
+  #currentEventId = null;
 
   constructor(events, container) {
     super();
     this.loadCSS("EventModificationComponent");
     this.#events = events;
     this.#container = container;
-    this.#eventHub = new EventHub();
+    this.#eventHub = EventHub.getInstance();
+    this.#repositoryRemoteService = new RepositoryRemoteService();
+    this.addSubscriptions();
+  }
+
+  addSubscriptions() {
+    this.#eventHub.subscribe(Events.UpdateEvent, (event) => {
+      this.openEditScreen(event);
+    });
   }
 
   render() {
