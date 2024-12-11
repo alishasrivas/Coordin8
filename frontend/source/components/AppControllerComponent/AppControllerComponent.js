@@ -25,7 +25,6 @@ export class AppControllerComponent extends BaseComponent {
     this.#hub = EventHub.getInstance();
     this.#eventCreationComponent = new EventCreationComponent();
     this.#homeComponent = new HomeComponent();
-    this.#dashboardComponent = new DashboardComponent(); // Create an instance of DashboardComponent
     this.#profileSetting = new ProfileSettingComponent();
     this.#eventFinalizationComponent = new EventFinalizationComponent();
     this.#hub.subscribe(Events.LogInSuccess, this.#onLogInSuccess.bind(this));
@@ -39,7 +38,8 @@ export class AppControllerComponent extends BaseComponent {
   }
 
   async #onLogInSuccess() {
-    this.#dashboardComponent.initialize();
+    this.#dashboardComponent = new DashboardComponent();
+    await this.#dashboardComponent.initialize();
   }
 
   #createContainer() {
