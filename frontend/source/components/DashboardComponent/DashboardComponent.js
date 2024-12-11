@@ -126,13 +126,23 @@ export class DashboardComponent extends BaseComponent {
               .join("")}
           </div>
           <div class="event-buttons">
-            <button class="delete-event-button" data-event-id="${
-              event.event_id
-            }">Delete</button>
-            <button class="edit-event-button">Edit</button>
+            <button class="delete-event-button" data-event-id="${event.event_id}">Delete</button>
+            <button class="edit-event-button" data-event-id="${event.event_id}">Edit</button>
           </div>
         </div>
       `;
+
+      // Add event listeners for both buttons
+      listItem.querySelector(".delete-event-button").addEventListener("click", (e) => {
+        const eventId = e.target.getAttribute("data-event-id");
+        this.#handleDeleteEvent(eventId);
+      });
+
+      listItem.querySelector(".edit-event-button").addEventListener("click", (e) => {
+        const eventId = e.target.getAttribute("data-event-id");
+        this.#handleEditEvent(eventId);
+      });
+
       organizedEventsList.appendChild(listItem);
     });
 
@@ -181,5 +191,12 @@ export class DashboardComponent extends BaseComponent {
     this.#hub.publish(Events.UnStoreMeetings, {
       eventName: eventName,
     });
+  }
+
+  #handleEditEvent(eventId) {
+    const eventToEdit = this.#organizedEvents.find(event => event.event_id === eventId);
+    if (eventToEdit) {
+      this.#hub.publish(Events.EventUpdate, eventToEdit);
+    }
   }
 }
