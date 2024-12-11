@@ -169,7 +169,7 @@ export class RepositoryRemoteService extends Service {
 
   async getNewEvents() {
     try {
-      const token = this.getCookie("accessToken");
+      const token = getCookie("accessToken");
       if (!token) {
         throw new Error("no access token found");
       }
