@@ -237,6 +237,33 @@ export class RepositoryRemoteService extends Service {
     }
   }
 
+  async getAcceptedEvents() {
+    try {
+      const token = getCookie("accessToken");
+      console.log(token);
+      if (!token) {
+        throw new Error("No access token found");
+      }
+      const response = await fetch(BASE_URL + "acceptedEvents", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(
+          `HTTP Status: ${response.status}, HTTP Status Text: ${response.statusText}`
+        );
+      }
+      const data = await response.json();
+      console.log(`/acceptedEvents ${response.status} ${response.statusText}`);
+      return data;
+    } catch (error) {
+      console.error("Error getting accepted events:", error);
+      throw error;
+    }
+  }
+
   // createEvent sends a POST request to the backend /events endpoint with event details. On success, a new event is created. On failure, an error message displays
   async createEvent({ title, description, invitees, event_time }) {
     try {
