@@ -29,7 +29,6 @@ export class EventFinalizationComponent extends BaseComponent {
     this.#container = document.createElement("div");
     this.#container.classList.add("event-finalization-container");
     this.#container.innerHTML = this.#getTemplate();
-    console.log("Container created:", this.#container);
   }
 
   async #fetchAvailabilityData() {
@@ -81,7 +80,6 @@ export class EventFinalizationComponent extends BaseComponent {
       }
     ];
     this.#filteredData = this.#availabilityData;
-    console.log("Fetched availability data:", this.#availabilityData);
     this.#updateAvailabilityList();
     this.#sortByName();
   }
@@ -89,7 +87,6 @@ export class EventFinalizationComponent extends BaseComponent {
   #updateAvailabilityList() {
     const availabilityList = this.#container.querySelector("#availability-list");
     availabilityList.innerHTML = this.#filteredData.map(this.#getAvailabilityTemplate).join('');
-    console.log("Updated availability list:", availabilityList.innerHTML);
     this.#attachTimeSelectionListeners();
   }
 
@@ -178,7 +175,6 @@ export class EventFinalizationComponent extends BaseComponent {
       this.#selectedTimes.set(eventName, timeIndex);
     }
 
-    console.log("Selected times:", this.#selectedTimes);
   }
 
   async #handleFinalize() {
@@ -201,7 +197,6 @@ export class EventFinalizationComponent extends BaseComponent {
       for (const event of finalizedEvents) {
         await this.#meetingRepositoryService.storeFinalizedEvent(event);
       }
-      console.log("Finalized times:", this.#selectedTimes);
       alert("Event day/time finalized and stored!");
     } catch (error) {
       console.error("Error finalizing events:", error);

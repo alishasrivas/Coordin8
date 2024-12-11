@@ -23,7 +23,6 @@ export const Events = {
   SwitchToAvailabilityView: 'SwitchToAvailabilityView',
   SwitchToSettingsView: 'SwitchToSettingsView',
   SwitchToAuthenticationView: 'SwitchToAuthenticationView',
-  SwitchToFriendsListView: 'SwitchToFriendsListView',
   SwitchToDateFinalizationView: 'SwitchToDateFinalizationView',
 
   //profile settings event
@@ -45,5 +44,13 @@ export const Events = {
   //Switching between Register and LogIn View
   LogInToRegister: 'LogInToRegister',
   RegisterToLogIn: 'RegisterToLogIn',
+
+  //Error handling events for profile settings
+  DuplicateUser: 'DuplicateUser',
+
+  //Error handling for authentication events
+  BackEndLogInFailure: 'BackEndLogInFailure',
+  RegisterBackEndFailure: 'RegisterBackEndFailure',
+
 
 };

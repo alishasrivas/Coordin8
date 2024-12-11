@@ -9,12 +9,37 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 //!define main logic and functions for backend here
-//load environemtn variables
+//load environment variables
 dotenv.config({ path: "../.env" });
 const existsUser = async (email) => {
   const user = await UserInstance.findOne({ where: { email } });
   return user;
 };
+
+const ExistUserName = async (username) => {
+  const user = await UserInstance.findOne({ where: { username } });
+  return user;
+}
+
+export const checkUserExist = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await UserInstance.findOne({ where: { email } });
+    if (user) {
+      res.status(200).json({ status: true });
+    }
+    else {
+      res.status(200).json({ status: false });
+    }
+
+  }
+  catch (error) {
+    console.error("Error checking if user exists:", error);
+    res
+      .status(500)
+      .json(factoryResponse(500, "Internal Server Error at checkUserExist"));
+  }
+}
 
 //testing function
 export const test = async (req, res) => {
@@ -25,13 +50,25 @@ export const test = async (req, res) => {
 // This route creates a new user in the database.
 export const register = async (req, res) => {
   try {
-    const { email, password, username, primary_time_zone, notificationPreferences } = req.body;
+    const {
+      email,
+      password,
+      username,
+      primary_time_zone,
+      notificationPreferences,
+    } = req.body;
     // Check if the email is already taken
     if (await existsUser(email))
       return res
-        .status(400)
+        .status(409)
         .json(
-          factoryResponse(400, "Your email is linked to an existing account")
+          { message: "Your email is linked to an existing account. Please log in." }
+        );
+    if (await ExistUserName(username))
+      return res
+        .status(409)
+        .json(
+          { message: "Your username is linked to an existing account. Please log in." }
         );
     const hash = await bcrypt.hash(password, 10);
     await UserInstance.create({
@@ -39,7 +76,7 @@ export const register = async (req, res) => {
       password: hash,
       username,
       primary_time_zone,
-      notificationPreferences
+      notificationPreferences,
     });
     res.json(factoryResponse(200, "Registration successful"));
     console.log("User registered successfully");
@@ -61,21 +98,24 @@ export const login = async (req, res, next) => {
       return res
         .status(401)
         .json(
-          factoryResponse(401, "User had not existed, please register first")
+          { message: 'Email is not linked to any account, register first' }
         );
     }
     if (!(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json(factoryResponse(401, "Invalid credentials"));
+      return res.status(401).json({ message: "Invalid email or password" });
     }
     //everything is ok now proceeds to include tokens for response
     process.env["JWT_SECRET_KEY"] = randomBytes(16).toString("hex");
     // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     //   expiresIn: "1h",
     // });
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1h",
-    });
-
+    const token = jwt.sign(
+      { user_id: user.user_id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.json({
       status: 200,
       message: "Login successful",
@@ -92,6 +132,7 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
   //this will attempt to destroy session and invalidate the token, on the front end we will also remove the token from cookie to make sure
   try {
+    console.log(`Log Out route: current user id ${req.user.user_id}`);
     req.session.destroy((err) => {
       if (err) {
         console.error("Error destroying session:", err);
@@ -115,14 +156,13 @@ export const logout = (req, res) => {
 export const createEvent = async (req, res) => {
   try {
     // Parse data from client
-    const { title, description, invitees, event_time, organizer_id } = req.body;
-
+    const { title, description, invitees, event_time } = req.body;
     // Creates a new event and inserts record into the database using Sequelize
     const event = await EventInstance.create({
       title,
       description,
       event_time,
-      organizer_id,
+      organizer_id: req.user.user_id,
       invitees,
     });
 
@@ -189,6 +229,24 @@ export const createEvent = async (req, res) => {
   }
 };
 
+//Deletes an EventInstance
+export const deleteEventInstance = async (req, res) => {
+  try {
+    const event_id = req.params.eventid;
+    await EventInstance.destroy({
+      where: { event_id },
+    });
+    res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    return res
+      .status(500)
+      .json({ message: "Sever error: Failed to delete EventInstance" });
+  }
+};
+
+
+
 // Creates a new EventParticipantInstance based on the user_id and event_id
 export const createEventParticipant = async (event_id, user_id) => {
   try {
@@ -196,7 +254,7 @@ export const createEventParticipant = async (event_id, user_id) => {
     const eventParticipant = await EventParticipantInstance.create({
       event_id,
       user_id,
-      accepted: null, // accepted should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
+      status: null, // status should be initialized to null, because the event participant hasn't accepted or rejected the invitation yet
     });
     return eventParticipant;
   } catch (error) {
@@ -209,7 +267,7 @@ export const createEventParticipant = async (event_id, user_id) => {
 
 export const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id; //access dynamic parameter
+    const userId = req.user.user_id; //access dynamic parameter
     const {
       username,
       email,
@@ -217,7 +275,24 @@ export const updateUserProfile = async (req, res) => {
       secondary_time_zone,
       notificationPreferences,
     } = req.body;
-    console.log("Loaded variable");
+    //check if email or username belongs to another user
+
+    const userEmail = await UserInstance.findOne({
+      where: { email },
+    });
+
+    const userUsername = await UserInstance.findOne({
+      where: { username },
+    });
+
+    if (userEmail.user_id !== userId) {
+      return res.status(409).json({ message: "Email is already in use of another user" });
+    }
+
+    if (userUsername.user_id !== userId) {
+      return res.status(409).json({ message: "Username is already in use of another user" });
+    }
+
     await UserInstance.update(
       {
         username,
@@ -230,7 +305,6 @@ export const updateUserProfile = async (req, res) => {
         where: { user_id: userId },
       }
     );
-    console.log("Reached here");
   } catch (error) {
     console.error("Error updating user profile:", error);
     res
@@ -241,7 +315,7 @@ export const updateUserProfile = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.user_id;
     const userProfile = await UserInstance.findOne({
       where: { user_id: userId },
     });
@@ -300,3 +374,126 @@ export const updateEvent = async (req, res) => {
  };
  
 
+
+// callback function for getting all events 
+
+export const getUserEvents = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Get events where the user is the organizer
+    const organizedEvents = await EventInstance.findAll({
+      where: { organizer_id: userId },
+      include: EventParticipantInstance,
+    });
+
+    // Get events where the user has accepted the invitation
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, status: true },
+      include: EventInstance,
+    });
+
+    res.status(200).json({ organizedEvents, acceptedEvents });
+  } catch (error) {
+    console.error("Error getting user events:", error);
+    res.status(500).json({ message: "Internal Server Error at getUserEvents" });
+  }
+}
+
+export const getOrganizedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const events = await EventInstance.findAll({
+      where: { organizer_id: userId },
+    });
+
+    const organizedEvents = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(organizedEvents);
+  } catch (error) {
+    console.error("Error getting organized events:", error);
+    res.status(500).json({ message: "Internal Server Error at getOrganizedEvents" });
+  }
+};
+
+
+// Callback function for getting all events where the user has accepted the invitation. First, we take the accepted events ids from the EventParticipantInstance table. Then, we get the details of the accepted events from the EventInstance table. Finally, we return the accepted events detail to the client.
+export const getAcceptedEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const acceptedEvents = await EventParticipantInstance.findAll({
+      where: { user_id: userId, status: true },
+    });
+
+    const eventIds = acceptedEvents.map(event => event.event_id);
+
+    const events = await EventInstance.findAll({
+      where: { event_id: eventIds },
+    });
+
+    const acceptedEventsDetail = events.map(event => ({
+      title: event.title,
+      description: event.description,
+      event_time: event.event_time,
+    }));
+
+    res.status(200).json(acceptedEventsDetail);
+  } catch (error) {
+    console.error("Error getting accepted events:", error);
+    res.status(500).json({ message: "Internal Server Error at getAcceptedEvents" });
+  }
+}
+//callback function for returning all events where user is a participant and has not selected status
+//GET route
+export const getUserNewEvents = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+    const newEventParticipants = await EventParticipantInstance.findAll({
+      where: {
+        user_id: userId,
+        status: null
+      }
+    });
+    const newEventIds = newEventParticipants.map((event) => event.event_id);
+    const newEvents = [];
+    for (let i = 0; i < newEventIds.length; i++) {
+      const event = await EventInstance.findOne({
+        where: { event_id: newEventIds[i] }
+      });
+      newEvents.push(event);
+    }
+    res
+      .status(200)
+      .json({ newEvents });
+  } catch (error) {
+    console.log("Error getting new events for user", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error at getUserNewEvents" });
+  }
+}
+
+//callback function for updating user status for a given event
+//POST route
+export const updateUserStatus = async (req, res) => {
+  try {
+    const { eventId, attending } = req.body;
+    userId = req.user.user_id;
+    const updateStatus = await EventParticipantInstance.update(
+      { status: attending },
+      { where: { event_id: eventId, user_id: userId } }
+    );
+    res
+      .status(200)
+      .json({ updateStatus });
+  } catch (error) {
+    console.log("Error updating status for user", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error at updateUserStatus" });
+  }
+}

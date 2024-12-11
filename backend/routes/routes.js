@@ -8,8 +8,15 @@ import {
     test,
     createEvent,
     updateUserProfile,
-    getUserProfile, 
-    updateEvent
+    getUserProfile,
+    checkUserExist,
+    getUserEvents,
+    getOrganizedEvents,
+    getAcceptedEvents,
+    deleteEventInstance,
+    updateEvent,
+    getUserNewEvents,
+    updateUserStatus
 } from "../controller/controller.js";
 import { isAuthenticated, authenticatedJWT } from "../middleware/middleware.js";
 
@@ -33,6 +40,18 @@ router.patch("/events/:id", authenticatedJWT, updateEvent);
 
 
 //endpoints for profile settings features
-router.patch('/userInfo/:id', authenticatedJWT, updateUserProfile);
-router.get('/userInfo/:id', authenticatedJWT, getUserProfile);
+router.patch('/userInfo', authenticatedJWT, updateUserProfile);
+router.get('/userInfo', authenticatedJWT, getUserProfile);
+
+// endpoint for getting all events that have true accepted value and same user_id as the token
+router.get('/getUserEvents/:id', authenticatedJWT, getUserEvents);
+
+router.get('/organizedEvents', authenticatedJWT, getOrganizedEvents);
+router.get('/acceptedEvents', authenticatedJWT, getAcceptedEvents);
+router.post('/checkEmail', authenticatedJWT, checkUserExist);
+
+//endpoints for event finalization
+router.get("/newEvents", authenticatedJWT, getUserNewEvents);
+router.post("/finalize", authenticatedJWT, updateUserStatus);
+
 export default router;
