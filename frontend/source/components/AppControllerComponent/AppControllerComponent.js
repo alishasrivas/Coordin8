@@ -5,7 +5,7 @@ import { EventHub } from "../../eventhub/EventHub.js";
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { ProfileSettingComponent } from "../ProfileSettingComponent/ProfileSettingComponent.js";
 import { EventFinalizationComponent } from "../EventFinalizationComponent/EventFinalizationComponent.js";
-import { NewEventsComponent } from "../NewEventsComponent/NewEventsComponent.js";
+import { NewEventsComponent } from "../NewEventComponent/NewEventsComponent.js";
 import { Events } from "../../eventhub/Events.js";
 //!Global variable to check whether user logs in or not
 export class AppControllerComponent extends BaseComponent {
@@ -80,7 +80,7 @@ export class AppControllerComponent extends BaseComponent {
     const eventFinalizationBtn = this.#container.querySelector(
       "#eventFinalizationBtn"
     );
-    const newEventsBtn = this.#container.querySelector("newEventsBtn");
+    const newEventsBtn = this.#container.querySelector("#newEventsBtn");
     const logoutBtn = this.#container.querySelector("#logout_btn");
 
     homeBtn.addEventListener("click", () => this.#switchView("home"));
