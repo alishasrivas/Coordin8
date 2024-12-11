@@ -185,9 +185,7 @@ export class DashboardComponent extends BaseComponent {
       acceptedEventsList.appendChild(listItem);
     });
   }
-  #handleDeleteEvent(eventName) {
-    this.#hub.publish(Events.UnStoreMeetings, {
-      eventName: eventName,
-    });
+  #handleDeleteEvent(eventId) {
+    this.#repositoryRemoteService.deleteEventInstance(eventId);
   }
 }
