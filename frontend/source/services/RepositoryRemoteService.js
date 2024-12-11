@@ -308,8 +308,8 @@ export class RepositoryRemoteService extends Service {
 
   async deleteEventInstance(eventId) {
     try {
-      const cookie = getCookie("accessToken");
-      if (!cookie) {
+      const token = getCookie("accessToken");
+      if (!token) {
         throw new Error("No access token found");
       }
 
