@@ -146,6 +146,15 @@ export class EventModificationComponent extends BaseComponent {
     });
   }
 
+  #publishNewEvent(eventName, eventDescription, invitees, times) {
+    const hub = EventHub.getInstance();
+    // Publish a NewMeeting event with all necessary data
+    hub.publish(Events.NewMeeting, {eventName, eventDescription, invitees, times });
+    // Publish a StoreMeeting event with all necessary data
+    hub.publish(Events.StoreMeeting, {eventName, eventDescription, invitees, times });
+  }
+
+
   #saveEventChanges(eventName) {
     const updatedName = this.#container.querySelector("#eventName").value;
     const updatedDescription = this.#container.querySelector("#eventDescription").value;
@@ -169,7 +178,7 @@ export class EventModificationComponent extends BaseComponent {
       };
   
       // Use eventHub instance to publish
-      this.#eventHub.publish(Events.EventUpdate, { eventId: eventName, updatedEvent: updatedEventData });
+      this.#publishNewEvent(updatedName, updatedDescription, this.#invitees, updatedEventData);
   
       alert(`Event "${updatedName}" updated successfully!`);
       this.#updateEventsList();
