@@ -1,6 +1,7 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { RepositoryRemoteService } from "../../services/RepositoryRemoteService.js";
 import { EventHub } from "../../eventhub/EventHub.js";
+import { Events } from "../../eventhub/Events.js";
 
 export class DashboardComponent extends BaseComponent {
   #organizedEvents = [];
