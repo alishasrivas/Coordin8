@@ -96,7 +96,6 @@ export class DashboardComponent extends BaseComponent {
   #addEvents() {
     // Add organized and accepted events to the respective lists
     const organizedEventsList = this.#container.querySelector("#organized-events-list");
-    console.log('Organized Events:', this.#organizedEvents);
     if (!organizedEventsList) {
       console.error('Organized events list element not found');
       return;
@@ -125,7 +124,6 @@ export class DashboardComponent extends BaseComponent {
     });
   
     const acceptedEventsList = this.#container.querySelector("#accepted-events-list");
-    console.log('Accepted Events:', this.#acceptedEvents);
     if (!acceptedEventsList) {
       console.error('Accepted events list element not found');
       return;

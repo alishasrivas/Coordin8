@@ -214,7 +214,6 @@ export class RepositoryRemoteService extends Service {
   async getOrganizedEvents() {
     try {
       const token = getCookie("accessToken");
-      console.log(token);
       if (!token) {
         throw new Error("No access token found");
       }
@@ -240,7 +239,6 @@ export class RepositoryRemoteService extends Service {
   async getAcceptedEvents() {
     try {
       const token = getCookie("accessToken");
-      console.log(token);
       if (!token) {
         throw new Error("No access token found");
       }
