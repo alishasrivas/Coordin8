@@ -409,6 +409,7 @@ export const getOrganizedEvents = async (req, res) => {
       title: event.title,
       description: event.description,
       event_time: event.event_time,
+      event_id: event.event_id
     }));
 
     res.status(200).json(organizedEvents);

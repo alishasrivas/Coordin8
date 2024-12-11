@@ -1,15 +1,18 @@
 import { BaseComponent } from "../BaseComponent/BaseComponent.js";
 import { RepositoryRemoteService } from "../../services/RepositoryRemoteService.js";
+import { EventHub } from "../../eventhub/EventHub.js";
 
 export class DashboardComponent extends BaseComponent {
   #organizedEvents = [];
   #acceptedEvents = [];
   #container = null;
+  #hub = null;
 
   #repositoryRemoteService = new RepositoryRemoteService();
   constructor() {
     super();
     this.loadCSS("DashboardComponent");
+    this.#hub = EventHub.getInstance();
   }
 
   async initialize() {
@@ -104,19 +107,20 @@ export class DashboardComponent extends BaseComponent {
     this.#organizedEvents.forEach(event => {
       const listItem = document.createElement('li');
       listItem.classList.add('event-item');
+      listItem.id = event.event_id; // Set a unique ID for the <li>
       listItem.innerHTML = `
         <div class="event-content">
           <div class="event-details">
             <h3>Event title: ${event.title}</h3>
             <p>Description: ${event.description}</p>
             ${event.event_time.map(time => `
-              <p>Start Time: ${time.startTime}</p>
-              <p>End Time: ${time.endTime}</p>
-              <p>Date: ${time.date}</p>
+          <p>Start Time: ${time.startTime}</p>
+          <p>End Time: ${time.endTime}</p>
+          <p>Date: ${time.date}</p>
             `).join('')}
           </div>
           <div class="event-buttons">
-            <button class="delete-event-button">Delete</button>
+            <button class="delete-event-button" data-event-id="${event.event_id}">Delete</button>
             <button class="edit-event-button">Edit</button>
           </div>
         </div>
@@ -150,7 +154,16 @@ export class DashboardComponent extends BaseComponent {
           </div>
         </div>
       `;
+      listItem.querySelector('.delete-event-button').addEventListener('click', (e) => {
+        const eventId = e.target.getAttribute('data-event-id');
+        this.#handleDeleteEvent(eventId);
+      });
       acceptedEventsList.appendChild(listItem);
     });
+  }
+  #handleDeleteEvent(eventName) {
+        this.#hub.publish(Events.UnStoreMeetings, {
+        eventName: eventName,
+        });
   }
 }
