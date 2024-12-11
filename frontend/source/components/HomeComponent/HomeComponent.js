@@ -40,7 +40,6 @@ export class HomeComponent extends BaseComponent {
       <ul>
         <li><span>Create Event</span>: Schedule meetings and invite others with ease.</li>
         <li><span>Dashboard</span>: View and manage all your upcoming and past events.</li>
-        <li><span>Friends List</span>: Search for users and add them to your friends list for quick access.</li>
         <li><span>Profile Settings</span>: Update your personal information, set your timezone, and customize notification preferences.</li>
       </ul>
     `;
