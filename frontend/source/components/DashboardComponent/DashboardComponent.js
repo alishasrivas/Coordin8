@@ -133,6 +133,12 @@ export class DashboardComponent extends BaseComponent {
           </div>
         </div>
       `;
+      listItem
+        .querySelector(".delete-event-button")
+        .addEventListener("click", (e) => {
+          const eventId = e.target.getAttribute("data-event-id");
+          this.#handleDeleteEvent(eventId);
+        });
       organizedEventsList.appendChild(listItem);
     });
 
@@ -147,6 +153,7 @@ export class DashboardComponent extends BaseComponent {
     this.#acceptedEvents.forEach((event) => {
       const listItem = document.createElement("li");
       listItem.classList.add("event-item");
+      listItem.id = event.event_id; // Set a unique ID for the <li>
       listItem.innerHTML = `
         <div class="event-content">
           <div class="event-details">
